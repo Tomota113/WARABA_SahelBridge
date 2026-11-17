@@ -1,0 +1,154 @@
+{
+  "meta": {
+    "projet": "HOTLINE MK-II",
+    "revision": "R2-visu",
+    "date": "2026-10-16",
+    "base": "Dossier de conception R1.1 du 16/10/2026 (géométrie la mieux documentée), recoupé avec le rapport R1",
+    "unite": "mm",
+    "repere": "Origine O au sol, dans le plan de symétrie, à l'extrémité arrière de l'enveloppe. X vers l'avant, Y vers la gauche, Z vers le haut.",
+    "avertissement": "Modèle visuel conceptuel d'encombrement. Ce n'est pas une CAO de fabrication : aucun perçage, ajustement ni matériau définitif.",
+    "statuts": {
+      "F": "Information publiée ou calcul arithmétique vérifié",
+      "H": "Hypothèse reprise du rapport initial, sans mesure",
+      "P": "Proposition préliminaire (R1 / R1.1)",
+      "PV": "Complément proposé pour la visualisation R2 (absent des documents)",
+      "E": "Estimation calculée à partir d'hypothèses ou d'allocations",
+      "V": "À vérifier sur le matériel réel"
+    }
+  },
+
+  "enveloppe": { "L": 320, "l": 280, "h": 100, "statut": "P", "source": "R1 et R1.1", "note": "Hauteur 100 fixée par le volume réservé 08 ; capot à 65." },
+
+  "caisson": {
+    "rep": "01", "nom": "Caisson et plancher",
+    "x": [25, 255], "y": [-100, 100], "z": [6, 62],
+    "paroi": 3, "plancher": { "z": [6, 14], "epaisseur": 8 },
+    "statut": "P", "statut_plancher": "H", "source": "R1.1 §2", "materiau": "PVC rigide (nuance à identifier)"
+  },
+
+  "capot": {
+    "rep": "10", "nom": "Capot",
+    "x": [25, 255], "y": [-100, 100], "z": [62, 65],
+    "statut": "P", "source": "R1.1 (capot à Z = 65)", "materiau": "Polycarbonate transparent envisagé (inspection visuelle)",
+    "note": "Épaisseur 3 mm proposée pour la visualisation (PV)."
+  },
+
+  "roues": {
+    "rep": "02", "nom": "Roues",
+    "diametre": 55, "largeur": 25,
+    "axes_x": [70, 235], "axe_z": 27.5, "voie_y": 115,
+    "empattement": 165, "voie": 230, "largeur_hors_tout": 255,
+    "statut": "P", "statut_diametre": "H", "source": "R1.1 §2 (R1 : axe avant X = 240, empattement 170, corrigé)",
+    "jante_diametre": 34, "note": "Jante Ø34 et sculptures : détail visuel PV."
+  },
+
+  "motoreducteurs": {
+    "rep": "02", "nom": "Motoréducteurs (4)",
+    "enveloppe_diametre": 25, "enveloppe_longueur": 58,
+    "y_interieur": 39, "y_paroi": 97,
+    "statut": "P", "source": "R1.1 §2 — « type 370 » non confirmé (H/V)",
+    "note": "Axe selon Y, coaxial à la roue. Enveloppe Ø25 × 58 de Y = 97 à 39 (intérieur de paroi). Réducteur et moteur dessinés dans cette enveloppe."
+  },
+
+  "protections": {
+    "rep": "03", "nom": "Protections en U",
+    "flancs": { "x": [0, 280], "y_abs": [134, 140], "z": [10, 65] },
+    "arriere": { "x": [0, 6], "y": [-134, 134], "z": [10, 65] },
+    "entretoises": { "x": [125, 180], "diametre": 10, "z": 20, "y_arriere_abs": 60, "statut": "PV" },
+    "statut": "P", "source": "R1.1 §2 (R1 : flancs seuls, 12,5 mm extérieurs aux pneus)",
+    "materiau": "Carton stratifié résiné ou PEHD (à qualifier)",
+    "note": "R1.1 donne flancs X 0–280 et arrière X 0–6 ; l'arrière est limité à |Y| ≤ 134 pour éviter le double compte aux angles."
+  },
+
+  "batterie": {
+    "rep": "04", "nom": "Batterie (volume réservé)",
+    "x": [120, 210], "y": [-35, 35], "z": [14, 49],
+    "statut": "P", "source": "R1.1 §2", "hypothese_pack": "4S 1,5 Ah (H)"
+  },
+
+  "commande": {
+    "rep": "05", "nom": "Commande (récepteur, régulation)",
+    "x": [35, 105], "y": [-35, 35], "z": [14, 44],
+    "statut": "P", "source": "R1.1 §2"
+  },
+
+  "controleurs": {
+    "rep": "06", "nom": "Contrôleurs de traction G et D",
+    "x": [125, 195], "y_abs": [45, 85], "z": [14, 34],
+    "statut": "P", "source": "R1.1 §2 (relevé sur la vue de dessus) — R1 les dessinait au centre"
+  },
+
+  "pods": {
+    "rep": "07", "nom": "Pods avant à bords arrondis",
+    "x": [255, 320], "y_abs": [50, 95], "z": [8, 40], "rayon": 10,
+    "statut": "P", "source": "R1.1 §2 et vues (R1 : X 255–315)", "materiau": "Élastomère à identifier"
+  },
+
+  "module_avant": {
+    "rep": "08", "nom": "Volume réservé avant",
+    "x": [255, 315], "y": [-45, 45], "z": [30, 100],
+    "statut": "P", "source": "R1 et R1.1",
+    "note": "Enveloppe neutralisée, sans organe actif ni détail de fabrication."
+  },
+
+  "sectionnement": {
+    "rep": "09", "nom": "Accès au sectionnement",
+    "x": [35, 60], "y": [-15, 15], "z": [65, 75],
+    "statut": "V", "source": "R1.1 §2 (X 35–60 ; Y et Z relevés sur les vues)"
+  },
+
+  "option_levage": {
+    "nom": "Option levage lent non coupante (P3)",
+    "pivot": { "x": 262, "z": 34 },
+    "palette": { "x": [262, 318], "y": [-42, 42], "epaisseur": 6, "rayon_bord": 3, "angle_repos_deg": 0, "angle_haut_deg": 25 },
+    "statut": "P", "source": "R1 et R1.1 (option P3) ; forme PV",
+    "note": "Palette arrondie lente, représentation de principe. Actionneur, course et limites à définir avec l'encadrant."
+  },
+
+  "garde_sol": { "plancher": 6, "pods": 8, "protections": 10, "statut": "P" },
+
+  "cg": {
+    "cible": { "x": 160, "y": 0, "z": 35, "statut": "P" },
+    "estimation_R1_1": { "x": 172, "y": 0, "z": 37, "statut": "E", "note": "Valeur publiée en R1.1 ; placement exact des masses non documenté." }
+  },
+
+  "masse": {
+    "maximum_publie_g": 4000,
+    "postes": [
+      { "poste": "Structure et supports",          "g": 800, "position": [140, 0, 34],   "note": "centre caisson + capot" },
+      { "poste": "Protections remplaçables",       "g": 450, "position": [146, 0, 37.5], "note": "U + pods, centre pondéré à recalculer" },
+      { "poste": "Propulsion 4WD complète",        "g": 700, "position": [152.5, 0, 27.5], "note": "milieu des axes" },
+      { "poste": "Batterie et retenue",            "g": 350, "position": [165, 0, 31.5], "note": "centre volume 04" },
+      { "poste": "Commande et distribution",       "g": 300, "position": [115, 0, 26],   "note": "05 et 06 pondérés" },
+      { "poste": "Module avant réservé",           "g": 650, "position": [285, 0, 65],   "note": "centre volume 08" },
+      { "poste": "Visserie et petits accessoires", "g": 200, "position": [140, 0, 30],   "note": "réparti" },
+      { "poste": "Aménagements et identification", "g": 150, "position": [140, 0, 40],   "note": "réparti" }
+    ],
+    "reserve_g": 250,
+    "statut": "P",
+    "note": "Allocations R1/R1.1. Les positions sont des hypothèses de placement PV pour un calcul E reproductible ; à remplacer par les masses et positions réelles."
+  },
+
+  "hypotheses_calcul": {
+    "capacite_Ah": 1.5, "tension_nominale_V": 14.8, "courant_moyen_A": 18,
+    "reserve_capacite": 0.20, "duree_match_min": 5,
+    "vitesse_roue_tr_min": 600, "poussee_N": 45,
+    "statut": "H", "source": "Rapport initial (via R1/R1.1)"
+  },
+
+  "regles_publiees": {
+    "consultation": "2026-10-16 23:28 GMT",
+    "url_categorie": "https://www.malibotschallenge.com/categories/robots-battle",
+    "url_reglement": "https://www.malibotschallenge.com/reglement",
+    "url_calendrier": "https://www.malibotschallenge.com/calendrier",
+    "masse_max": "1 robot par équipe, poids maximal de 4 kg",
+    "match": "Combat en duel en arène hexagonale de 5 minutes",
+    "securite": "Sécurité obligatoire ; aucun robot activé hors arène",
+    "equipe": "Jusqu'à 5 membres ; rôles : électroniciens, mécaniciens et stratège",
+    "criteres_categorie": ["Victoire par mise hors service du robot adverse", "Commande, précision et maîtrise du robot", "Attaque et dégâts infligés", "Sécurité et respect du règlement"],
+    "criteres_jury": "Performance technique, créativité, qualité de la présentation, respect des consignes (Art. 5)",
+    "calendrier": "Formation 12 oct.–25 nov. ; phase éliminatoire (Drone, Astronomie, Robots Battle) 7 nov. 2026 ; finale et remise des prix 26 nov. 2026",
+    "non_publie": ["Contenu du kit", "Dimensions maximales du robot", "Batteries admises", "Mécanismes autorisés/interdits", "Procédure d'arrêt et d'inspection", "Délai entre matchs"],
+    "note_url": "Le domaine malibotchallenge.com (sans s) ne répond pas ; le site officiel est malibotschallenge.com."
+  }
+}

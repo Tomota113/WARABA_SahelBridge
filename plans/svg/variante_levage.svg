@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="119mm" height="76mm" viewBox="0 0 119 76" role="img" aria-labelledby="titre description"><title id="titre">WARABA — VARIANTE P3 · remplace 08</title><desc id="description">Origine O au sol, dans le plan de symétrie, à l'arrière du pare-chocs. X vers l'avant, Y vers la gauche, Z vers le haut. Modèle visuel conceptuel d'encombrement. Ce n'est pas une CAO de fabrication : aucun perçage, ajustement ni matériau définitif. Échelle commune 1:2,5 ; dimensions en mm, statuts selon le JSON. Module avant : enveloppe réservée, non détaillé. Platines trapézoïdales ajourées symétriques. Pare-chocs bleu Z 10–24, noir jusqu’à 42. Capot retiré du dessus et de l’axonométrie, contour fantôme avec 7 ouïes par côté, largeur 2, pas 7.</desc><defs>
+  <pattern id="hachures08" patternUnits="userSpaceOnUse" width="5" height="5" patternTransform="rotate(45)"><rect width="5" height="5" fill="#fff8f6"/><line x1="0" y1="0" x2="0" y2="5" stroke="#c0392b" stroke-width="0.625"/></pattern>
+  <marker id="fleche" markerUnits="userSpaceOnUse" markerWidth="5" markerHeight="4" refX="0" refY="0" viewBox="-2 -0.8 2 1.6" orient="auto-start-reverse"><path d="M0 0 L-2 -0.65 L-2 0.65 Z" fill="#293440"/></marker>
+  <clipPath id="masque-flanc"><path d="M6,-12 L189,-12 L189,-32 L6,-46 Z"/></clipPath>
+  <style>
+    text{font-family:Inter,'DejaVu Sans',Arial,sans-serif;fill:#23303e}
+    .contour{stroke:#293440;stroke-width:1.25;stroke-linejoin:round;stroke-linecap:round}
+    .fin,.rappel{stroke:#546270;stroke-width:0.625;fill:none}
+    .rappel{stroke:#7c8790;stroke-width:0.44999999999999996}
+    .axe{stroke:#637584;stroke-width:0.44999999999999996;stroke-dasharray:12.5 2.5 2.5 2.5;fill:none}
+    .cache{stroke:#445160;stroke-width:0.625;stroke-dasharray:5 2.5;fill:none}
+    .fantome{stroke:#d0352b;stroke-width:0.625;stroke-dasharray:1.4999999999999998 2.5;fill:none}
+    .texte,.petit,.cote,.repere{text-anchor:middle;dominant-baseline:middle}
+    .texte{font-size:5.749999999999999px}.petit{font-size:5px}
+    .cote{font-size:5.625px;paint-order:stroke;stroke:white;stroke-width:2.75;stroke-linejoin:round}
+    .repere{font-size:5.749999999999999px;font-weight:700}
+    .papier{font-size:2.2px}.titre{font-size:3px;font-weight:700;letter-spacing:.13px}
+    .note{font-size:2.05px;fill:#526170}.entete{font-size:4.5px;font-weight:700;letter-spacing:.35px}
+  </style>
+</defs><rect width="119" height="76" fill="white"></rect><text x="7" y="9" class="titre">WARABA / VARIANTE P3 · remplace 08</text><text x="7" y="15" class="note">SahelBridge · Plans R2 · 16/10/2026 · 1:2,5 · mm</text><g transform="translate(-49 57) scale(0.4)"><path d="M193,-8 L225,-8 L235,-18 L235,-38 L193,-38 Z" class="contour" fill="#e57373" fill-rule="evenodd" data-piece="pod-D"></path><path d="M219,-10 L219,-26 L235,-30 L334,-2 L334,0 L255,0 Z" class="contour" fill="#a7adb4" fill-rule="evenodd" data-piece="fourche-D"></path><line x1="139" y1="0" x2="340" y2="0" class="fin"></line><g transform="translate(196 -36) rotate(0)"><rect x="0" y="-3" width="70" height="6" fill="none" class="cache" rx="3"></rect></g><text x="279" y="-30" class="cote">0° P</text><g transform="translate(196 -36) rotate(-25)"><rect x="0" y="-3" width="70" height="6" fill="#a7adb4" class="contour" rx="3"></rect></g><text x="272.44155" y="-60.58328" class="cote">25° P</text><circle cx="196" cy="-36" r="2.75" class="fin" fill="white"></circle><line x1="171" y1="-61" x2="196" y2="-36" class="fin" marker-end="url(#fleche)"></line><text x="171" y="-66" class="petit">pivot (196 ; 36) P</text><line x1="314" y1="-22" x2="231" y2="-39" class="fin" marker-end="url(#fleche)"></line><text x="314" y="-27" class="petit">palette L 70 P</text></g></svg>

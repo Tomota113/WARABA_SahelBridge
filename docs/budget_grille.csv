@@ -1,0 +1,20 @@
+poste,désignation,quantité prévue,kit fourni (inconnu),prix unitaire FCFA,source ou devis,date devis,statut,alternative ou décision
+Structure,Châssis et capot,1,inconnu,,,,à définir,Plaque technique après relevé du kit
+Structure,Arceaux et supports,1 lot,inconnu,,,,à définir,Matériau et fixations à qualifier
+Protection,Flancs et pare-chocs,1 jeu,inconnu,,,,à définir,PVC ou PEHD ou métal qualifié
+Protection,Pods avant,2,inconnu,,,,à définir,Matériau disponible localement à comparer
+Propulsion,Motoréducteurs,2,inconnu,,,,à inventorier,Architecture à confirmer avec le kit
+Propulsion,Roues Ø55 envisagées,4,inconnu,,,,à inventorier,Diamètre à adapter au kit
+Propulsion,Courroies et poulies,2 jeux,inconnu,,,,à inventorier,Compatibilité à vérifier
+Énergie,Batterie compatible,1,inconnu,,,,à définir,Capacité après V5
+Énergie,Chargeur compatible,1,inconnu,,,,à définir,Choix encadré après V3
+Commande,Émetteur et récepteur,1 ensemble,inconnu,,,,à inventorier,Modèle du kit si adapté
+Commande,Contrôleurs réversibles,2 voies,inconnu,,,,à définir,Un motoréducteur par voie
+Commande,Régulation compatible,1 si nécessaire,inconnu,,,,à définir,Fonction du contrôleur à vérifier
+Sécurité,Coupe-circuit et protections,1 ensemble,inconnu,,,,à définir,Procédure DoniFab à confirmer
+Distribution,Faisceau et connecteurs,1 lot,inconnu,,,,à définir,Après revue électrique V3
+Assemblage,Visserie et entretoises,1 lot,inconnu,,,,à inventorier,Nomenclature détaillée à créer
+Contrôle,Balance et multimètre,accès à 1 de chaque,inconnu,,,,à confirmer,Emprunt documenté possible
+Contrôle,Outillage et protections individuelles,1 lot partagé,inconnu,,,,à confirmer,Atelier et encadrant
+Rechange,Roues et panneaux compatibles,1 lot ciblé,inconnu,,,,différable,Après inventaire
+Option P3,Levage lent non coupant,0 ou 1,inconnu,,,,différable,Après revue des règles

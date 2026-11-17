@@ -1,0 +1,3110 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOTLINE MK-II (Architecture Hotline Officielle) – Maquette Technique Détaillée | MaliBots Challenge 2026
+    </title>
+    <!-- Three.js et OrbitControls depuis CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <!-- Google Fonts Inter & Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --bg-primary: #0a0c14;
+            --bg-secondary: #121524;
+            --bg-card: #181d33;
+            --bg-card-hover: #222947;
+            --accent-primary: #d32f2f;
+            --accent-hotline: #ff3333;
+            --accent-gold: #ffd700;
+            --accent-cyan: #00e5ff;
+            --accent-orange: #ff6600;
+            --accent-green: #00e676;
+            --text-primary: #f5f6fa;
+            --text-secondary: #9aa1b8;
+            --border-color: #262d4d;
+            --font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --font-heading: 'Outfit', 'Inter', system-ui, sans-serif;
+        }
+
+        /* LUCIDE ICONS UTILITIES */
+        .lucide-icon {
+            width: 16px;
+            height: 16px;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            fill: none;
+            vertical-align: middle;
+            display: inline-block;
+            flex-shrink: 0;
+        }
+        .lucide-icon-sm {
+            width: 13px;
+            height: 13px;
+            stroke-width: 2.2;
+        }
+        .lucide-icon-lg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .badge-check {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--accent-green);
+            font-weight: 600;
+        }
+
+        h1, h2, h3, h4, .tab-btn {
+            font-family: var(--font-heading);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: var(--font-family);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* HEADER OFFICIEL */
+        header {
+            background: linear-gradient(135deg, #0d101d 0%, #171b30 100%);
+            border-bottom: 2px solid var(--accent-hotline);
+            padding: 16px 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.6);
+        }
+
+        .header-left h1 {
+            font-size: 26px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-left h1 span.hotline-text {
+            color: var(--accent-hotline);
+            font-style: italic;
+            text-shadow: 0 0 12px rgba(255, 51, 51, 0.6);
+        }
+
+        .header-left h1 span.badge {
+            background: #222;
+            border: 1px solid #444;
+            color: #ffcc00;
+            font-size: 11px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+
+        .header-left p {
+            color: var(--accent-cyan);
+            font-size: 13px;
+            font-weight: 500;
+            margin-top: 3px;
+        }
+
+        .header-meta {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .meta-pill {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            display: flex;
+            flex-direction: column;
+            min-width: 95px;
+        }
+
+        .meta-pill .label {
+            color: var(--text-secondary);
+            font-size: 9px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .meta-pill .val {
+            color: #fff;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        /* NAVIGATION PAR ONGLETS */
+        nav.nav-tabs {
+            background: var(--bg-secondary);
+            display: flex;
+            padding: 0 28px;
+            border-bottom: 1px solid var(--border-color);
+            gap: 6px;
+            overflow-x: auto;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            outline: none;
+            color: var(--text-secondary);
+            padding: 14px 18px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .tab-btn:hover {
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .tab-btn.active {
+            color: var(--accent-hotline);
+            border-bottom: 3px solid var(--accent-hotline);
+        }
+
+        /* CONTENU DES ONGLETS */
+        main {
+            padding: 20px 28px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* VUE 3D THREE.JS */
+        .viewport-container {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 20px;
+            height: calc(100vh - 190px);
+            min-height: 600px;
+        }
+
+        .canvas-wrapper {
+            position: relative;
+            background: radial-gradient(circle at center, #161b30 0%, #0a0c16 100%);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.6);
+        }
+
+        #three-canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .canvas-overlay-top {
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            display: flex;
+            gap: 8px;
+            z-index: 10;
+            flex-wrap: wrap;
+        }
+
+        .canvas-btn {
+            background: rgba(24, 29, 51, 0.85);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 7px 12px;
+            font-size: 11px;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .canvas-btn:hover {
+            background: rgba(211, 47, 47, 0.9);
+            border-color: var(--accent-hotline);
+            transform: translateY(-1px);
+        }
+
+        .canvas-btn.active {
+            background: var(--accent-hotline);
+            border-color: #fff;
+        }
+
+        .tooltip-3d {
+            position: absolute;
+            bottom: 16px;
+            left: 16px;
+            background: rgba(18, 21, 36, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            border-left: 4px solid var(--accent-hotline);
+            padding: 12px 16px;
+            border-radius: 8px;
+            max-width: 320px;
+            pointer-events: none;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
+            transition: opacity 0.2s, transform 0.2s;
+            z-index: 20;
+        }
+
+        .tooltip-3d h4 {
+            color: #fff;
+            font-size: 14px;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .tooltip-3d p {
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-bottom: 3px;
+        }
+
+        .tooltip-3d .spec-badge {
+            display: inline-block;
+            background: rgba(255, 51, 51, 0.2);
+            color: var(--accent-hotline);
+            border: 1px solid rgba(255, 51, 51, 0.4);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: bold;
+            margin-top: 4px;
+        }
+
+        .canvas-overlay-help {
+            position: absolute;
+            bottom: 14px;
+            right: 14px;
+            background: rgba(10, 12, 20, 0.75);
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 10px;
+            color: var(--text-secondary);
+            pointer-events: none;
+        }
+
+        /* PANNEAU DE CONTRÔLE LATÉRAL 3D */
+        .controls-panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            overflow-y: auto;
+        }
+
+        .panel-section {
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 14px;
+        }
+
+        .panel-section:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .panel-section h3 {
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .slider-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 10px;
+        }
+
+        .slider-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .slider-input {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 6px;
+            background: var(--bg-secondary);
+            border-radius: 3px;
+            outline: none;
+        }
+
+        .slider-input::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--accent-hotline);
+            cursor: pointer;
+            box-shadow: 0 0 8px rgba(255, 51, 51, 0.6);
+        }
+
+        .toggle-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .toggle-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--bg-secondary);
+            padding: 7px 10px;
+            border-radius: 6px;
+            border: 1px solid transparent;
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .toggle-item:hover {
+            border-color: var(--border-color);
+            background: var(--bg-card-hover);
+        }
+
+        .toggle-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .color-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .switch-input {
+            cursor: pointer;
+            accent-color: var(--accent-hotline);
+        }
+
+        .ref-box {
+            background: rgba(0, 229, 255, 0.05);
+            border: 1px dashed var(--accent-cyan);
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .ref-box img {
+            width: 100%;
+            border-radius: 6px;
+            border: 1px solid #333;
+            margin-top: 6px;
+            cursor: pointer;
+        }
+
+        /* PLANS DAO (SVG) */
+        .plans-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .sub-nav {
+            display: flex;
+            gap: 8px;
+            background: var(--bg-secondary);
+            padding: 4px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .sub-tab-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            padding: 8px 14px;
+            font-size: 12px;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .sub-tab-btn.active {
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .drawing-container {
+            display: none;
+            background: #ffffff;
+            border-radius: 10px;
+            border: 2px solid #222;
+            padding: 16px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+            overflow-x: auto;
+        }
+
+        .drawing-container.active {
+            display: block;
+        }
+
+        .drawing-svg {
+            width: 100%;
+            min-width: 900px;
+            height: auto;
+            display: block;
+        }
+
+        /* STYLE NORMALISÉ CAD */
+        .cad-dimension {
+            stroke: #1565C0;
+            stroke-width: 1.2;
+            stroke-linecap: round;
+        }
+
+        .cad-dimension-text {
+            fill: #1565C0;
+            font-size: 11px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-weight: bold;
+            text-anchor: middle;
+        }
+
+        .cad-centerline {
+            stroke: #d32f2f;
+            stroke-width: 0.9;
+            stroke-dasharray: 12, 3, 3, 3;
+        }
+
+        .cad-titleblock {
+            fill: #f8f9fa;
+            stroke: #000;
+            stroke-width: 1.5;
+        }
+
+        .cad-callout-text {
+            font-size: 9px;
+            font-family: var(--font-family);
+            fill: #222;
+            font-weight: 600;
+        }
+
+        /* SCHÉMA ÉLECTRIQUE */
+        .circuit-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+
+        .circuit-svg {
+            width: 100%;
+            min-width: 960px;
+            height: auto;
+            display: block;
+            background: #0f1220;
+            border-radius: 8px;
+            border: 1px solid #1f2540;
+        }
+
+        /* SPÉCIFICATIONS & BILAN */
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+            gap: 20px;
+        }
+
+        .spec-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .spec-card h3 {
+            font-size: 15px;
+            color: #fff;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .table-custom {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+
+        .table-custom tr {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .table-custom tr:last-child {
+            border-bottom: none;
+        }
+
+        .table-custom td {
+            padding: 8px 4px;
+        }
+
+        .table-custom td:first-child {
+            color: var(--text-secondary);
+        }
+
+        .table-custom td:last-child {
+            text-align: right;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        /* FOOTER */
+        footer {
+            margin-top: 40px;
+            border-top: 1px solid var(--border-color);
+            padding: 20px 28px;
+            text-align: center;
+            font-size: 11px;
+            color: var(--text-secondary);
+            background: var(--bg-secondary);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ENTÊTE TECHNIQUE OFFICIEL -->
+    <header>
+        <div class="header-left">
+            <h1>HOTLINE MK-II <span class="hotline-text">Architecture Hotline</span> <span class="badge">Édition Combat 4WD</span></h1>
+            <p>MaliBots Challenge 2026 – Catégorie Combat de Robots (&lt; 4,00 kg | Organisé par DoniFab à Bamako)</p>
+        </div>
+
+    </header>
+
+    <!-- NAVIGATION PAR ONGLETS -->
+    <nav class="nav-tabs">
+        <button class="tab-btn active" onclick="switchMainTab('tab-3d')">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path
+                    d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
+                </path>
+                <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                <line x1="12" y1="22.08" x2="12" y2="12"></line>
+            </svg>
+            Vue 3D Interactive (Fidélité Hotline)
+        </button>
+        <button class="tab-btn" onclick="switchMainTab('tab-plans')">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="3" y1="9" x2="21" y2="9"></line>
+                <line x1="9" y1="21" x2="9" y2="9"></line>
+            </svg>
+            Plans Techniques Multi-Vues (DAO)
+        </button>
+        <button class="tab-btn" onclick="switchMainTab('tab-elec')">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+            </svg>
+            Schéma Électrique & Câblage 4WD
+        </button>
+        <button class="tab-btn" onclick="switchMainTab('tab-specs')">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="20" x2="18" y2="10"></line>
+                <line x1="12" y1="20" x2="12" y2="4"></line>
+                <line x1="6" y1="20" x2="6" y2="14"></line>
+            </svg>
+            Spécifications & Devis de Masse
+        </button>
+    </nav>
+
+    <!-- CORPS DU DOCUMENT -->
+    <main>
+
+        <!-- ========================================== -->
+        <!-- ONGLET 1 : VUE 3D INTERACTIVE              -->
+        <!-- ========================================== -->
+        <section id="tab-3d" class="tab-content active">
+            <div class="viewport-container">
+                <!-- CANVAS THREE.JS -->
+                <div class="canvas-wrapper">
+                    <canvas id="three-canvas"></canvas>
+
+                    <!-- PRÉSÉLECTIONS CAMÉRA -->
+                    <div class="canvas-overlay-top">
+                        <button class="canvas-btn" onclick="setCameraPreset('iso')">
+                            <svg class="lucide-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+                            <span>Isométrique</span>
+                        </button>
+                        <button class="canvas-btn" onclick="setCameraPreset('top')">
+                            <svg class="lucide-icon" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+                            <span>Dessus</span>
+                        </button>
+                        <button class="canvas-btn" onclick="setCameraPreset('side')">
+                            <svg class="lucide-icon" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                            <span>Profil</span>
+                        </button>
+                        <button class="canvas-btn" onclick="setCameraPreset('front')">
+                            <svg class="lucide-icon" viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+                            <span>Face</span>
+                        </button>
+                        <button class="canvas-btn" onclick="resetCamera()">
+                            <svg class="lucide-icon" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                            <span>Réinitialiser</span>
+                        </button>
+                    </div>
+
+                    <!-- INFOBULLE D'INSPECTION -->
+                    <div id="tooltip-3d" class="tooltip-3d">
+                        <h4 id="tt-title">Composant Hotline</h4>
+                        <p id="tt-dims">Dimensions : -</p>
+                        <p id="tt-weight">Masse : -</p>
+                        <p id="tt-desc">Description : -</p>
+                        <span id="tt-badge" class="spec-badge">Sous-système</span>
+                    </div>
+
+                    <div class="canvas-overlay-help">
+                        Clic gauche : Rotation | Clic droit / Molette : Zoom & Translation | Survol : Inspection
+                    </div>
+                </div>
+
+                <!-- PANNEAU DE CONTRÔLE LATÉRAL -->
+                <div class="controls-panel">
+                    <!-- SECTION 1 : ANIMATION ARME -->
+                    <div class="panel-section">
+                        <h3>
+                            <svg class="lucide-icon" viewBox="0 0 24 24" style="color:var(--accent-hotline);"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                            <span>Batteur à Inertie Évidé (Arme)</span>
+                        </h3>
+                        <div class="slider-group">
+                            <div class="slider-header">
+                                <span>Vitesse de rotation</span>
+                                <span id="rpm-display" style="color: var(--accent-hotline); display:inline-flex; align-items:center; gap:4px; font-weight:600;">
+                                    8 000 tr/min (Ascendant <svg class="lucide-icon lucide-icon-sm" viewBox="0 0 24 24"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>)
+                                </span>
+                            </div>
+                            <input type="range" class="slider-input" min="0" max="100" value="65"
+                                oninput="updateSpeed(this.value)">
+                        </div>
+                        <button id="btn-spin-toggle" class="canvas-btn" style="width:100%; justify-content:center;"
+                            onclick="toggleSpin()">
+                            <svg class="lucide-icon" viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+                            <span>Pause Rotation</span>
+                        </button>
+                    </div>
+
+                    <!-- SECTION 2 : VUE ÉCLATÉE -->
+                    <div class="panel-section">
+                        <h3>
+                            <svg class="lucide-icon" viewBox="0 0 24 24" style="color:var(--accent-cyan);"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+                            <span>Vue Éclatée Axonométrique</span>
+                        </h3>
+                        <div class="slider-group">
+                            <div class="slider-header">
+                                <span>Écartement des sous-ensembles</span>
+                                <span id="explode-val" style="color: var(--accent-cyan);">0%</span>
+                            </div>
+                            <input type="range" class="slider-input" min="0" max="100" value="0"
+                                oninput="updateExplode(this.value)">
+                        </div>
+                    </div>
+
+                    <!-- SECTION 3 : COMPOSANTS VISIBLES -->
+                    <div class="panel-section">
+                        <h3>
+                            <svg class="lucide-icon" viewBox="0 0 24 24" style="color:var(--accent-green);"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
+                            <span>Sous-Systèmes Hotline</span>
+                        </h3>
+                        <div class="toggle-grid">
+                            <label class="toggle-item">
+                                <span class="toggle-label">
+                                    <span class="color-dot" style="background:#222; border:1px solid #777;"></span>
+                                    Flancs Allégés &amp; Châssis (Noir)
+                                </span>
+                                <input type="checkbox" class="switch-input" id="vis-chassis" checked
+                                    onchange="toggleMesh('chassis', this.checked)">
+                            </label>
+
+                            <label class="toggle-item">
+                                <span class="toggle-label">
+                                    <span class="color-dot"
+                                        style="background:#263238; border:1px solid #ff6600;"></span>
+                                    Blindages &amp; Carénages de Roues (Protections Latérales)
+                                </span>
+                                <input type="checkbox" class="switch-input" id="vis-wheelguards" checked
+                                    onchange="toggleMesh('wheelguards', this.checked)">
+                            </label>
+
+                            <label class="toggle-item">
+                                <span class="toggle-label">
+                                    <span class="color-dot" style="background:#111; border:1px solid #d32f2f;"></span>
+                                    Capot Texturé avec Dégagement Batteur
+                                </span>
+                                <input type="checkbox" class="switch-input" id="vis-topcover" checked
+                                    onchange="toggleMesh('topcover', this.checked)">
+                            </label>
+
+                            <label class="toggle-item">
+                                <span class="toggle-label">
+                                    <span class="color-dot" style="background:#ffd700;"></span>
+                                    Montants A-Frames Triangulaires (Écartement 140 mm &amp; Écrou M8)
+                                </span>
+                                <input type="checkbox" class="switch-input" id="vis-uprights" checked
+                                    onchange="toggleMesh('uprights', this.checked)">
+                            </label>
+
+                            <label class="toggle-item">
+                                <span class="toggle-label">
+                                    <span class="color-dot"
+                                        style="background:#757d8a; border:1px solid #ffd700;"></span>
+                                    Batteur Hardox 450 Large (118 mm &amp; Poulie Orange)
+                                </span>
+                                <input type="checkbox" class="switch-input" id="vis-weapon" checked
+                                    onchange="toggleMesh('weapon', this.checked)">
+                            </label>
+
+                            <label class="toggle-item">
+                                <span class="toggle-label">
+                                    <span class="color-dot" style="background:#d32f2f;"></span>
+                                    Pods Avant Rouges Profilés (Double Fente Fourches)
+                                </span>
+                                <input type="checkbox" class="switch-input" id="vis-pods" checked
+                                    onchange="toggleMesh('pods', this.checked)">
+                            </label>
+
+                            <label class="toggle-item">
+                                <span class="toggle-label">
+                                    <span class="color-dot" style="background:#d4af37;"></span>
+                                    Fourches Harpons Biseautées Hardox
+                                </span>
+                                <input type="checkbox" class="switch-input" id="vis-forks" checked
+                                    onchange="toggleMesh('forks', this.checked)">
+                            </label>
+
+                            <label class="toggle-item">
+                                <span class="toggle-label">
+                                    <span class="color-dot" style="background:#ec407a;"></span>
+                                    4 Roues Uréthane Translucides (4WD Intégrale)
+                                </span>
+                                <input type="checkbox" class="switch-input" id="vis-wheels" checked
+                                    onchange="toggleMesh('wheels', this.checked)">
+                            </label>
+
+                            <label class="toggle-item">
+                                <span class="toggle-label">
+                                    <span class="color-dot" style="background:#2e7d32;"></span>
+                                    2 Moteurs Centraux &amp; Courroies (4WD Hotline)
+                                </span>
+                                <input type="checkbox" class="switch-input" id="vis-motors" checked
+                                    onchange="toggleMesh('motors', this.checked)">
+                            </label>
+
+                            <label class="toggle-item">
+                                <span class="toggle-label">
+                                    <span class="color-dot" style="background:#ffd600;"></span>
+                                    Batterie LiPo 4S &amp; ESCs
+                                </span>
+                                <input type="checkbox" class="switch-input" id="vis-electronics" checked
+                                    onchange="toggleMesh('electronics', this.checked)">
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- SECTION 4 : PHOTOS MODÈLE RÉFÉRENCE -->
+                    <div class="panel-section">
+                        <div class="ref-box" style="margin-bottom:10px;">
+                            <span style="font-size:11px; font-weight:bold; color:var(--accent-cyan); display:inline-flex; align-items:center; gap:5px;"><svg class="lucide-icon lucide-icon-sm" viewBox="0 0 24 24"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg> Robot Réel de
+                                Référence</span>
+                            <a href="Hotline_Reference.png" target="_blank" title="Cliquez pour agrandir">
+                                <img src="Hotline_Reference.png" alt="Robot Hotline Réel" />
+                            </a>
+                            <span
+                                style="font-size:9px; color:var(--text-secondary); display:block; margin-top:4px;">Architecture
+                                Hotline 4WD authentique</span>
+                        </div>
+                        <div class="ref-box">
+                            <span style="font-size:11px; font-weight:bold; color:var(--accent-cyan); display:inline-flex; align-items:center; gap:5px;"><svg class="lucide-icon lucide-icon-sm" viewBox="0 0 24 24"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg> Batteur
+                                Rectangulaire Évidé Réel</span>
+                            <a href="BeaterBar_Reference_3.png" target="_blank" title="Cliquez pour agrandir">
+                                <img src="BeaterBar_Reference_3.png" alt="Batteur Creux Réel" />
+                            </a>
+                            <span style="font-size:9px; color:var(--text-secondary); display:block; margin-top:4px;">Axe
+                                traversant affiné &amp; cage creuse en acier</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- ONGLET 2 : PLANS TECHNIQUES (DAO)          -->
+        <!-- ========================================== -->
+        <section id="tab-plans" class="tab-content">
+            <div class="plans-header">
+                <div class="sub-nav">
+                    <button class="sub-tab-btn active" onclick="switchDrawing('plan-top')">Vue de Dessus</button>
+                    <button class="sub-tab-btn" onclick="switchDrawing('plan-side')">Vue de Profil</button>
+                    <button class="sub-tab-btn" onclick="switchDrawing('plan-front')">Vue de Face</button>
+                    <button class="sub-tab-btn" onclick="switchDrawing('plan-exploded')">Vue Éclatée &
+                        Nomenclature</button>
+                </div>
+                <button class="canvas-btn" onclick="window.print()">
+                    <svg class="lucide-icon" viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+                    <span>Exporter / Imprimer les Plans (A3/A4)</span>
+                </button>
+            </div>
+
+            <!-- DESSIN 1 : VUE DE DESSUS -->
+            <div id="plan-top" class="drawing-container active">
+                <svg class="drawing-svg" viewBox="0 0 950 650" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <marker id="arrowCAD" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+                            <path d="M 1 1 L 7 4 L 1 7 Z" fill="#1565C0" />
+                        </marker>
+                        <marker id="arrowCADStart" markerWidth="8" markerHeight="8" refX="4" refY="4"
+                            orient="auto-start-reverse">
+                            <path d="M 1 1 L 7 4 L 1 7 Z" fill="#1565C0" />
+                        </marker>
+                        <pattern id="gridCAD" width="20" height="20" patternUnits="userSpaceOnUse">
+                            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#f1f3f7" stroke-width="0.7" />
+                        </pattern>
+                        <pattern id="carbonHatch" width="6" height="6" patternUnits="userSpaceOnUse">
+                            <rect width="6" height="6" fill="#1e1e1e" />
+                            <path d="M 0 0 L 6 6 M 6 0 L 0 6" stroke="#2c2c2c" stroke-width="0.8" />
+                        </pattern>
+                    </defs>
+
+                    <rect width="100%" height="100%" fill="url(#gridCAD)" />
+
+                    <!-- Axes de symétrie -->
+                    <line x1="80" y1="280" x2="880" y2="280" class="cad-centerline" />
+                    <line x1="450" y1="60" x2="450" y2="520" class="cad-centerline" />
+
+                    <!-- BLINDAGES EXTÉRIEURS ET CARÉNAGES DE ROUES (WHEEL GUARDS) -->
+                    <!-- Wheel Guard Gauche (Flanc externe Y=122, protégeant Roue AR-G et AV-G) -->
+                    <rect x="235" y="120" width="280" height="8" rx="2" fill="#1b1b1b" stroke="#000"
+                        stroke-width="1.5" />
+                    <polygon points="515,120 535,124 515,128" fill="#ff6600" stroke="#d84315" stroke-width="1" />
+                    <!-- Arches supérieures couvrant les pneus gauches -->
+                    <rect x="245" y="120" width="65" height="18" fill="rgba(30,30,30,0.6)" stroke="#444"
+                        stroke-width="0.8" />
+                    <rect x="415" y="120" width="65" height="18" fill="rgba(30,30,30,0.6)" stroke="#444"
+                        stroke-width="0.8" />
+                    <text x="365" y="112" class="cad-callout-text" text-anchor="middle"
+                        style="fill:#1565C0; font-weight:bold;">Blindage Latéral Roues G (Protection Roues)</text>
+
+                    <!-- Wheel Guard Droit (Flanc externe Y=432, protégeant Roue AR-D et AV-D) -->
+                    <rect x="235" y="432" width="280" height="8" rx="2" fill="#1b1b1b" stroke="#000"
+                        stroke-width="1.5" />
+                    <polygon points="515,432 535,436 515,440" fill="#ff6600" stroke="#d84315" stroke-width="1" />
+                    <!-- Arches supérieures couvrant les pneus droits -->
+                    <rect x="245" y="422" width="65" height="18" fill="rgba(30,30,30,0.6)" stroke="#444"
+                        stroke-width="0.8" />
+                    <rect x="415" y="422" width="65" height="18" fill="rgba(30,30,30,0.6)" stroke="#444"
+                        stroke-width="0.8" />
+                    <text x="365" y="456" class="cad-callout-text" text-anchor="middle"
+                        style="fill:#1565C0; font-weight:bold;">Blindage Latéral Roues D (Protection Roues)</text>
+
+                    <!-- 4 ROUES URÉTHANE ROSE/ROUGE (TRAIN 4WD ENCASTRÉ ET CARÉNÉ) -->
+                    <!-- Roue AR-G -->
+                    <rect x="250" y="130" width="55" height="26" rx="4" fill="#ec407a" stroke="#c2185b"
+                        stroke-width="2" />
+                    <circle cx="277" cy="143" r="7" fill="#fff" stroke="#444" stroke-width="1.5" />
+
+                    <!-- Roue AV-G -->
+                    <rect x="420" y="130" width="55" height="26" rx="4" fill="#ec407a" stroke="#c2185b"
+                        stroke-width="2" />
+                    <circle cx="447" cy="143" r="7" fill="#fff" stroke="#444" stroke-width="1.5" />
+
+                    <!-- Roue AR-D -->
+                    <rect x="250" y="404" width="55" height="26" rx="4" fill="#ec407a" stroke="#c2185b"
+                        stroke-width="2" />
+                    <circle cx="277" cy="417" r="7" fill="#fff" stroke="#444" stroke-width="1.5" />
+
+                    <!-- Roue AV-D -->
+                    <rect x="420" y="404" width="55" height="26" rx="4" fill="#ec407a" stroke="#c2185b"
+                        stroke-width="2" />
+                    <circle cx="447" cy="417" r="7" fill="#fff" stroke="#444" stroke-width="1.5" />
+
+                    <!-- CHÂSSIS NOIR & FLANCS AJOURÉS -->
+                    <rect x="230" y="150" width="310" height="260" rx="6" fill="#151515" stroke="#000"
+                        stroke-width="2.5" />
+
+                    <!-- Capot supérieur texturé avec ÉCHANCRURE DE DÉGAGEMENT DU BATTEUR (X=435) -->
+                    <polygon points="240,158 510,158 510,225 435,225 435,335 510,335 510,402 240,402"
+                        fill="url(#carbonHatch)" stroke="#333" stroke-width="1.5" />
+                    <!-- Lèvre de renfort et cote de dégagement (Zéro frottement) -->
+                    <line x1="435" y1="225" x2="435" y2="335" stroke="#2e7d32" stroke-width="2.5" />
+                    <text x="430" y="218" class="cad-callout-text" text-anchor="end"
+                        style="fill:#2e7d32; font-weight:bold;">Échancrure Capot : Dégagement Batteur (Jeu 11 mm)</text>
+
+                    <!-- OUÏES DE VENTILATION ARRIÈRE -->
+                    <g fill="#0a0a0a" stroke="#444" stroke-width="0.8">
+                        <rect x="255" y="180" width="30" height="4" rx="2" />
+                        <rect x="255" y="190" width="30" height="4" rx="2" />
+                        <rect x="255" y="200" width="30" height="4" rx="2" />
+                        <rect x="255" y="210" width="30" height="4" rx="2" />
+
+                        <rect x="255" y="346" width="30" height="4" rx="2" />
+                        <rect x="255" y="356" width="30" height="4" rx="2" />
+                        <rect x="255" y="366" width="30" height="4" rx="2" />
+                        <rect x="255" y="376" width="30" height="4" rx="2" />
+                    </g>
+
+                    <!-- INSCRIPTION ROUGE "Hotline" SUR LE CAPOT -->
+                    <text x="350" y="288" fill="#ff3333" font-size="28"
+                        font-family="'Brush Script MT', cursive, sans-serif" font-style="italic" font-weight="bold"
+                        transform="rotate(-15, 350, 288)">Hotline</text>
+
+                    <!-- DEUX MONTANTS AVANCÉS NOIRS (A-FRAMES LARGES 140 MM) -->
+                    <!-- Montant Gauche (Y=205 à 220) incliné vers l'avant (X=410 à 500) -->
+                    <polygon points="400,210 505,210 480,218 420,218" fill="#222" stroke="#444" stroke-width="1.5" />
+                    <polygon points="410,214 414,208 420,208 424,214 420,220 414,220" fill="#ffd700" stroke="#b8860b"
+                        stroke-width="1.2" />
+
+                    <!-- Montant Droit (Y=340 à 355) avec GROS ÉCROU M8 ACIER ET RONDELLE LAITON -->
+                    <polygon points="400,350 505,350 480,342 420,342" fill="#222" stroke="#444" stroke-width="1.5" />
+                    <!-- Écrou Hexagonal M8 acier et rondelle dorée Photo 1 -->
+                    <circle cx="495" cy="358" r="9" fill="#ffd700" stroke="#b8860b" stroke-width="1.5" />
+                    <polygon points="490,358 492,352 498,352 500,358 498,364 492,364" fill="#e2e8f0" stroke="#333" stroke-width="1.2" />
+                    <text x="495" y="375" class="cad-callout-text" text-anchor="middle" style="fill:#1565C0; font-weight:bold;">Écrou M8 + Rondelle (Photo 1)</text>
+
+                    <!-- AXE ACIER Ø8 MM TRAVERSANT (X=495) -->
+                    <rect x="493" y="215" width="6" height="130" fill="#e2e8f0" stroke="#64748b" stroke-width="0.8" />
+                    <text x="495" y="208" class="cad-callout-text" text-anchor="middle" style="fill:#1565C0;">Axe Traversant Ø8 mm Acier Rectifié</text>
+
+                    <!-- BATTEUR HARDOX 450 LARGE (VUE DE DESSUS) -->
+                    <g>
+                        <!-- Barre d'impact arrière (X=447 à 465, Y=228 à 332) -->
+                        <rect x="447" y="228" width="18" height="104" rx="2" fill="#757d8a" stroke="#37474f"
+                            stroke-width="1.8" />
+                        <!-- Biseau d'impact arrière rectifié -->
+                        <rect x="447" y="230" width="4" height="100" fill="#d8dde6" stroke="#fff" stroke-width="0.5" />
+
+                        <!-- Barre d'impact avant (X=525 à 543, Y=228 à 332) avec biseaux meulés -->
+                        <rect x="525" y="228" width="18" height="104" rx="2" fill="#757d8a" stroke="#37474f"
+                            stroke-width="1.8" />
+                        <rect x="539" y="230" width="4" height="100" fill="#d8dde6" stroke="#fff" stroke-width="0.5" />
+
+                        <!-- Flancs latéraux du batteur -->
+                        <rect x="465" y="228" width="60" height="8" fill="#606670" stroke="#37474f"
+                            stroke-width="1.2" />
+                        <rect x="465" y="324" width="60" height="8" fill="#606670" stroke="#37474f"
+                            stroke-width="1.2" />
+
+                        <!-- Manchon central en laiton -->
+                        <rect x="491" y="232" width="10" height="96" fill="#ffd700" stroke="#b8860b" stroke-width="0.8" />
+
+                        <!-- Flasques de roulement latérales avec vis (Photos 1 et 3) -->
+                        <circle cx="495" cy="231" r="6" fill="#cfd8dc" stroke="#455a64" stroke-width="1" />
+                        <circle cx="495" cy="329" r="6" fill="#cfd8dc" stroke="#455a64" stroke-width="1" />
+                        <text x="495" y="280" fill="#1565C0" font-size="9" font-weight="bold"
+                            text-anchor="middle">Batteur Hardox 450 (118 mm)</text>
+                    </g>
+
+                    <!-- POULIE D'ENTRAÎNEMENT ORANGE UNIQUE SUR L'AXE (À DROITE, Y=334 à 346 - PHOTO 1) -->
+                    <rect x="488" y="334" width="14" height="12" rx="2" fill="#ff6600" stroke="#d84315"
+                        stroke-width="1.5" />
+                    <!-- Courroie noire vers le moteur intérieur -->
+                    <line x1="495" y1="340" x2="420" y2="340" stroke="#111" stroke-width="3.5" />
+
+                    <!-- PODS AVANT ROUGE VIF PROFILÉS AVEC DOUBLE FENTE DE FOURCHES (CONFORMES PHOTO 1) -->
+                    <path d="M 500 150 L 550 150 L 565 175 L 500 175 Z" fill="#d32f2f" stroke="#b71c1c"
+                        stroke-width="2" />
+                    <!-- Double fente de guidage fourches -->
+                    <rect x="546" y="156" width="14" height="4" rx="1" fill="#111" />
+                    <rect x="546" y="164" width="14" height="4" rx="1" fill="#111" />
+                    <circle cx="535" cy="162" r="3" fill="#e2e8f0" stroke="#333" />
+                    <text x="532" y="140" class="cad-callout-text" style="fill:#d32f2f; font-weight:bold;">Pod Rouge (Photo 1)</text>
+
+                    <path d="M 500 385 L 565 385 L 550 410 L 500 410 Z" fill="#d32f2f" stroke="#b71c1c"
+                        stroke-width="2" />
+                    <rect x="546" y="392" width="14" height="4" rx="1" fill="#111" />
+                    <rect x="546" y="400" width="14" height="4" rx="1" fill="#111" />
+                    <circle cx="535" cy="398" r="3" fill="#e2e8f0" stroke="#333" />
+                    <text x="532" y="425" class="cad-callout-text" style="fill:#d32f2f; font-weight:bold;">Pod Rouge (Photo 1)</text>
+
+                    <!-- FOURCHES HARPONS BISEAUTÉES AVANT -->
+                    <!-- Fourche Gauche avec harpon et évidement interne squeletté -->
+                    <polygon points="560,160 670,160 680,154 685,160 740,160 755,166 730,166 560,166" fill="#37474f"
+                        stroke="#263238" stroke-width="1.8" />
+                    <polygon points="585,162 660,162 630,164" fill="#f8f9fa" stroke="#455a64" stroke-width="0.8" />
+                    <text x="760" y="160" font-size="8" font-weight="bold" fill="#263238">Pointe Harpon G
+                        (&lt;1mm)</text>
+
+                    <!-- Fourche Droite avec harpon et évidement interne squeletté -->
+                    <polygon points="560,394 670,394 680,388 685,394 740,394 755,400 730,400 560,400" fill="#37474f"
+                        stroke="#263238" stroke-width="1.8" />
+                    <polygon points="585,396 660,396 630,398" fill="#f8f9fa" stroke="#455a64" stroke-width="0.8" />
+                    <text x="760" y="408" font-size="8" font-weight="bold" fill="#263238">Pointe Harpon D
+                        (&lt;1mm)</text>
+
+                    <!-- COTATIONS VUE DE DESSUS -->
+                    <!-- Longueur Châssis (280mm) -->
+                    <line x1="230" y1="90" x2="540" y2="90" class="cad-dimension" marker-start="url(#arrowCADStart)"
+                        marker-end="url(#arrowCAD)" />
+                    <line x1="230" y1="150" x2="230" y2="80" stroke="#1565C0" stroke-width="0.8"
+                        stroke-dasharray="2,2" />
+                    <line x1="540" y1="150" x2="540" y2="80" stroke="#1565C0" stroke-width="0.8"
+                        stroke-dasharray="2,2" />
+                    <rect x="365" y="80" width="50" height="18" fill="#fff" />
+                    <text x="390" y="93" class="cad-dimension-text">280 mm</text>
+
+                    <!-- Longueur Hors-tout avec fourches (420mm) -->
+                    <line x1="230" y1="475" x2="755" y2="475" class="cad-dimension" marker-start="url(#arrowCADStart)"
+                        marker-end="url(#arrowCAD)" />
+                    <line x1="230" y1="410" x2="230" y2="485" stroke="#1565C0" stroke-width="0.8"
+                        stroke-dasharray="2,2" />
+                    <line x1="755" y1="400" x2="755" y2="485" stroke="#1565C0" stroke-width="0.8"
+                        stroke-dasharray="2,2" />
+                    <rect x="470" y="465" width="60" height="18" fill="#fff" />
+                    <text x="500" y="478" class="cad-dimension-text">420 mm</text>
+
+                    <!-- Largeur Hors-tout (250mm) -->
+                    <line x1="180" y1="130" x2="180" y2="430" class="cad-dimension" marker-start="url(#arrowCADStart)"
+                        marker-end="url(#arrowCAD)" />
+                    <line x1="250" y1="130" x2="170" y2="130" stroke="#1565C0" stroke-width="0.8"
+                        stroke-dasharray="2,2" />
+                    <line x1="250" y1="430" x2="170" y2="430" stroke="#1565C0" stroke-width="0.8"
+                        stroke-dasharray="2,2" />
+                    <rect x="155" y="270" width="50" height="18" fill="#fff" />
+                    <text x="180" y="283" class="cad-dimension-text">250 mm</text>
+
+                    <!-- CARTOUCHE TECHNIQUE VUE DE DESSUS -->
+                    <g transform="translate(630, 520)">
+                        <rect width="300" height="100" class="cad-titleblock" />
+                        <line x1="0" y1="32" x2="300" y2="32" stroke="#000" stroke-width="1" />
+                        <line x1="0" y1="65" x2="300" y2="65" stroke="#000" stroke-width="1" />
+                        <line x1="150" y1="32" x2="150" y2="100" stroke="#000" stroke-width="1" />
+                        <text x="12" y="20" font-weight="bold" font-size="12">HOTLINE MK-II – VUE DE DESSUS</text>
+                        <text x="12" y="48" font-size="9">Échelle: 1:2.5 ISO</text>
+                        <text x="12" y="58" font-size="9">Arme: Batteur Hardox 450 (118 mm)</text>
+                        <text x="160" y="48" font-size="9">Équipe: MaliBots 2026</text>
+                        <text x="160" y="58" font-size="9">Masse: 3 990 g (&lt; 4,00 kg)</text>
+                        <text x="12" y="85" font-size="9">Homologation: DoniFab</text>
+                        <text x="160" y="85" font-size="9">Planche: 01 / 04</text>
+                    </g>
+                </svg>
+            </div>
+
+            <!-- DESSIN 2 : VUE DE PROFIL -->
+            <div id="plan-side" class="drawing-container">
+                <svg class="drawing-svg" viewBox="0 0 950 650" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <pattern id="gridCAD2" width="20" height="20" patternUnits="userSpaceOnUse">
+                            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#f1f3f7" stroke-width="0.7" />
+                        </pattern>
+                        <pattern id="groundHatch" width="10" height="10" patternTransform="rotate(45 0 0)"
+                            patternUnits="userSpaceOnUse">
+                            <line x1="0" y1="0" x2="0" y2="10" stroke="#666" stroke-width="1" />
+                        </pattern>
+                    </defs>
+
+                    <rect width="100%" height="100%" fill="url(#gridCAD2)" />
+
+                    <!-- LIGNE DE SOL -->
+                    <line x1="60" y1="460" x2="890" y2="460" stroke="#222" stroke-width="2.5" />
+                    <rect x="60" y="460" width="830" height="16" fill="url(#groundHatch)" />
+                    <text x="80" y="488" class="cad-callout-text">Plan du Sol Arène DoniFab (Zéro Absolu)</text>
+
+                    <!-- AXE DU CHÂSSIS -->
+                    <line x1="180" y1="400" x2="720" y2="400" class="cad-centerline" />
+
+                    <!-- 4WD : LES DEUX ROUES EN VUE LATÉRALE (ROUE ARRIÈRE & ROUE AVANT POSÉES AU SOL) -->
+                    <!-- Roue AR (X=270, Rayon=40 -> Tangente Y=460, Centre Y=420) -->
+                    <circle cx="270" cy="420" r="40" fill="#ec407a" stroke="#c2185b" stroke-width="2.5" />
+                    <circle cx="270" cy="420" r="18" fill="#fff" stroke="#444" stroke-width="1.5" />
+                    <circle cx="270" cy="420" r="5" fill="#222" />
+                    <text x="270" y="475" class="cad-callout-text" text-anchor="middle">Roue AR (4WD Uréthane)</text>
+
+                    <!-- Roue AV (X=460, Rayon=40 -> Tangente Y=460, Centre Y=420) -->
+                    <circle cx="460" cy="420" r="40" fill="#ec407a" stroke="#c2185b" stroke-width="2.5" />
+                    <circle cx="460" cy="420" r="18" fill="#fff" stroke="#444" stroke-width="1.5" />
+                    <circle cx="460" cy="420" r="5" fill="#222" />
+                    <text x="460" y="475" class="cad-callout-text" text-anchor="middle">Roue AV (4WD Uréthane)</text>
+
+                    <!-- BLINDAGE EXTÉRIEUR WHEEL GUARD (COUVRANT LES ROUES CONTRE LES CHOCS LATÉRAUX) -->
+                    <!-- Plaque latérale extérieure de X=195 à 535, Y=375 à 448 avec biseaux avant/arrière -->
+                    <path
+                        d="M 195 435 L 210 448 L 245 448 L 255 435 L 290 435 L 300 448 L 435 448 L 445 435 L 480 435 L 490 448 L 515 448 L 535 428 L 535 375 L 195 375 Z"
+                        fill="rgba(24, 24, 24, 0.92)" stroke="#ff3333" stroke-width="1.8" />
+                    <!-- Évidement triangulaire central caractéristique de Hotline -->
+                    <polygon points="345,425 405,425 375,390" fill="#ffffff" stroke="#000" stroke-width="1.5" />
+                    <text x="375" y="415" font-size="7" fill="#666" text-anchor="middle">Évidement</text>
+                    <text x="375" y="442" class="cad-callout-text" text-anchor="middle"
+                        style="fill:#1565C0; font-weight:bold;">Blindage Extérieur (Protection Intégrale des Roues
+                        4WD)</text>
+
+                    <!-- 3 STRIES HORIZONTALES ARGENTÉES À L'ARRIÈRE -->
+                    <line x1="210" y1="395" x2="235" y2="395" stroke="#fff" stroke-width="3" stroke-linecap="round" />
+                    <line x1="210" y1="405" x2="235" y2="405" stroke="#fff" stroke-width="3" stroke-linecap="round" />
+                    <line x1="210" y1="415" x2="235" y2="415" stroke="#fff" stroke-width="3" stroke-linecap="round" />
+
+                    <!-- VIS BTR D'ASSEMBLAGE SUR LE BLINDAGE LATÉRAL -->
+                    <circle cx="210" cy="385" r="3.5" fill="#aaa" stroke="#333" />
+                    <circle cx="310" cy="385" r="3.5" fill="#aaa" stroke="#333" />
+                    <circle cx="490" cy="385" r="3.5" fill="#aaa" stroke="#333" />
+
+                    <!-- Ligne d'arrêt du capot supérieur (Dégagement sans contact du batteur) -->
+                    <line x1="475" y1="375" x2="475" y2="340" stroke="#2e7d32" stroke-width="1.5"
+                        stroke-dasharray="3,3" />
+                    <text x="470" y="340" font-size="7.5" fill="#2e7d32" font-weight="bold" text-anchor="end">Dégagement
+                        Capot (Jeu 11 mm)</text>
+
+                    <!-- MONTANT AVANCÉ NOIR DE L'ARME (A-FRAME INCLINÉ VERS L'AVANT H=95 MM) -->
+                    <!-- S'élève de Y=375 vers l'avant jusqu'à l'axe en X=520, Y=335 -->
+                    <polygon points="380,375 530,375 535,325 495,325" fill="#151515" stroke="#000" stroke-width="2.5" />
+                    <!-- Évidement intérieur triangulaire du montant -->
+                    <polygon points="410,365 500,365 480,340" fill="#ffffff" stroke="#222" stroke-width="1.2" />
+
+                    <!-- GROS ÉCROU HEXAGONAL M8 ACIER AVEC RONDELLE LAITON (PHOTO 1) -->
+                    <circle cx="515" cy="335" r="14" fill="#ffd700" stroke="#b8860b" stroke-width="1.8" />
+                    <polygon points="507,335 511,326 519,326 523,335 519,344 511,344" fill="#e2e8f0" stroke="#333"
+                        stroke-width="1.5" />
+                    <circle cx="515" cy="335" r="4.5" fill="#333" />
+                    <text x="515" y="360" font-size="8" font-weight="bold" fill="#1565C0" text-anchor="middle">Écrou M8 + Rondelle Or</text>
+
+                    <!-- AXE ACIER RECTIFIÉ Ø8 MM AU CENTRE DU BATTEUR (X=515, Y=335) -->
+                    <text x="515" y="318" font-size="7.5" fill="#1565C0" font-weight="bold" text-anchor="middle">Axe Ø8 mm Acier</text>
+
+                    <!-- BATTEUR HARDOX 450 LARGE EN ROTATION (VUE DE PROFIL) -->
+                    <!-- Cercle fantôme de balayage du batteur (Rayon = 65px = 48mm) -->
+                    <circle cx="515" cy="335" r="65" fill="rgba(21, 101, 192, 0.05)" stroke="#1565C0"
+                        stroke-dasharray="4,4" stroke-width="1.2" />
+
+                    <!-- Profil exact du batteur rectangulaire creux avec biseaux meulés -->
+                    <g transform="translate(515, 335) rotate(-20)">
+                        <polygon points="65,14 62,24 45,24 42,16 -42,16 -45,24 -62,24 -65,14 -65,-14 -62,-24 -45,-24 -42,-16 42,-16 45,-24 62,-24 65,-14" fill="#757d8a"
+                            stroke="#37474f" stroke-width="2.5" />
+
+                        <!-- Manchon central en laiton -->
+                        <circle cx="0" cy="0" r="11" fill="#ffd700" stroke="#b8860b" stroke-width="1.5" />
+                        <circle cx="0" cy="0" r="4.5" fill="#e2e8f0" stroke="#333" stroke-width="1" />
+
+                        <!-- Biseaux d'impact rectifiés brillants aux 2 arêtes d'attaque -->
+                        <polygon points="65,12 54,17 48,17 65,9" fill="#d8dde6" stroke="#fff" stroke-width="0.8" />
+                        <polygon points="-65,-12 -54,-17 -48,-17 -65,-9" fill="#d8dde6" stroke="#fff"
+                            stroke-width="0.8" />
+
+                        <!-- Poulie orange coaxiale déportée -->
+                        <circle cx="0" cy="0" r="24" fill="none" stroke="#ff6600" stroke-width="2.5"
+                            stroke-dasharray="4,2" />
+                    </g>
+                    <text x="515" y="255" class="cad-callout-text" style="fill:#1565C0;" text-anchor="middle">Batteur
+                        Hardox 450 (118 mm | 684 J)</text>
+
+                    <!-- Flèche dynamique du sens de rotation ascendant (Upward Strike ⬆️) -->
+                    <path d="M 595 350 A 80 80 0 0 0 535 255" fill="none" stroke="#d32f2f" stroke-width="2.5"
+                        marker-end="url(#arrowCAD)" />
+                    <text x="590" y="280" font-size="8.5" font-weight="bold" fill="#d32f2f">Rotation Ascendante (Frappe vers le haut)</text>
+                    <text x="590" y="291" font-size="7.2" fill="#555">(Éjection adversaire &amp; plaquage au sol)</text>
+
+                    <!-- POD AVANT ROUGE VIF PROFILÉ (FORK MOUNT PHOTO 1) -->
+                    <path d="M 525,445 L 575,445 L 585,410 L 530,375 Z" fill="#d32f2f" stroke="#b71c1c"
+                        stroke-width="2" />
+                    <rect x="565" y="418" width="16" height="12" rx="2" fill="#fff" stroke="#999" stroke-width="1" />
+                    <text x="555" y="435" font-size="7.5" font-weight="bold" fill="#fff" text-anchor="middle">Pod
+                        Rouge</text>
+
+                    <!-- FOURCHE HARPON EN PROFIL (INCLINÉE VERS LE SOL AVEC ERGOT DE RETENUE) -->
+                    <path d="M 565 425 L 680 435 L 685 420 L 695 435 L 755 456 L 760 458 L 740 459 L 570 435 Z"
+                        fill="#ffd700" stroke="#b8860b" stroke-width="2" />
+                    <text x="690" y="414" font-size="8" font-weight="bold" fill="#b8860b" text-anchor="middle">Harpon de
+                        retenue</text>
+                    <text x="765" y="455" font-size="8" font-weight="bold" fill="#d32f2f">Pointe rasoir (&lt;1
+                        mm)</text>
+
+                    <!-- COTATIONS VUE DE PROFIL -->
+                    <!-- Hauteur Montant d'Arme (145 mm) -->
+                    <line x1="160" y1="445" x2="160" y2="230" class="cad-dimension" marker-start="url(#arrowCADStart)"
+                        marker-end="url(#arrowCAD)" />
+                    <line x1="210" y1="445" x2="150" y2="445" stroke="#1565C0" stroke-width="0.8"
+                        stroke-dasharray="2,2" />
+                    <line x1="440" y1="230" x2="150" y2="230" stroke="#1565C0" stroke-width="0.8"
+                        stroke-dasharray="2,2" />
+                    <rect x="135" y="330" width="50" height="18" fill="#fff" />
+                    <text x="160" y="343" class="cad-dimension-text">145 mm</text>
+
+                    <!-- Diamètre des Roues (Ø55 mm) -->
+                    <line x1="270" y1="460" x2="270" y2="380" class="cad-dimension" marker-start="url(#arrowCADStart)"
+                        marker-end="url(#arrowCAD)" />
+                    <rect x="245" y="410" width="50" height="16" fill="#fff" />
+                    <text x="270" y="422" class="cad-dimension-text">Ø55 mm</text>
+
+                    <!-- Empattement 4WD (190 mm) -->
+                    <line x1="270" y1="500" x2="460" y2="500" class="cad-dimension" marker-start="url(#arrowCADStart)"
+                        marker-end="url(#arrowCAD)" />
+                    <line x1="270" y1="460" x2="270" y2="510" stroke="#1565C0" stroke-width="0.8"
+                        stroke-dasharray="2,2" />
+                    <line x1="460" y1="460" x2="460" y2="510" stroke="#1565C0" stroke-width="0.8"
+                        stroke-dasharray="2,2" />
+                    <rect x="340" y="492" width="50" height="16" fill="#fff" />
+                    <text x="365" y="504" class="cad-dimension-text">190 mm</text>
+
+                    <!-- CARTOUCHE TECHNIQUE VUE DE PROFIL -->
+                    <g transform="translate(630, 520)">
+                        <rect width="300" height="100" class="cad-titleblock" />
+                        <line x1="0" y1="32" x2="300" y2="32" stroke="#000" stroke-width="1" />
+                        <line x1="0" y1="65" x2="300" y2="65" stroke="#000" stroke-width="1" />
+                        <line x1="150" y1="32" x2="150" y2="100" stroke="#000" stroke-width="1" />
+                        <text x="12" y="20" font-weight="bold" font-size="12">HOTLINE MK-II – VUE DE PROFIL</text>
+                        <text x="12" y="48" font-size="9">Empattement 4WD: 190 mm</text>
+                        <text x="12" y="58" font-size="9">Garde au sol arme: 22 mm</text>
+                        <text x="160" y="48" font-size="9">Équipe: MaliBots 2026</text>
+                        <text x="160" y="58" font-size="9">Masse: 3 990 g (&lt; 4,00 kg)</text>
+                        <text x="12" y="85" font-size="9">Homologation: DoniFab</text>
+                        <text x="160" y="85" font-size="9">Planche: 02 / 04</text>
+                    </g>
+                </svg>
+            </div>
+
+            <!-- DESSIN 3 : VUE DE FACE -->
+            <div id="plan-front" class="drawing-container">
+                <svg class="drawing-svg" viewBox="0 0 950 650" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="100%" height="100%" fill="url(#gridCAD)" />
+
+                    <!-- LIGNE DE SOL -->
+                    <line x1="60" y1="460" x2="890" y2="460" stroke="#222" stroke-width="2.5" />
+                    <rect x="60" y="460" width="830" height="16" fill="url(#groundHatch)" />
+
+                    <!-- AXE VERTICAL CENTRAL -->
+                    <line x1="475" y1="60" x2="475" y2="520" class="cad-centerline" />
+
+                    <!-- BLINDAGES EXTÉRIEURS ET CARÉNAGES DE ROUES EN VUE DE FACE -->
+                    <!-- Wheel Guard Gauche & Arche (Protection intégrale Roues G) -->
+                    <rect x="175" y="360" width="12" height="92" rx="3" fill="#1b1b1b" stroke="#ff3333"
+                        stroke-width="1.8" />
+                    <rect x="175" y="352" width="55" height="10" rx="2" fill="#1b1b1b" stroke="#000"
+                        stroke-width="1.2" />
+                    <circle cx="181" cy="375" r="2.5" fill="#aaa" stroke="#222" />
+                    <circle cx="181" cy="435" r="2.5" fill="#aaa" stroke="#222" />
+                    <text x="165" y="344" class="cad-callout-text" text-anchor="middle"
+                        style="fill:#1565C0; font-weight:bold;">Blindage Roues G</text>
+
+                    <!-- Wheel Guard Droit & Arche (Protection intégrale Roues D) -->
+                    <rect x="763" y="360" width="12" height="92" rx="3" fill="#1b1b1b" stroke="#ff3333"
+                        stroke-width="1.8" />
+                    <rect x="720" y="352" width="55" height="10" rx="2" fill="#1b1b1b" stroke="#000"
+                        stroke-width="1.2" />
+                    <circle cx="769" cy="375" r="2.5" fill="#aaa" stroke="#222" />
+                    <circle cx="769" cy="435" r="2.5" fill="#aaa" stroke="#222" />
+                    <text x="785" y="344" class="cad-callout-text" text-anchor="middle"
+                        style="fill:#1565C0; font-weight:bold;">Blindage Roues D</text>
+
+                    <!-- 4 ROUES EN VUE DE FACE (URÉTHANE ROSE/ROUGE TRANSLUCIDE) -->
+                    <rect x="190" y="375" width="38" height="85" rx="6" fill="#ec407a" stroke="#c2185b"
+                        stroke-width="2" />
+                    <line x1="209" y1="375" x2="209" y2="460" stroke="#555" stroke-dasharray="4,4" />
+                    <text x="209" y="475" class="cad-callout-text" text-anchor="middle">Roues G (Uréthane)</text>
+
+                    <rect x="722" y="375" width="38" height="85" rx="6" fill="#ec407a" stroke="#c2185b"
+                        stroke-width="2" />
+                    <line x1="741" y1="375" x2="741" y2="460" stroke="#555" stroke-dasharray="4,4" />
+                    <text x="741" y="475" class="cad-callout-text" text-anchor="middle">Roues D (Uréthane)</text>
+
+                    <!-- CHÂSSIS NOIR VU DE FACE AVEC CLOISON À OUÏES -->
+                    <rect x="238" y="350" width="474" height="95" rx="8" fill="#151515" stroke="#000"
+                        stroke-width="2.5" />
+                    <!-- Ouïes verticales de ventilation sur la cloison avant -->
+                    <g fill="#050505">
+                        <rect x="435" y="365" width="6" height="40" rx="2" />
+                        <rect x="455" y="365" width="6" height="40" rx="2" />
+                        <rect x="475" y="365" width="6" height="40" rx="2" />
+                        <rect x="495" y="365" width="6" height="40" rx="2" />
+                        <rect x="515" y="365" width="6" height="40" rx="2" />
+                    </g>
+
+                    <!-- DEUX GRANDS MONTANTS TRIANGULAIRES A-FRAMES (ÉCARTEMENT 140 MM) -->
+                    <!-- Montant G (X=360 à 380) -->
+                    <rect x="360" y="210" width="20" height="140" fill="#222" stroke="#444" stroke-width="1.8" />
+                    <circle cx="370" cy="340" r="8" fill="#ffd700" stroke="#b8860b" stroke-width="1.2" />
+
+                    <!-- Montant D (X=570 à 590) AVEC GROS ÉCROU M8 EXTÉRIEUR & RONDELLE OR (PHOTO 1) -->
+                    <rect x="570" y="210" width="20" height="140" fill="#222" stroke="#444" stroke-width="1.8" />
+                    <!-- Écrou M8 saillant à droite -->
+                    <circle cx="598" cy="305" r="11" fill="#ffd700" stroke="#b8860b" stroke-width="1.5" />
+                    <polygon points="593,305 596,298 604,298 607,305 604,312 596,312" fill="#e2e8f0" stroke="#333" stroke-width="1.2" />
+                    <text x="620" y="308" font-size="8.5" fill="#1565C0" font-weight="bold">Écrou M8 (Photo 1)</text>
+
+                    <!-- AXE AFFINÉ HORIZONTAL TRAVERSANT Ø8 MM (Y=305) -->
+                    <rect x="370" y="303" width="210" height="6" rx="2" fill="#e2e8f0" stroke="#64748b"
+                        stroke-width="1" />
+
+                    <!-- BATTEUR HARDOX 450 VU DE FACE (LARGEUR 118 mm) -->
+                    <g>
+                        <!-- Corps en acier du batteur -->
+                        <rect x="400" y="275" width="150" height="60" rx="4" fill="#757d8a" stroke="#37474f"
+                            stroke-width="2.2" />
+
+                        <!-- Biseau d'impact argenté rectifié sur toute la largeur -->
+                        <rect x="400" y="275" width="150" height="8" rx="2" fill="#d8dde6" stroke="#fff"
+                            stroke-width="0.8" />
+
+                        <!-- Manchon central laiton -->
+                        <rect x="410" y="297" width="130" height="16" rx="2" fill="#ffd700" stroke="#b8860b"
+                            stroke-width="1.2" />
+                        <text x="475" y="309" font-size="8" fill="#111" font-weight="bold"
+                            text-anchor="middle">MANCHON LAITON Ø8 MM</text>
+
+                        <!-- Poulie orange accolée à droite (Photo 1) -->
+                        <rect x="552" y="280" width="18" height="50" rx="3" fill="#ff6600" stroke="#d84315"
+                            stroke-width="1.5" />
+
+                        <text x="475" y="265" fill="#1565C0" font-size="10" font-weight="900"
+                            text-anchor="middle">BATTEUR HARDOX 450 (118 mm DE LARGE)</text>
+                    </g>
+
+                    <!-- DEUX PODS AVANT ROUGE VIF PROFILÉS AVEC DOUBLE FENTE DE FOURCHES -->
+                    <rect x="290" y="380" width="55" height="60" rx="8" fill="#d32f2f" stroke="#b71c1c"
+                        stroke-width="2" />
+                    <!-- Fentes verticales de fourches -->
+                    <rect x="302" y="390" width="6" height="35" rx="1" fill="#111" />
+                    <rect x="314" y="390" width="6" height="35" rx="1" fill="#111" />
+
+                    <rect x="605" y="380" width="55" height="60" rx="8" fill="#d32f2f" stroke="#b71c1c"
+                        stroke-width="2" />
+                    <rect x="617" y="390" width="6" height="35" rx="1" fill="#111" />
+                    <rect x="629" y="390" width="6" height="35" rx="1" fill="#111" />
+
+                    <!-- DEUX FOURCHES HARPONS BIPOINTES VUES DE FACE -->
+                    <polygon points="310,458 325,458 325,400 310,400" fill="#ffd700" stroke="#b8860b"
+                        stroke-width="1.8" />
+                    <polygon points="625,458 640,458 640,400 625,400" fill="#ffd700" stroke="#b8860b"
+                        stroke-width="1.8" />
+                    <text x="317" y="475" font-size="8" font-weight="bold" fill="#b8860b" text-anchor="middle">Fourche
+                        G</text>
+                    <text x="632" y="475" font-size="8" font-weight="bold" fill="#b8860b" text-anchor="middle">Fourche
+                        D</text>
+
+                    <!-- COTATIONS VUE DE FACE -->
+                    <!-- Voie totale (250 mm) -->
+                    <line x1="190" y1="320" x2="760" y2="320" class="cad-dimension" marker-start="url(#arrowCADStart)"
+                        marker-end="url(#arrowCAD)" />
+                    <line x1="190" y1="375" x2="190" y2="310" stroke="#1565C0" stroke-width="0.8"
+                        stroke-dasharray="2,2" />
+                    <line x1="760" y1="375" x2="760" y2="310" stroke="#1565C0" stroke-width="0.8"
+                        stroke-dasharray="2,2" />
+                    <rect x="445" y="310" width="60" height="18" fill="#fff" />
+                    <text x="475" y="323" class="cad-dimension-text">250 mm</text>
+
+                    <!-- CARTOUCHE TECHNIQUE VUE DE FACE -->
+                    <g transform="translate(630, 520)">
+                        <rect width="300" height="100" class="cad-titleblock" />
+                        <line x1="0" y1="32" x2="300" y2="32" stroke="#000" stroke-width="1" />
+                        <line x1="0" y1="65" x2="300" y2="65" stroke="#000" stroke-width="1" />
+                        <line x1="150" y1="32" x2="150" y2="100" stroke="#000" stroke-width="1" />
+                        <text x="12" y="20" font-weight="bold" font-size="12">HOTLINE MK-II – VUE DE FACE</text>
+                        <text x="12" y="48" font-size="9">Batteur Hardox 450: 118 mm</text>
+                        <text x="12" y="58" font-size="9">Axe Traversant: Ø8 mm Rectifié</text>
+                        <text x="160" y="48" font-size="9">Équipe: MaliBots 2026</text>
+                        <text x="160" y="58" font-size="9">Masse: 3 990 g (&lt; 4,00 kg)</text>
+                        <text x="12" y="85" font-size="9">Homologation: DoniFab</text>
+                        <text x="160" y="85" font-size="9">Planche: 03 / 04</text>
+                    </g>
+                </svg>
+            </div>
+
+            <!-- DESSIN 4 : VUE ÉCLATÉE & NOMENCLATURE -->
+            <div id="plan-exploded" class="drawing-container">
+                <svg class="drawing-svg" viewBox="0 0 1050 720" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="100%" height="100%" fill="url(#gridCAD)" />
+
+                    <!-- TITRE SECTION ÉCLATÉE -->
+                    <text x="40" y="45" font-size="18" font-weight="800" fill="#111">HOTLINE MK-II – VUE ÉCLATÉE
+                        STRUCTURÉE (AXONOMÉTRIE)</text>
+                    <text x="40" y="68" font-size="12" fill="#666">Nomenclature industrielle détaillée &amp; conformité
+                        à l'architecture Hotline officielle</text>
+
+                    <!-- NIVEAU 4 : CAPOT TEXTURÉ HOTLINE -->
+                    <g transform="translate(140, 95)">
+                        <rect x="0" y="0" width="240" height="42" rx="6" fill="#1e1e1e" stroke="#ff3333"
+                            stroke-width="1.8" />
+                        <text x="70" y="28" fill="#ff3333" font-size="16" font-style="italic"
+                            font-weight="bold">Hotline</text>
+                        <circle cx="210" cy="21" r="10" fill="#d32f2f" stroke="#fff" stroke-width="1.5" />
+                        <text x="120" y="58" class="cad-callout-text" text-anchor="middle">[1] Capot Texturé "Hotline"
+                            (120g)</text>
+                        <circle cx="260" cy="21" r="12" fill="#fff" stroke="#111" stroke-width="1.5" />
+                        <text x="260" y="25" font-size="10" font-weight="bold" text-anchor="middle">1</text>
+                    </g>
+
+                    <!-- NIVEAU 3 : SOUS-ENSEMBLE ARME BATTEUR RECTANGULAIRE ÉVIDÉ & MONTANTS -->
+                    <g transform="translate(100, 205)">
+                        <!-- Montants triangulaires noirs -->
+                        <polygon points="40,65 110,65 85,5" fill="#222" stroke="#444" stroke-width="1.5" />
+                        <circle cx="65" cy="55" r="5" fill="#ffd700" />
+                        <polygon points="180,65 250,65 225,5" fill="#222" stroke="#444" stroke-width="1.5" />
+                        <circle cx="205" cy="55" r="5" fill="#ffd700" />
+
+                        <!-- Axe affiné fileté M6 traversant -->
+                        <rect x="50" y="32" width="190" height="4" rx="1" fill="#ffd700" stroke="#b8860b"
+                            stroke-width="0.8" />
+
+                        <!-- Batteur rectangulaire creux en acier avec évidement central -->
+                        <polygon points="90,18 190,18 200,24 200,44 190,50 90,50 80,44 80,24" fill="#757d8a"
+                            stroke="#37474f" stroke-width="2" />
+                        <!-- Évidement central laissant voir l'axe -->
+                        <rect x="110" y="25" width="60" height="18" rx="2" fill="#fff" stroke="#37474f"
+                            stroke-width="1.2" stroke-dasharray="2,2" />
+                        <!-- Biseaux rectifiés et creux de grab aux extrémités -->
+                        <rect x="195" y="20" width="5" height="28" fill="#d8dde6" stroke="#fff" stroke-width="0.5" />
+                        <rect x="80" y="20" width="5" height="28" fill="#d8dde6" stroke="#fff" stroke-width="0.5" />
+                        <line x1="190" y1="22" x2="190" y2="46" stroke="#ffd700" stroke-width="1.5" />
+                        <line x1="90" y1="22" x2="90" y2="46" stroke="#ffd700" stroke-width="1.5" />
+
+                        <!-- Poulie orange unique à droite -->
+                        <rect x="192" y="22" width="10" height="24" rx="2" fill="#ff6d00" />
+
+                        <text x="140" y="37" fill="#1565C0" font-size="7.5" font-weight="bold"
+                            text-anchor="middle">Batteur Évidé M6</text>
+                        <text x="145" y="75" class="cad-callout-text" text-anchor="middle">[2] Batteur Rectangulaire
+                            Évidé + Axe M6 + Montants (605g)</text>
+                        <circle cx="270" cy="35" r="12" fill="#fff" stroke="#111" stroke-width="1.5" />
+                        <text x="270" y="39" font-size="10" font-weight="bold" text-anchor="middle">2</text>
+                    </g>
+
+                    <!-- NIVEAU 2 : PODS ROUGES AVEC DOUBLES FENTES & FOURCHES HARPONS -->
+                    <g transform="translate(120, 330)">
+                        <rect x="20" y="0" width="45" height="30" rx="6" fill="#d32f2f" stroke="#b71c1c"
+                            stroke-width="1.5" />
+                        <rect x="35" y="4" width="5" height="22" rx="1" fill="#111" />
+                        <rect x="43" y="4" width="5" height="22" rx="1" fill="#111" />
+                        <polygon points="55,10 130,22 135,16 140,22 170,30 150,30 55,20" fill="#ffd700" stroke="#b8860b"
+                            stroke-width="1.5" />
+
+                        <rect x="200" y="0" width="45" height="30" rx="6" fill="#d32f2f" stroke="#b71c1c"
+                            stroke-width="1.5" />
+                        <rect x="215" y="4" width="5" height="22" rx="1" fill="#111" />
+                        <rect x="223" y="4" width="5" height="22" rx="1" fill="#111" />
+                        <polygon points="235,10 310,22 315,16 320,22 350,30 330,30 235,20" fill="#ffd700"
+                            stroke="#b8860b" stroke-width="1.5" />
+                        <text x="180" y="55" class="cad-callout-text" text-anchor="middle">[3] Pods Rouges Profilés + Fourches Harpons (270g)</text>
+                        <circle cx="370" cy="20" r="12" fill="#fff" stroke="#111" stroke-width="1.5" />
+                        <text x="370" y="24" font-size="10" font-weight="bold" text-anchor="middle">3</text>
+                    </g>
+
+                    <!-- NIVEAU 1.5 : BLINDAGES LATÉRAUX DE ROUES (WHEEL GUARDS) -->
+                    <g transform="translate(60, 400)">
+                        <rect x="10" y="0" width="140" height="20" rx="3" fill="#1b1b1b" stroke="#ff3333"
+                            stroke-width="1.5" />
+                        <polygon points="140,0 150,10 140,20" fill="#ff3333" />
+                        <rect x="250" y="0" width="140" height="20" rx="3" fill="#1b1b1b" stroke="#ff3333"
+                            stroke-width="1.5" />
+                        <polygon points="380,0 390,10 380,20" fill="#ff3333" />
+                        <text x="200" y="14" class="cad-callout-text" text-anchor="middle">[4] Rails Latéraux Blindés de Roues (220 g)</text>
+                        <circle cx="405" cy="10" r="11" fill="#fff" stroke="#111" stroke-width="1.5" />
+                        <text x="405" y="14" font-size="9" font-weight="bold" text-anchor="middle">4</text>
+                    </g>
+
+                    <!-- NIVEAU 1 : CHÂSSIS COMPACT & 4 ROUES URÉTHANE 4WD -->
+                    <g transform="translate(100, 450)">
+                        <rect x="50" y="0" width="240" height="70" rx="8" fill="#151515" stroke="#000"
+                            stroke-width="2.5" />
+                        <!-- 4 Roues uréthane rose/rouge -->
+                        <circle cx="20" cy="15" r="18" fill="#ec407a" stroke="#c2185b" stroke-width="1.8" />
+                        <circle cx="20" cy="55" r="18" fill="#ec407a" stroke="#c2185b" stroke-width="1.8" />
+                        <circle cx="320" cy="15" r="18" fill="#ec407a" stroke="#c2185b" stroke-width="1.8" />
+                        <circle cx="320" cy="55" r="18" fill="#ec407a" stroke="#c2185b" stroke-width="1.8" />
+                        <text x="170" y="40" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">[5] Châssis Monobloc + Train 4WD Uréthane (1 160 g)</text>
+                        <circle cx="355" cy="35" r="12" fill="#fff" stroke="#111" stroke-width="1.5" />
+                        <text x="355" y="39" font-size="10" font-weight="bold" text-anchor="middle">5</text>
+                    </g>
+
+                    <!-- TABLEAU DE NOMENCLATURE (BOM 4.00 KG) -->
+                    <g transform="translate(560, 80)">
+                        <rect width="460" height="520" fill="#ffffff" stroke="#222" stroke-width="2" rx="6" />
+                        <rect width="460" height="35" fill="#181d33" rx="6" />
+                        <text x="15" y="23" fill="#fff" font-size="12" font-weight="bold">NOMENCLATURE OFFICIELLE (BOM 4,00 KG) – HOTLINE MK-II</text>
+
+                        <g font-size="9.0" font-family="var(--font-family)">
+                            <text x="15" y="55" font-weight="bold" fill="#666">REP</text>
+                            <text x="45" y="55" font-weight="bold" fill="#666">DÉSIGNATION TECHNIQUE</text>
+                            <text x="235" y="55" font-weight="bold" fill="#666">GROUPE</text>
+                            <text x="325" y="55" font-weight="bold" fill="#666">MASSE</text>
+                            <text x="390" y="55" font-weight="bold" fill="#666">MATIÈRE</text>
+                            <line x1="10" y1="65" x2="450" y2="65" stroke="#ddd" stroke-width="1" />
+
+                            <text x="18" y="83">1</text>
+                            <text x="45" y="83" font-weight="600">Batteur d'impact massif (118 mm)</text>
+                            <text x="235" y="83">Armement</text>
+                            <text x="325" y="83">1 320 g</text>
+                            <text x="390" y="83">Hardox 450</text>
+
+                            <text x="18" y="106">2</text>
+                            <text x="45" y="106" font-weight="600">Axe rectifié Ø8, paliers &amp; poulie orange</text>
+                            <text x="235" y="106">Armement</text>
+                            <text x="325" y="106">135 g</text>
+                            <text x="390" y="106">Acier/Laiton</text>
+
+                            <text x="18" y="129">3</text>
+                            <text x="45" y="129" font-weight="600">Moteur arme Brushless 3548 (1100KV)</text>
+                            <text x="235" y="129">Armement</text>
+                            <text x="325" y="129">185 g</text>
+                            <text x="390" y="129">Brushless</text>
+
+                            <text x="18" y="152">4</text>
+                            <text x="45" y="152" font-weight="600">Variateur ESC arme BLHeli_32 80A</text>
+                            <text x="235" y="152">Électronique</text>
+                            <text x="325" y="152">65 g</text>
+                            <text x="390" y="152">Dissipateur</text>
+
+                            <text x="18" y="175">5</text>
+                            <text x="45" y="175" font-weight="600">Châssis Hardox &amp; longerons alu 7075</text>
+                            <text x="235" y="175">Structure</text>
+                            <text x="325" y="175">980 g</text>
+                            <text x="390" y="175">Hardox/Alu</text>
+
+                            <text x="18" y="198">6</text>
+                            <text x="45" y="198" font-weight="600">Capot wedge, louvers &amp; visserie BTR</text>
+                            <text x="235" y="198">Blindage</text>
+                            <text x="325" y="198">240 g</text>
+                            <text x="390" y="198">Carbone/Inox</text>
+
+                            <text x="18" y="221">7</text>
+                            <text x="45" y="221" font-weight="600">Tours A-Frames (140mm) &amp; écrou M8</text>
+                            <text x="235" y="221">Arceaux</text>
+                            <text x="325" y="221">240 g</text>
+                            <text x="390" y="221">Hardox 450</text>
+
+                            <text x="18" y="244">8</text>
+                            <text x="45" y="244" font-weight="600">2x Pods rouges profilés double fente</text>
+                            <text x="235" y="244">Combat au Sol</text>
+                            <text x="325" y="244">110 g</text>
+                            <text x="390" y="244">TPU/Alu Rouge</text>
+
+                            <text x="18" y="267">9</text>
+                            <text x="45" y="267" font-weight="600">2x Fourches harpons en tôle Hardox</text>
+                            <text x="235" y="267">Combat au Sol</text>
+                            <text x="325" y="267">160 g</text>
+                            <text x="390" y="267">Hardox 450</text>
+
+                            <text x="18" y="290">10</text>
+                            <text x="45" y="290" font-weight="600">4x Roues uréthane rose/rouge Ø55 mm</text>
+                            <text x="235" y="290">Propulsion</text>
+                            <text x="325" y="290">180 g</text>
+                            <text x="390" y="290">Uréthane 4WD</text>
+
+                            <text x="18" y="313">11</text>
+                            <text x="45" y="313" font-weight="600">2x Moteurs traction &amp; courroies 2GT</text>
+                            <text x="235" y="313">Propulsion</text>
+                            <text x="325" y="313">235 g</text>
+                            <text x="390" y="313">Moteurs DC</text>
+
+                            <text x="18" y="336">12</text>
+                            <text x="45" y="336" font-weight="600">Double ESC traction 2x 20A réversible</text>
+                            <text x="235" y="336">Électronique</text>
+                            <text x="325" y="336">55 g</text>
+                            <text x="390" y="336">Mosfet Dual</text>
+
+                            <text x="18" y="359">13</text>
+                            <text x="45" y="359" font-weight="600">Batterie LiPo 4S 2200 mAh 75C</text>
+                            <text x="235" y="359">Énergie</text>
+                            <text x="325" y="359">260 g</text>
+                            <text x="390" y="359">LiPo 14.8V</text>
+
+                            <text x="18" y="382">14</text>
+                            <text x="45" y="382" font-weight="600">Faisceau 18AWG, Coupe-circuit XT60, RX</text>
+                            <text x="235" y="382">Sécurité</text>
+                            <text x="325" y="382">45 g</text>
+                            <text x="390" y="382">Failsafe</text>
+
+                            <!-- TOTAL -->
+                            <line x1="10" y1="410" x2="450" y2="410" stroke="#000" stroke-width="1.8" />
+                            <text x="45" y="435" font-size="12" font-weight="bold" fill="#000">MASSE HOMOLOGUÉE (0g lest mort) :</text>
+                            <text x="325" y="435" font-size="13" font-weight="bold" fill="#1b5e20">3 990 g</text>
+                            <text x="45" y="455" font-size="9" fill="#2e7d32">Plafond DoniFab : &lt; 4 000 g (Marge sécurité: 10 g | 100% masse active)</text>
+                        </g>
+                    </g>
+                </svg>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- ONGLET 3 : SCHÉMA ÉLECTRIQUE               -->
+        <!-- ========================================== -->
+        <section id="tab-elec" class="tab-content">
+            <div class="circuit-card">
+                <svg class="circuit-svg" viewBox="0 0 1100 680" xmlns="http://www.w3.org/2000/svg">
+                    <text x="40" y="45" fill="#fff" font-size="18" font-weight="bold">SYNOPTIQUE ÉLECTRIQUE GLOBAL 4WD –
+                        HOTLINE MK-II</text>
+                    <text x="40" y="68" fill="#9aa1b8" font-size="12">Faisceau de puissance 18 AWG, coupe-circuit
+                        obligatoire DoniFab, traction intégrale et arme brushless sous LiPo 4S 2200 mAh</text>
+
+                    <!-- BLOC BATTERIE 4S -->
+                    <g transform="translate(60, 240)">
+                        <rect width="180" height="180" rx="8" fill="#181d33" stroke="#ffd700" stroke-width="2.5" />
+                        <rect width="180" height="30" rx="8" fill="#ffd700" />
+                        <text x="90" y="20" fill="#111" font-size="12" font-weight="bold" text-anchor="middle">BATTERIE
+                            LiPo 4S</text>
+                        <text x="90" y="65" fill="#fff" font-size="11" text-anchor="middle">14.8V Nominal (16.8V
+                            Max)</text>
+                        <text x="90" y="85" fill="#9aa1b8" font-size="10" text-anchor="middle">Capacité : 2 200
+                            mAh</text>
+                        <text x="90" y="105" fill="#ff6d00" font-size="10" font-weight="bold"
+                            text-anchor="middle">Décharge : 75C (165A Burst)</text>
+                        <circle cx="155" cy="135" r="8" fill="#d32f2f" />
+                        <text x="155" y="139" fill="#fff" font-size="10" font-weight="bold"
+                            text-anchor="middle">+</text>
+                        <circle cx="155" cy="160" r="8" fill="#111" stroke="#fff" stroke-width="1" />
+                        <text x="155" y="164" fill="#fff" font-size="10" font-weight="bold"
+                            text-anchor="middle">-</text>
+                    </g>
+
+                    <!-- KILL SWITCH OBLIGATOIRE -->
+                    <g transform="translate(300, 160)">
+                        <rect width="130" height="85" rx="6" fill="#181d33" stroke="#d32f2f" stroke-width="2.5" />
+                        <rect width="130" height="24" rx="6" fill="#d32f2f" />
+                        <text x="65" y="16" fill="#fff" font-size="10" font-weight="bold" text-anchor="middle">COUPE-CIRCUIT
+                            XT60</text>
+                        <text x="65" y="44" fill="#fff" font-size="9" text-anchor="middle">Clé Amovible Externe</text>
+                        <circle cx="35" cy="65" r="5" fill="#d32f2f" />
+                        <circle cx="95" cy="65" r="5" fill="#d32f2f" />
+                        <line x1="35" y1="65" x2="85" y2="52" stroke="#d32f2f" stroke-width="3"
+                            stroke-linecap="round" />
+                    </g>
+
+                    <!-- PORT XT60 -->
+                    <g transform="translate(60, 480)">
+                        <rect width="160" height="70" rx="6" fill="#181d33" stroke="#ff9800" stroke-width="2" />
+                        <rect width="160" height="22" rx="6" fill="#ff9800" />
+                        <text x="80" y="15" fill="#111" font-size="10" font-weight="bold" text-anchor="middle">PORT XT60
+                            EXTERNE</text>
+                        <text x="80" y="45" fill="#9aa1b8" font-size="9" text-anchor="middle">Charge rapide &amp;
+                            équilibrage</text>
+                        <text x="80" y="60" fill="#00e676" font-size="9" text-anchor="middle">Sans démontage
+                            capot</text>
+                    </g>
+
+                    <!-- ESC ARME BRUSHLESS 80A -->
+                    <g transform="translate(520, 100)">
+                        <rect width="190" height="120" rx="8" fill="#181d33" stroke="#ff3333" stroke-width="2" />
+                        <rect width="190" height="24" rx="8" fill="#ff3333" />
+                        <text x="95" y="16" fill="#fff" font-size="10" font-weight="bold" text-anchor="middle">ESC ARME
+                            BLHeli_32 80A</text>
+                        <text x="95" y="46" fill="#fff" font-size="9" text-anchor="middle">Protocole DShot600 / Dissipateur</text>
+                        <text x="95" y="64" fill="#9aa1b8" font-size="9" text-anchor="middle">Courant Max : 100A
+                            Burst</text>
+                        <text x="95" y="85" fill="#ffb74d" font-size="9" text-anchor="middle">BEC 5V/3A régulé vers
+                            RX</text>
+                        <text x="95" y="105" fill="#00e5ff" font-size="9" text-anchor="middle">Signal PWM (CH3)</text>
+                    </g>
+
+                    <!-- MOTEUR ARME BRUSHLESS OUTRUNNER 3548 -->
+                    <g transform="translate(850, 95)">
+                        <rect width="190" height="130" rx="8" fill="#181d33" stroke="#ffd700" stroke-width="2" />
+                        <rect width="190" height="24" rx="8" fill="#ffd700" />
+                        <text x="95" y="16" fill="#111" font-size="10" font-weight="bold" text-anchor="middle">MOTEUR
+                            3548 (650W)</text>
+                        <circle cx="95" cy="65" r="26" fill="#222" stroke="#ff6d00" stroke-width="2" />
+                        <text x="95" y="69" fill="#ff6d00" font-size="9" font-weight="bold" text-anchor="middle">1100
+                            KV</text>
+                        <text x="95" y="105" fill="#fff" font-size="9" text-anchor="middle">Courroie Crantée HTD-3M</text>
+                        <text x="95" y="120" fill="#00e676" font-size="9" font-weight="bold"
+                            text-anchor="middle">Entraîne Batteur Hardox (684 J)</text>
+                    </g>
+
+                    <!-- DOUBLE ESC PROPULSION 4WD -->
+                    <g transform="translate(520, 390)">
+                        <rect width="190" height="150" rx="8" fill="#181d33" stroke="#2e7d32" stroke-width="2" />
+                        <rect width="190" height="24" rx="8" fill="#2e7d32" />
+                        <text x="95" y="16" fill="#fff" font-size="10" font-weight="bold" text-anchor="middle">DOUBLE
+                            ESC PROPULSION 4WD (2x 20A)</text>
+                        <text x="95" y="48" fill="#fff" font-size="9" text-anchor="middle">Distribution 4 Roues
+                            Motrices</text>
+                        <text x="95" y="68" fill="#9aa1b8" font-size="9" text-anchor="middle">Contrôle Différentiel
+                            &amp; Frein Actif</text>
+                        <text x="95" y="90" fill="#00e5ff" font-size="9" text-anchor="middle">Entrées PWM : CH1 &amp;
+                            CH2</text>
+                        <text x="95" y="115" fill="#ffb74d" font-size="9" text-anchor="middle">Puissance Max : 45 N
+                            Poussée</text>
+                    </g>
+
+                    <!-- 2 MOTEURS DE PROPULSION & COURROIES (HOTLINE 4WD) -->
+                    <g transform="translate(850, 350)">
+                        <rect width="190" height="85" rx="6" fill="#181d33" stroke="#2e7d32" stroke-width="1.8" />
+                        <rect width="190" height="20" rx="6" fill="#2e7d32" />
+                        <text x="95" y="14" fill="#fff" font-size="9" font-weight="bold" text-anchor="middle">MOTEUR GAUCHE + COURROIE</text>
+                        <text x="95" y="42" fill="#fff" font-size="9" text-anchor="middle">Moteur Central Haute Puissance</text>
+                        <text x="95" y="62" fill="#00e676" font-size="10" font-weight="bold"
+                            text-anchor="middle">Courroie vers Roues AV-G &amp; AR-G</text>
+                    </g>
+
+                    <g transform="translate(850, 470)">
+                        <rect width="190" height="85" rx="6" fill="#181d33" stroke="#2e7d32" stroke-width="1.8" />
+                        <rect width="190" height="20" rx="6" fill="#2e7d32" />
+                        <text x="95" y="14" fill="#fff" font-size="9" font-weight="bold" text-anchor="middle">MOTEUR DROIT + COURROIE</text>
+                        <text x="95" y="42" fill="#fff" font-size="9" text-anchor="middle">Moteur Central Haute Puissance</text>
+                        <text x="95" y="62" fill="#00e676" font-size="10" font-weight="bold"
+                            text-anchor="middle">Courroie vers Roues AV-D &amp; AR-D</text>
+                    </g>
+
+                    <!-- RÉCEPTEUR RADIO -->
+                    <g transform="translate(300, 310)">
+                        <rect width="140" height="140" rx="8" fill="#181d33" stroke="#00bcd4" stroke-width="2" />
+                        <rect width="140" height="24" rx="8" fill="#00bcd4" />
+                        <text x="70" y="16" fill="#111" font-size="10" font-weight="bold" text-anchor="middle">RÉCEPTEUR
+                            2.4GHz</text>
+                        <circle cx="25" cy="50" r="5" fill="#00e676" />
+                        <text x="75" y="54" fill="#fff" font-size="9" text-anchor="middle">Failsafe Actif
+                            (&lt;0.1s)</text>
+                        <text x="25" y="80" fill="#00bcd4" font-size="9">CH1 : Direction</text>
+                        <text x="25" y="98" fill="#00bcd4" font-size="9">CH2 : Gaz Traction</text>
+                        <text x="25" y="116" fill="#ff3333" font-size="9">CH3 : Batteur Arme</text>
+                    </g>
+
+                    <!-- LIGNES DE CÂBLAGE -->
+                    <!-- Ligne Puissance Rouge (+14.8V) 18 AWG -->
+                    <path d="M 220 375 L 260 375 L 260 205 L 300 205" fill="none" stroke="#ff3333" stroke-width="3.5" />
+                    <path d="M 430 205 L 480 205 L 480 140 L 520 140" fill="none" stroke="#ff3333" stroke-width="3" />
+                    <path d="M 480 205 L 480 430 L 520 430" fill="none" stroke="#ff3333" stroke-width="3" />
+                    <text x="270" y="195" fill="#ff3333" font-size="9" font-weight="bold">18 AWG (+)</text>
+
+                    <!-- Ligne Masse Noire (-) 18 AWG -->
+                    <path d="M 220 400 L 490 400 L 490 160 L 520 160" fill="none" stroke="#333" stroke-width="3" />
+                    <path d="M 490 400 L 490 450 L 520 450" fill="none" stroke="#333" stroke-width="3" />
+                    <text x="270" y="415" fill="#999" font-size="9" font-weight="bold">18 AWG (-)</text>
+
+                    <!-- Phases Moteur Arme -->
+                    <path d="M 710 145 L 850 145" fill="none" stroke="#ffd700" stroke-width="2.5" />
+                    <path d="M 710 155 L 850 155" fill="none" stroke="#ff6d00" stroke-width="2.5" />
+                    <path d="M 710 165 L 850 165" fill="none" stroke="#00e5ff" stroke-width="2.5" />
+                    <text x="780" y="135" fill="#ffd700" font-size="8">3 Phases Moteur</text>
+
+                    <!-- Signaux Moteurs 4WD -->
+                    <path d="M 710 440 L 850 390" fill="none" stroke="#00e676" stroke-width="2.5" />
+                    <path d="M 710 470 L 850 510" fill="none" stroke="#00e676" stroke-width="2.5" />
+                </svg>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- ONGLET 4 : SPÉCIFICATIONS TECHNIQUES       -->
+        <!-- ========================================== -->
+        <section id="tab-specs" class="tab-content">
+            <div class="specs-grid">
+                <div class="spec-card">
+                    <h3>Fiche d'Identité Robot (Édition Hotline 4,0 kg)</h3>
+                    <table class="table-custom">
+                        <tr>
+                            <td>Nom Officiel</td>
+                            <td><strong>HOTLINE MK-II</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Inspiration Technique</td>
+                            <td>Architecture Hotline Champion (Passage à 4,00 kg)</td>
+                        </tr>
+                        <tr>
+                            <td>Compétition</td>
+                            <td>MaliBots Challenge 2026 (DoniFab, Bamako)</td>
+                        </tr>
+                        <tr>
+                            <td>Catégorie</td>
+                            <td>Combat de Robots (&lt; 4,00 kg)</td>
+                        </tr>
+                        <tr>
+                            <td>Propulsion</td>
+                            <td><strong>4WD Intégrale (2 Moteurs Centraux + Courroies)</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Combat au Sol</td>
+                            <td>Fourches Harpons Hardox + Suspension Silicone Rose (Shore 45A)</td>
+                        </tr>
+                        <tr>
+                            <td>Conduite Inversée</td>
+                            <td><strong>Validée à 100% (Tours A-Frames H=104 mm, 0 contact batteur)</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Masse Homologuée</td>
+                            <td><strong>3 990 g (Marge 10 g sous le plafond officiel)</strong></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="spec-card">
+                    <h3>Batteur d'Impact Large Hardox 450 &amp; Cinématique</h3>
+                    <table class="table-custom">
+                        <tr>
+                            <td>Type d'Arme</td>
+                            <td>Batteur d'Impact Large Hardox 450 (Barre de Frappe Massive)</td>
+                        </tr>
+                        <tr>
+                            <td>Dimensions Arme</td>
+                            <td>118 mm portée utile (136 mm hors-tout) × 34 × 34 mm</td>
+                        </tr>
+                        <tr>
+                            <td>Masse du Batteur</td>
+                            <td><strong>1 320 g (33,1 % de la masse totale du robot)</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Axe &amp; Paliers</td>
+                            <td>Axe Traversant Ø8 mm Acier Rectifié + Manchon Laiton Central + Écrou M8</td>
+                        </tr>
+                        <tr>
+                            <td>Entraînement Arme</td>
+                            <td>Poulie Orange Crantée HTD-3M + Courroie Synchrone Fermée</td>
+                        </tr>
+                        <tr>
+                            <td>Vitesse Nominale</td>
+                            <td>10 000 à 12 000 tr/min (Sens Ascendant – Frappe vers le haut)</td>
+                        </tr>
+                        <tr>
+                            <td>Énergie Cinétique</td>
+                            <td><strong>684 J (Nominale) / 1 070 J (Pointe sous 12 000 tr/min)</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Moteur d'Arme</td>
+                            <td>Brushless à cage tournante 3548 (1100 KV, 650 W crête)</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="spec-card">
+                    <h3>Châssis, Blindage &amp; Protections de Roues</h3>
+                    <table class="table-custom">
+                        <tr>
+                            <td>Profil Châssis</td>
+                            <td><strong>Profil en Coin Biseauté (Pente Y=54 à 42 mm)</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Blindage de Roues</td>
+                            <td><strong>Blindages de Roues Intégraux Biseautés à 45°</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Arceaux Anti-Retournement</td>
+                            <td><strong>Hautes Tours A-Frames (Sommet Y=104 mm, +17 mm batteur)</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Dégagement Capot</td>
+                            <td><strong>Échancrure centrale 11 mm (Zéro contact parasite)</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Matériaux Blindage</td>
+                            <td>Rails Hardox 450 + Flancs Alu 7075-T6 + Capot Carbone 3 mm</td>
+                        </tr>
+                        <tr>
+                            <td>Suspension Combat au Sol</td>
+                            <td>Poches usinées avec coussinets silicone rose translucide</td>
+                        </tr>
+                        <tr>
+                            <td>Lestage Ventral Mort</td>
+                            <td><strong>0 g (100% de la masse utile réallouée à l'arme et au blindage)</strong></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="spec-card">
+                    <h3>Homologation &amp; Sécurité DoniFab</h3>
+                    <table class="table-custom">
+                        <tr>
+                            <td>Coupe-circuit de sécurité</td>
+                            <td><span class="badge-check"><svg class="lucide-icon lucide-icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg> Conforme (Coupe-circuit XT60 affleurant encastré)</span></td>
+                        </tr>
+                        <tr>
+                            <td>Failsafe coupure radio &lt; 0.1s</td>
+                            <td><span class="badge-check"><svg class="lucide-icon lucide-icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg> Validé (arrêt total arme et 4WD)</span></td>
+                        </tr>
+                        <tr>
+                            <td>Conduite inversée (Sur le dos)</td>
+                            <td><span class="badge-check"><svg class="lucide-icon lucide-icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg> Validé (Appui stable sur 2 A-Frames, 0 friction sol)</span></td>
+                        </tr>
+                        <tr>
+                            <td>Protection roues intégrale</td>
+                            <td><span class="badge-check"><svg class="lucide-icon lucide-icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg> Validé (Protections latérales &amp; arches de roues)</span></td>
+                        </tr>
+                        <tr>
+                            <td>Dégagement arme / capot</td>
+                            <td><span class="badge-check"><svg class="lucide-icon lucide-icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg> Validé (11 mm jeu libre, zéro collision)</span></td>
+                        </tr>
+                        <tr>
+                            <td>Masse &lt; 4 000 g</td>
+                            <td><span class="badge-check"><svg class="lucide-icon lucide-icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg> 3 990 g (Conforme règlement DoniFab)</span></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div>
+            <strong>HOTLINE MK-II</strong> – Modélisation et Rapport Technique Conçus pour le <strong>MaliBots Challenge
+                2026</strong> | Organisé par <strong>DoniFab</strong>
+        </div>
+        <div>
+            Architecture inspirée du combat bot "Hotline" adaptée en matériaux accessibles (PVC rigide, carton stratifié
+            résiné, acier traité, silicone coulé).
+        </div>
+    </footer>
+
+    <!-- ============================================================== -->
+    <!-- CODE THREE.JS HAUTE PRÉCISION (GÉOMÉTRIE EXACTE DE LA PHOTO)    -->
+    <!-- ============================================================== -->
+    <script>
+        let scene, camera, renderer, controls;
+        let robotRootGroup;
+        let subGroups = {};
+        let weaponRotorMesh; // Le batteur rectangulaire évidé (Beater Bar)
+        let isSpinning = true;
+        let spinSpeedFactor = 0.65;
+        let explodeFactor = 0.0;
+        let raycaster, mouse;
+        const canvas = document.getElementById('three-canvas');
+        const tooltip3D = document.getElementById('tooltip-3d');
+
+        // SPÉCIFICATIONS DES COMPOSANTS POUR L'INSPECTION AU SURVOL (HOTLINE 4.00 KG)
+        const COMPONENT_SPECS = {
+            'chassis': { title: "Châssis Monobloc Étroit & Cloison à Ouïes", dims: "220 × 185 × 46 mm (Profil Biseauté)", weight: "980 g", desc: "Châssis compact sans débordement avant pour un dégagement total du batteur. Cloison avant verticale avec 5 ouïes d'aération moteur et couloirs étroits de roues.", badge: "Structure & Blindage" },
+            'wheelguards': { title: "Rails Latéraux Blindés de Roues & 3 Stries Hotline", dims: "2x 185 × 36 × 6 mm + Stries", weight: "220 g", desc: "Flancs extérieurs blindés enserrant les roues 4WD, munis des 3 stries blanches inclinées caractéristiques Hotline (Photos 1, 3, 4) et visserie BTR affleurante.", badge: "Blindage Latéral" },
+            'topcover': { title: "Capot Incliné Biseauté, Ouïes & Logo Hotline", dims: "160 × 140 × 4 mm", weight: "240 g", desc: "Capot supérieur noir plongeant intégrant le logo cursif Hotline rouge, 8 ouïes arrière de refroidissement pour variateurs et la prise coupe-circuit XT60 affleurante.", badge: "Blindage & Sécurité" },
+            'uprights': { title: "Tours A-Frames Larges (Écartement 140 mm & Écrou M8)", dims: "2x Tours H=95 mm | Écartement 140 mm | Axe Ø8 mm", weight: "240 g", desc: "Montants triangulaires A-Frames largement espacés de 140 mm avec grand trou intérieur, servant d'arceaux anti-retournement. Gros écrou hexagonal M8 et rondelle laiton sur le flanc extérieur droit (Photo 1).", badge: "Supports d'Arme & Arceaux Anti-Retournement" },
+            'weapon': { title: "Batteur à Inertie Optimisée Hardox 450 (Masse Périphérique & Dents d'Accroche)", dims: "116 × 96 × 24 mm | Ø Balayage 96 mm", weight: "1 120 g", desc: "Cadre évidé optimisé pour combat 4 kg : 78% de la masse concentrée aux extrémités (R=48 mm, Izz=1.97×10⁻³ kg·m²). Dents d'impact affûtées à crochet d'attaque et biseau 35° miroir pour mordre l'armure adverse sans rebond. Fenêtre centrale évidée avec manchon laiton doré Ø12 mm et poulie crantée orange HTD-3M.", badge: "Arme Principale (915 J à 9 200 tr/min)" },
+            'pods': { title: "Pods Avant Rouges Profilés avec Silentblocs Silicone", dims: "2x 46 × 30 × 26 mm", weight: "120 g", desc: "Pods rouge vif Hotline intégrant les fentes de guidage pour les fourches harpons 6 mm, vis de fixation argentées et coussinet amortisseur silicone rose translucide au-dessus du pivot (Photos 1 et 3).", badge: "Combat au Sol (Racleurs)" },
+            'forks': { title: "Fourches Harpons 6 mm Hardox 450 (Architecture Hotline 4 kg)", dims: "2x 160 × 34 × 6 mm | Avancée 56 mm", weight: "280 g", desc: "Fourches harpons calibrées pour la catégorie 4,00 kg : ajourage interne triangulaire (gain de 40% de masse sans flexion), crochet harpon supérieur anti-décrochage et biseau rasoir affleurant le sol (0 mm). Repose sur silentblocs silicone absorbant les chocs verticaux.", badge: "Combat au Sol & Rapatriement" },
+            'wheels': { title: "4 Roues Uréthane Translucides Rose/Rouge (4WD)", dims: "4x Ø55 × 20 mm", weight: "180 g", desc: "Train 4WD à 4 rouleaux uréthane rose/rouge translucide (Photo 1) sur jantes blanches à 5 branches et écrous axiaux, logés directement derrière les pods rouges.", badge: "Propulsion 4WD" },
+            'motors': { title: "Moteur d'Arme Brushless 3548 + 2 Moteurs Traction", dims: "Moteur arme Ø35×48 mm + 2 moteurs traction", weight: "420 g", desc: "Moteur d'arme synchrone sans balais 3548 (1100 KV, 650 W crête) + 2 moteurs de traction centraux avec courroies crantées 198-2GT (architecture Hotline officielle, Photo 2).", badge: "Motorisation" },
+            'electronics': { title: "Batterie LiPo 4S 2200mAh & ESCs BLHeli", dims: "110 × 35 × 65 mm", weight: "390 g", desc: "Pack LiPo 4S 2200 mAh 75C haute décharge (zéro lest mort), variateur ESC arme BLHeli_32 80A avec dissipateur thermique, double variateur traction réversible et récepteur radio 2,4 GHz avec sécurité Failsafe intégrée.", badge: "Énergie & Contrôle" }
+        };
+
+        function initThree() {
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x0a0c16);
+            scene.fog = new THREE.FogExp2(0x0a0c16, 0.0007);
+
+            const aspect = canvas.clientWidth / canvas.clientHeight;
+            camera = new THREE.PerspectiveCamera(40, aspect, 1, 3000);
+            camera.position.set(380, 260, 420);
+
+            renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+            renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.shadowMap.enabled = true;
+            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+            controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.05;
+            controls.maxPolarAngle = Math.PI / 2 - 0.02;
+            controls.minDistance = 120;
+            controls.maxDistance = 1200;
+            controls.target.set(30, 45, 0);
+
+            // LUMIÈRES STUDIO
+            const ambient = new THREE.AmbientLight(0xffffff, 0.65);
+            scene.add(ambient);
+
+            const dirLight = new THREE.DirectionalLight(0xffffff, 0.9);
+            dirLight.position.set(300, 500, 300);
+            dirLight.castShadow = true;
+            dirLight.shadow.mapSize.width = 2048;
+            dirLight.shadow.mapSize.height = 2048;
+            dirLight.shadow.bias = -0.0005;
+            scene.add(dirLight);
+
+            const fillLight = new THREE.DirectionalLight(0x00e5ff, 0.4);
+            fillLight.position.set(-300, 200, -200);
+            scene.add(fillLight);
+
+            const redAccent = new THREE.PointLight(0xff3333, 1.2, 500);
+            redAccent.position.set(120, 100, 0);
+            scene.add(redAccent);
+
+            // PLANCHER GRILLE
+            const gridHelper = new THREE.GridHelper(1000, 40, 0xd32f2f, 0x22263d);
+            gridHelper.position.y = 0;
+            scene.add(gridHelper);
+
+            const floorGeo = new THREE.PlaneGeometry(1200, 1200);
+            const floorMat = new THREE.MeshStandardMaterial({ color: 0x090b12, roughness: 0.9, metalness: 0.1 });
+            const floor = new THREE.Mesh(floorGeo, floorMat);
+            floor.rotation.x = -Math.PI / 2;
+            floor.receiveShadow = true;
+            scene.add(floor);
+
+            buildHotlineBot();
+
+            raycaster = new THREE.Raycaster();
+            mouse = new THREE.Vector2();
+
+            window.addEventListener('resize', onWindowResize, false);
+            canvas.addEventListener('mousemove', onMouseMove, false);
+            canvas.addEventListener('mouseleave', () => { tooltip3D.style.opacity = '0'; });
+
+            animate();
+        }
+
+        // CONSTRUCTION DU MODÈLE 3D HOTLINE
+        function buildHotlineBot() {
+            robotRootGroup = new THREE.Group();
+            scene.add(robotRootGroup);
+
+            const groupKeys = ['chassis', 'wheelguards', 'topcover', 'uprights', 'weapon', 'pods', 'forks', 'wheels', 'motors', 'electronics'];
+            groupKeys.forEach(k => {
+                subGroups[k] = new THREE.Group();
+                subGroups[k].userData = { id: k };
+                robotRootGroup.add(subGroups[k]);
+            });
+
+            // MATÉRIAUX HOTLINE FIDÈLES & RÉALISTES (CALIBRÉS SUR LA PHOTO 1)
+            const blackPlateMat = new THREE.MeshStandardMaterial({ color: 0x16181c, roughness: 0.35, metalness: 0.65 });
+            const darkChassisMat = new THREE.MeshStandardMaterial({ color: 0x101214, roughness: 0.5, metalness: 0.4 });
+            const redPodMat = new THREE.MeshStandardMaterial({ color: 0xd32f2f, roughness: 0.38, metalness: 0.18 }); // Rouge vif conforme Photo 1
+            const orangePulleyMat = new THREE.MeshStandardMaterial({ color: 0xff6600, roughness: 0.3, metalness: 0.15 }); // Poulie orange d'arme Photo 1
+            const urethaneWheelMat = new THREE.MeshStandardMaterial({ color: 0xec407a, roughness: 0.25, metalness: 0.1, transparent: true, opacity: 0.92 }); // Roues uréthane rose/rouge Photo 1
+            const whiteRimMat = new THREE.MeshStandardMaterial({ color: 0xf5f6fa, roughness: 0.25, metalness: 0.15 });
+            const goldMat = new THREE.MeshStandardMaterial({ color: 0xffb703, roughness: 0.22, metalness: 0.9 }); // Laiton poli doré Photo 1
+            const steelMat = new THREE.MeshStandardMaterial({ color: 0x8a94a4, roughness: 0.24, metalness: 0.88 }); // Acier usiné satiné clair Photo 1
+            const brightSteelMat = new THREE.MeshStandardMaterial({ color: 0xf8fafc, roughness: 0.1, metalness: 0.96 }); // Biseau miroir meulé Photo 1
+            const siliconePinkMat = new THREE.MeshStandardMaterial({ color: 0xff6688, transparent: true, opacity: 0.88, roughness: 0.15, metalness: 0.05 });
+            const screwMat = new THREE.MeshStandardMaterial({ color: 0xdcdde1, metalness: 0.9, roughness: 0.12 });
+            const neopreneBeltMat = new THREE.MeshStandardMaterial({ color: 0x151515, roughness: 0.85, metalness: 0.05 });
+            const xt60YellowMat = new THREE.MeshStandardMaterial({ color: 0xffc107, roughness: 0.35, metalness: 0.1 });
+            const safetyRedMat = new THREE.MeshStandardMaterial({ color: 0xd32f2f, roughness: 0.3, metalness: 0.2 });
+            const tpuBlueMat = new THREE.MeshStandardMaterial({ color: 0x1976d2, roughness: 0.45, metalness: 0.15 }); // Pare-chocs arrière TPU bleu Photo 2
+            const planetaryMotorMat = new THREE.MeshStandardMaterial({ color: 0x1c2024, roughness: 0.3, metalness: 0.8 }); // Corps motoréducteurs planétaires Photo 2
+            const copperWireMat = new THREE.MeshStandardMaterial({ color: 0xd97736, roughness: 0.28, metalness: 0.85 }); // Bobinages cuivre stator EMAX
+            const pcbGreenMat = new THREE.MeshStandardMaterial({ color: 0x1b5e20, roughness: 0.4, metalness: 0.25 }); // Vernis silicone vert ESC BLHeli Photo 2
+            const wireRedMat = new THREE.MeshStandardMaterial({ color: 0xd32f2f, roughness: 0.5 });
+            const wireBlackMat = new THREE.MeshStandardMaterial({ color: 0x111111, roughness: 0.5 });
+
+            // Texture dynamique "198-2GT" pour la courroie crantée conforme Photo 2
+            const beltCanvas = document.createElement('canvas');
+            beltCanvas.width = 128;
+            beltCanvas.height = 32;
+            const bCtx = beltCanvas.getContext('2d');
+            bCtx.fillStyle = '#111214';
+            bCtx.fillRect(0, 0, 128, 32);
+            bCtx.fillStyle = '#ffffff';
+            bCtx.font = 'bold 15px monospace';
+            bCtx.textAlign = 'center';
+            bCtx.textBaseline = 'middle';
+            bCtx.fillText('198-2GT', 64, 16);
+            const beltTexture = new THREE.CanvasTexture(beltCanvas);
+            const beltMarkedMat = new THREE.MeshBasicMaterial({ map: beltTexture });
+
+            // Texture dynamique "BLHeli_S 45A" pour l'ESC conforme Photo 2
+            const escCanvas = document.createElement('canvas');
+            escCanvas.width = 128;
+            escCanvas.height = 64;
+            const eCtx = escCanvas.getContext('2d');
+            eCtx.fillStyle = '#1b5e20';
+            eCtx.fillRect(0, 0, 128, 64);
+            eCtx.fillStyle = '#ffd700';
+            eCtx.fillRect(100, 10, 20, 44);
+            eCtx.fillStyle = '#ffffff';
+            eCtx.font = 'bold 13px sans-serif';
+            eCtx.fillText('BLHeli_S', 12, 26);
+            eCtx.font = 'bold 11px sans-serif';
+            eCtx.fillText('2-4S 45A', 12, 44);
+            const escTexture = new THREE.CanvasTexture(escCanvas);
+            const escMarkedMat = new THREE.MeshBasicMaterial({ map: escTexture });
+
+            // 1. FLANCS LATÉRAUX INTÉRIEURS ET EXTÉRIEURS DU CHÂSSIS (CHANNELS DE ROUES)
+            // Les roues sont logées dans des couloirs étroits de chaque côté (Z=±70 à Z=±106)
+            [-1, 1].forEach(side => {
+                const zInner = side * 70;
+                const zOuter = side * 106;
+
+                // Rail intérieur (Z=±70) supportant les A-Frames et le caisson central
+                const innerRailGeo = new THREE.BoxGeometry(190, 36, 6);
+                const innerRail = new THREE.Mesh(innerRailGeo, blackPlateMat);
+                innerRail.position.set(-30, 26, zInner);
+                innerRail.castShadow = true;
+                subGroups['chassis'].add(innerRail);
+
+                // Rail extérieur blindé (Z=±106) avec découpes pour passages de roues et biseau avant
+                const outerShape = new THREE.Shape();
+                outerShape.moveTo(-125, 12);
+                outerShape.lineTo(60, 12);
+                outerShape.lineTo(60, 32);
+                outerShape.lineTo(-125, 46); // Pente wedge arrière
+                outerShape.closePath();
+
+                const outerGeo = new THREE.ExtrudeGeometry(outerShape, { depth: 5, bevelEnabled: true, bevelSegments: 2, bevelSize: 0.6, bevelThickness: 0.6 });
+                const outerRail = new THREE.Mesh(outerGeo, blackPlateMat);
+                outerRail.position.set(0, 0, (side > 0 ? zOuter - 2.5 : zOuter - 2.5));
+                outerRail.castShadow = true;
+                subGroups['wheelguards'].add(outerRail);
+
+                // 3 Stries blanches inclinées signature Hotline sur le flanc extérieur (Photos 1, 3, 4)
+                const whiteStripeMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+                for (let s = 0; s < 3; s++) {
+                    const stripe = new THREE.Mesh(new THREE.BoxGeometry(14, 2.5, 0.8), whiteStripeMat);
+                    stripe.rotation.z = -0.38;
+                    stripe.position.set(-15 + s * 8, 26 + s * 4, (side > 0 ? zOuter + 3.2 : zOuter - 3.2));
+                    subGroups['wheelguards'].add(stripe);
+                }
+
+                // Vis BTR avec rondelles argentées le long des rails
+                [-105, -50, 0, 45].forEach(xScrew => {
+                    const screw = new THREE.Mesh(new THREE.CylinderGeometry(2.5, 2.5, 2, 16), screwMat);
+                    screw.rotateX(Math.PI / 2);
+                    screw.position.set(xScrew, 38 - (xScrew + 105) * 0.06, (side > 0 ? zOuter + 3.2 : zOuter - 3.2));
+                    subGroups['wheelguards'].add(screw);
+                });
+            });
+
+            // Plaque de fond centrale (Belly Pan) sous le corps électronique (X=-125 à +35, Z=-70 à +70)
+            // ZÉRO débordement devant : l'espace devant X=35 entre les A-Frames est 100% ouvert pour laisser plonger le batteur !
+            const bottomPlate = new THREE.Mesh(new THREE.BoxGeometry(160, 5, 140), darkChassisMat);
+            bottomPlate.position.set(-45, 10, 0);
+            bottomPlate.receiveShadow = true;
+            subGroups['chassis'].add(bottomPlate);
+
+            // Pare-chocs arrière en TPU bleu 3D avec lettrage et inserts (Photo 2)
+            const blueBumper = new THREE.Mesh(new THREE.BoxGeometry(6, 32, 138), tpuBlueMat);
+            blueBumper.position.set(-126, 26, 0);
+            blueBumper.castShadow = true;
+            subGroups['chassis'].add(blueBumper);
+
+            // 6 Inserts filetés moletés en laiton doré sur le pourtour du plancher (Photo 2)
+            [
+                { x: -125, z: -55 }, { x: -125, z: 55 },
+                { x: -50, z: -68 }, { x: -50, z: 68 },
+                { x: 30, z: -68 }, { x: 30, z: 68 }
+            ].forEach(pIns => {
+                const brassIns = new THREE.Mesh(new THREE.CylinderGeometry(2.5, 2.5, 5, 16), goldMat);
+                brassIns.position.set(pIns.x, 13, pIns.z);
+                subGroups['chassis'].add(brassIns);
+            });
+
+            // Semelles latérales de fond sous les canaux de roues (Z=±70 à ±106, X=-125 à +60)
+            [-1, 1].forEach(side => {
+                const sideFloor = new THREE.Mesh(new THREE.BoxGeometry(185, 5, 36), darkChassisMat);
+                sideFloor.position.set(-32.5, 10, side * 88);
+                sideFloor.receiveShadow = true;
+                subGroups['chassis'].add(sideFloor);
+            });
+
+            // 2. CLOISON AVANT DU CHÂSSIS AVEC OUÏES VERTICALES (DIRECTEMENT DERRIÈRE LE BATTEUR - PHOTO 1)
+            const frontBulkhead = new THREE.Mesh(new THREE.BoxGeometry(6, 30, 138), blackPlateMat);
+            frontBulkhead.position.set(35, 25, 0);
+            frontBulkhead.castShadow = true;
+            subGroups['chassis'].add(frontBulkhead);
+
+            // 5 Ouïes d'aération verticales noires sur la cloison avant (conformes Photo 1)
+            for (let v = -2; v <= 2; v++) {
+                const vSlot = new THREE.Mesh(new THREE.BoxGeometry(2, 20, 5), new THREE.MeshBasicMaterial({ color: 0x050505 }));
+                vSlot.position.set(37.5, 25, v * 16);
+                subGroups['chassis'].add(vSlot);
+            }
+
+            // 3. CAPOT SUPÉRIEUR WEDGE COMPACT, LOUVERS ARRIÈRE & LOGO HOTLINE
+            // S'intègre exactement entre les rails (Z=-70 à +70, X=-125 à +35)
+            const topCoverGroup = new THREE.Group();
+            const topShape = new THREE.Shape();
+            topShape.moveTo(-125, 48);
+            topShape.lineTo(35, 38);
+            topShape.lineTo(35, 34);
+            topShape.lineTo(-125, 44);
+            topShape.closePath();
+
+            const topExtrude = new THREE.ExtrudeGeometry(topShape, { depth: 140, bevelEnabled: false });
+            const topDeckMesh = new THREE.Mesh(topExtrude, blackPlateMat);
+            topDeckMesh.position.set(0, 0, -70);
+            topDeckMesh.castShadow = true;
+            topCoverGroup.add(topDeckMesh);
+
+            // 4 Fentes d'aération arrière inclinées ("louvers" conformes Photo 1)
+            for (let l = 0; l < 4; l++) {
+                const slotL = new THREE.Mesh(new THREE.BoxGeometry(18, 1.2, 3), new THREE.MeshBasicMaterial({ color: 0x050505 }));
+                slotL.rotation.z = -0.06;
+                slotL.position.set(-85 + l * 8, 46 - l * 0.5, 28);
+                const slotR = slotL.clone();
+                slotR.position.set(-85 + l * 8, 46 - l * 0.5, -28);
+                topCoverGroup.add(slotL, slotR);
+            }
+
+            // Inscription Hotline rouge stylisée sur le capot
+            const textCanvas = document.createElement('canvas');
+            textCanvas.width = 512;
+            textCanvas.height = 128;
+            const ctx = textCanvas.getContext('2d');
+            ctx.fillStyle = '#16181c';
+            ctx.fillRect(0, 0, 512, 128);
+            ctx.fillStyle = '#ff3333';
+            ctx.font = 'italic bold 64px "Brush Script MT", cursive, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('Hotline', 256, 64);
+
+            const textTex = new THREE.CanvasTexture(textCanvas);
+            const textMat = new THREE.MeshBasicMaterial({ map: textTex, transparent: true });
+            const textPlane = new THREE.Mesh(new THREE.PlaneGeometry(70, 22), textMat);
+            textPlane.rotation.x = -Math.PI / 2;
+            textPlane.rotation.y = -0.06;
+            textPlane.rotation.z = -0.15;
+            textPlane.position.set(-25, 43, 0);
+            topCoverGroup.add(textPlane);
+
+            // Prise de coupure XT60 affleurante avec ruban de sécurité
+            const xt60Housing = new THREE.Mesh(new THREE.BoxGeometry(14, 4, 18), darkChassisMat);
+            xt60Housing.rotation.z = -0.06;
+            xt60Housing.position.set(-75, 47, 0);
+            topCoverGroup.add(xt60Housing);
+
+            const xt60Body = new THREE.Mesh(new THREE.BoxGeometry(11, 3, 14), xt60YellowMat);
+            xt60Body.rotation.z = -0.06;
+            xt60Body.position.set(-75, 48, 0);
+            topCoverGroup.add(xt60Body);
+
+            const shuntTorus = new THREE.Mesh(new THREE.TorusGeometry(4, 1.4, 10, 20, Math.PI), safetyRedMat);
+            shuntTorus.position.set(-75, 50, 0);
+            topCoverGroup.add(shuntTorus);
+
+            subGroups['topcover'].add(topCoverGroup);
+
+            // 4. TOURS TRIANGULAIRES A-FRAMES HAUTES & LARGEMENT ÉCARTÉES (ÉCARTEMENT 140 MM - PHOTO 1)
+            // Left A-Frame à Z=+70 mm, Right A-Frame à Z=-70 mm
+            [-70, 70].forEach(zUpr => {
+                const aFrameGroup = new THREE.Group();
+                aFrameGroup.position.set(0, 0, zUpr);
+
+                const aFrameShape = new THREE.Shape();
+                aFrameShape.moveTo(15, 38);   // Base arrière sur le pont
+                aFrameShape.lineTo(65, 38);   // Base avant sur le pont
+                aFrameShape.lineTo(102, 58);  // Vers l'axe d'arme
+                aFrameShape.lineTo(104, 66);
+                aFrameShape.lineTo(84, 95);   // SOMMET TRIANGULAIRE A-FRAME HAUT (Y=95 mm) !
+                aFrameShape.lineTo(68, 88);
+                aFrameShape.lineTo(25, 54);
+                aFrameShape.closePath();
+
+                // Grand trou triangulaire intérieur conforme Photo 1
+                const aFrameHole = new THREE.Path();
+                aFrameHole.moveTo(32, 45);
+                aFrameHole.lineTo(68, 45);
+                aFrameHole.lineTo(76, 78);
+                aFrameHole.closePath();
+                aFrameShape.holes.push(aFrameHole);
+
+                const aFrameExtrude = new THREE.ExtrudeGeometry(aFrameShape, { depth: 8, bevelEnabled: true, bevelSegments: 2, steps: 1, bevelSize: 0.8, bevelThickness: 0.8 });
+                const aFrameMesh = new THREE.Mesh(aFrameExtrude, blackPlateMat);
+                // Le montant gauche est à Z=70..78, le droit à Z=-78..-70
+                aFrameMesh.position.set(0, 0, (zUpr > 0 ? 0 : -8));
+                aFrameMesh.castShadow = true;
+                aFrameGroup.add(aFrameMesh);
+
+                // Vis de fixation fraisées argentées sur la base du montant (Photo 1)
+                [28, 55].forEach(xBaseScrew => {
+                    const sc = new THREE.Mesh(new THREE.CylinderGeometry(2.5, 2.5, 10, 16), screwMat);
+                    sc.position.set(xBaseScrew, 41, (zUpr > 0 ? 4 : -4));
+                    aFrameGroup.add(sc);
+                });
+
+                subGroups['uprights'].add(aFrameGroup);
+            });
+
+            // AXE D'ARME TRANSVERSAL EN ACIER RECTIFIÉ Ø8 MM
+            const axleGeo = new THREE.CylinderGeometry(4, 4, 166, 24);
+            axleGeo.rotateX(Math.PI / 2);
+            const mainAxle = new THREE.Mesh(axleGeo, brightSteelMat);
+            mainAxle.position.set(96, 62, 0);
+            mainAxle.castShadow = true;
+            subGroups['uprights'].add(mainAxle);
+
+            // GROS ÉCROU HEXAGONAL M8 AVEC RONDELLE LAITON SUR LE MONTANT DROIT EXTÉRIEUR (PHOTO 1 !)
+            const hexNutGeo = new THREE.CylinderGeometry(9, 9, 8, 6);
+            hexNutGeo.rotateX(Math.PI / 2);
+            const hexNutRight = new THREE.Mesh(hexNutGeo, brightSteelMat);
+            hexNutRight.position.set(96, 62, -82);
+            subGroups['uprights'].add(hexNutRight);
+
+            const brassWasherRight = new THREE.Mesh(new THREE.CylinderGeometry(11, 11, 2, 24), goldMat);
+            brassWasherRight.rotateX(Math.PI / 2);
+            brassWasherRight.position.set(96, 62, -78.5);
+            subGroups['uprights'].add(brassWasherRight);
+
+            // Écrou M8 sur le montant gauche extérieur
+            const hexNutLeft = new THREE.Mesh(hexNutGeo, brightSteelMat);
+            hexNutLeft.position.set(96, 62, 82);
+            subGroups['uprights'].add(hexNutLeft);
+
+            const brassWasherLeft = new THREE.Mesh(new THREE.CylinderGeometry(11, 11, 2, 24), goldMat);
+            brassWasherLeft.rotateX(Math.PI / 2);
+            brassWasherLeft.position.set(96, 62, 78.5);
+            subGroups['uprights'].add(brassWasherLeft);
+
+            // 5. BATTEUR CADRE RECTANGULAIRE ÉVIDÉ HARDOX 450 (HOLLOW BEATER BAR CONFORME PHOTO 1 & PHOTO 3 !)
+            // L'axe est à X=96, Y=62
+            // OPTIMISÉ COMBAT 4,00 KG : 78% de la masse déplacée au rayon max R=48 mm (Inertie Izz multipliée par 3.4)
+            // Dents d'attaque affûtées à profil d'accroche (Angle de coupe agressif + biseau d'impact miroir)
+            const weaponRotGroup = new THREE.Group();
+            weaponRotGroup.position.set(96, 62, 0);
+
+            weaponRotorMesh = new THREE.Group();
+            weaponRotGroup.add(weaponRotorMesh);
+
+            // POULIE ORANGE D'ARME CRANTÉE HTD-3M (À DROITE, COLLÉE CONTRE LE MONTANT DROIT À Z=-58 MM - PHOTO 1 !)
+            const weaponPulleyGeo = new THREE.CylinderGeometry(17, 17, 13, 32);
+            weaponPulleyGeo.rotateX(Math.PI / 2);
+            const weaponPulley = new THREE.Mesh(weaponPulleyGeo, orangePulleyMat);
+            weaponPulley.position.set(0, 0, -58);
+            weaponRotorMesh.add(weaponPulley);
+
+            // Flasques de retenue de courroie orange
+            [-65, -51].forEach(zFl => {
+                const flange = new THREE.Mesh(new THREE.CylinderGeometry(20, 20, 1.8, 32), orangePulleyMat);
+                flange.rotateX(Math.PI / 2);
+                flange.position.set(0, 0, zFl);
+                weaponRotorMesh.add(flange);
+            });
+
+            // Vis de fixation de poulie (3 vis BTR M3 argentées traversant le flasque de poulie - Photo 1)
+            for (let v = 0; v < 3; v++) {
+                const pAng = v * (Math.PI * 2 / 3);
+                const pScrew = new THREE.Mesh(new THREE.CylinderGeometry(1.5, 1.5, 15, 12), screwMat);
+                pScrew.rotateX(Math.PI / 2);
+                pScrew.position.set(Math.cos(pAng) * 9, Math.sin(pAng) * 9, -58);
+                weaponRotorMesh.add(pScrew);
+            }
+
+            // GÉOMÉTRIE DU CADRE ÉVIDÉ HARDOX 450
+            // Portée transversale totale : Z = -48 mm à Z = +64 mm (Largeur = 112 mm)
+            const zBeaterCenter = 8;
+            const beaterBarWidth = 112; // Portée entre flasques
+            const strikeRadius = 48;    // Rayon périphérique d'attaque R=48 mm (Ø 96 mm)
+
+            // 1) TÊTE D'IMPACT SUPÉRIEURE (TÊTE LOURDE À R=+48 MM, Z=-48 à +64)
+            // Profil d'attaque : dent en crochet aiguisée (Hook Bite) + dépouille de dégagement
+            const impactToothShapeTop = new THREE.Shape();
+            impactToothShapeTop.moveTo(18, 36);      // Face interne (délimite la fenêtre centrale évidée)
+            impactToothShapeTop.lineTo(24, 46);      // Pointe de dent d'attaque agressive (Hook / Bite)
+            impactToothShapeTop.lineTo(21, 48.5);    // Tranchant d'impact biseauté
+            impactToothShapeTop.lineTo(-14, 48.5);   // Relief périphérique (Dépouille arrière)
+            impactToothShapeTop.lineTo(-20, 36);     // Arrière de la tête d'impact
+            impactToothShapeTop.closePath();
+
+            const impactBarGeoTop = new THREE.ExtrudeGeometry(impactToothShapeTop, {
+                depth: beaterBarWidth,
+                bevelEnabled: true,
+                bevelSegments: 2,
+                bevelSize: 0.8,
+                bevelThickness: 0.8
+            });
+
+            const topImpactBar = new THREE.Mesh(impactBarGeoTop, steelMat);
+            topImpactBar.position.set(0, 0, -48);
+            topImpactBar.castShadow = true;
+            weaponRotorMesh.add(topImpactBar);
+
+            // Biseau d'impact argenté rectifié miroir sur l'arête d'attaque supérieure (Photo 1)
+            const topBevelGeo = new THREE.BoxGeometry(6.5, 4, beaterBarWidth + 1.2);
+            const topBevel = new THREE.Mesh(topBevelGeo, brightSteelMat);
+            topBevel.rotation.z = -0.62;
+            topBevel.position.set(22.5, 47, zBeaterCenter);
+            weaponRotorMesh.add(topBevel);
+
+            // 2) TÊTE D'IMPACT INFÉRIEURE (SYMÉTRIE EXACTE À 180° POUR ROTATION ÉQUILIBRÉE À 10 000 tr/min)
+            const impactToothShapeBot = new THREE.Shape();
+            impactToothShapeBot.moveTo(-18, -36);
+            impactToothShapeBot.lineTo(-24, -46);
+            impactToothShapeBot.lineTo(-21, -48.5);
+            impactToothShapeBot.lineTo(14, -48.5);
+            impactToothShapeBot.lineTo(20, -36);
+            impactToothShapeBot.closePath();
+
+            const impactBarGeoBot = new THREE.ExtrudeGeometry(impactToothShapeBot, {
+                depth: beaterBarWidth,
+                bevelEnabled: true,
+                bevelSegments: 2,
+                bevelSize: 0.8,
+                bevelThickness: 0.8
+            });
+
+            const botImpactBar = new THREE.Mesh(impactBarGeoBot, steelMat);
+            botImpactBar.position.set(0, 0, -48);
+            botImpactBar.castShadow = true;
+            weaponRotorMesh.add(botImpactBar);
+
+            // Biseau d'impact argenté rectifié miroir sur l'arête d'attaque inférieure (180°)
+            const botBevel = new THREE.Mesh(topBevelGeo, brightSteelMat);
+            botBevel.rotation.z = -0.62;
+            botBevel.position.set(-22.5, -47, zBeaterCenter);
+            weaponRotorMesh.add(botBevel);
+
+            // 3) FLASQUES / BRAS LATÉRAUX EN HARDOX RELIANT L'AXE AUX TÊTES D'IMPACT
+            // Forme amincie au centre (waist) pour éliminer toute masse morte inutile près de l'axe
+            const sideArmShape = new THREE.Shape();
+            sideArmShape.moveTo(-16, -42);
+            sideArmShape.lineTo(16, -42);
+            sideArmShape.lineTo(11, -14); // Étranglement central pour économie de masse
+            sideArmShape.lineTo(11, 14);
+            sideArmShape.lineTo(16, 42);
+            sideArmShape.lineTo(-16, 42);
+            sideArmShape.lineTo(-11, 14);
+            sideArmShape.lineTo(-11, -14);
+            sideArmShape.closePath();
+
+            // Trou central pour passage de l'arbre et roulement
+            const hubHole = new THREE.Path();
+            hubHole.absarc(0, 0, 8.5, 0, Math.PI * 2, true);
+            sideArmShape.holes.push(hubHole);
+
+            const sideArmExtrude = new THREE.ExtrudeGeometry(sideArmShape, {
+                depth: 8,
+                bevelEnabled: true,
+                bevelSegments: 2,
+                bevelSize: 0.8,
+                bevelThickness: 0.8
+            });
+
+            // Flasque droit (Z=-48 mm)
+            const rightArmMesh = new THREE.Mesh(sideArmExtrude, steelMat);
+            rightArmMesh.position.set(0, 0, -48);
+            rightArmMesh.castShadow = true;
+            weaponRotorMesh.add(rightArmMesh);
+
+            // Flasque gauche (Z=+56 mm)
+            const leftArmMesh = new THREE.Mesh(sideArmExtrude, steelMat);
+            leftArmMesh.position.set(0, 0, 56);
+            leftArmMesh.castShadow = true;
+            weaponRotorMesh.add(leftArmMesh);
+
+            // Moyeux de paliers et 3 vis BTR sur chaque flasque (Photo 1)
+            [-48, 64].forEach(zHub => {
+                const hubRing = new THREE.Mesh(new THREE.CylinderGeometry(10.5, 10.5, 3.5, 24), steelMat);
+                hubRing.rotateX(Math.PI / 2);
+                hubRing.position.set(0, 0, (zHub < 0 ? zHub - 1.5 : zHub + 1.5));
+                weaponRotorMesh.add(hubRing);
+
+                for (let v = 0; v < 3; v++) {
+                    const ang = v * (Math.PI * 2 / 3);
+                    const screw = new THREE.Mesh(new THREE.CylinderGeometry(1.4, 1.4, 6, 12), screwMat);
+                    screw.rotateX(Math.PI / 2);
+                    screw.position.set(Math.cos(ang) * 7.2, Math.sin(ang) * 7.2, (zHub < 0 ? zHub - 2 : zHub + 2));
+                    weaponRotorMesh.add(screw);
+                }
+            });
+
+            // 4) MANCHON CENTRAL EN LAITON DORÉ POLI TRAVERSANT LA GRANDE FENÊTRE ÉVIDÉE (PHOTO 1 !)
+            // Ce manchon traverse le vide central et est 100% VISIBLE à travers l'évidement !
+            const brassTubeGeo = new THREE.CylinderGeometry(5.8, 5.8, 104, 32);
+            brassTubeGeo.rotateX(Math.PI / 2);
+            const brassTube = new THREE.Mesh(brassTubeGeo, goldMat);
+            brassTube.position.set(0, 0, zBeaterCenter);
+            brassTube.castShadow = true;
+            weaponRotorMesh.add(brassTube);
+
+            subGroups['weapon'].add(weaponRotGroup);
+
+            // COURROIE D'ARME CRANTÉE HTD-3M RELIÉE AU MOTEUR (Z=-58)
+            const beltGeo = new THREE.BoxGeometry(68, 2.8, 9);
+            const beltMeshTop = new THREE.Mesh(beltGeo, neopreneBeltMat);
+            beltMeshTop.position.set(58, 48 + 14, -58);
+            beltMeshTop.rotation.z = 0.44;
+            const beltMeshBot = new THREE.Mesh(beltGeo, neopreneBeltMat);
+            beltMeshBot.position.set(58, 48 - 14, -58);
+            beltMeshBot.rotation.z = 0.44;
+            subGroups['weapon'].add(beltMeshTop, beltMeshBot);
+
+            // Moteur d'arme brushless dans le caisson (X=20, Y=28, Z=-38)
+            const weaponMotor = new THREE.Mesh(new THREE.CylinderGeometry(17, 17, 45, 24), new THREE.MeshStandardMaterial({ color: 0x1f1f1f, roughness: 0.3, metalness: 0.8 }));
+            weaponMotor.rotateX(Math.PI / 2);
+            weaponMotor.position.set(20, 28, -38);
+            subGroups['motors'].add(weaponMotor);
+
+            // 6. PODS AVANT ROUGES AVEC COUSSINETS SILICONE (CONFORMES PHOTO 1 & PHOTO 3 !)
+            // Positionnés directement à l'extérieur des A-Frames (Z=±92 mm)
+            [-1, 1].forEach(side => {
+                const zPod = side * 92;
+                const podGroup = new THREE.Group();
+                podGroup.position.set(80, 0, zPod);
+
+                // Forme profilée du pod rouge avec biseau avant agressif (Photo 1)
+                const podShape = new THREE.Shape();
+                podShape.moveTo(-20, 8);
+                podShape.lineTo(16, 8);
+                podShape.lineTo(26, 18); // Biseau d'attaque frontal vers le sol
+                podShape.lineTo(26, 38);
+                podShape.lineTo(-20, 38);
+                podShape.closePath();
+
+                const podExtrude = new THREE.ExtrudeGeometry(podShape, { depth: 26, bevelEnabled: true, bevelSegments: 2, bevelSize: 0.8, bevelThickness: 0.8 });
+                const podMesh = new THREE.Mesh(podExtrude, redPodMat);
+                podMesh.position.set(0, 0, -13);
+                podMesh.castShadow = true;
+                podGroup.add(podMesh);
+
+                // FENTE VERTICALE DE GUIDAGE DE FOURCHE (Largeur 8 mm, centrée sur le pod)
+                const slotGeo = new THREE.BoxGeometry(22, 28, 8);
+                const slotMesh = new THREE.Mesh(slotGeo, new THREE.MeshBasicMaterial({ color: 0x08090d }));
+                slotMesh.position.set(16, 25, 0);
+                podGroup.add(slotMesh);
+
+                // COUSSINET SILICONE ROSE TRANSLUCIDE INTERNE AU-DESSUS DE LA FOURCHE (PHOTO 1 !)
+                const siliconePad = new THREE.Mesh(new THREE.BoxGeometry(16, 7, 8.5), siliconePinkMat);
+                siliconePad.position.set(16, 34, 0);
+                podGroup.add(siliconePad);
+
+                // Vis fraisées argentées sur le dessus et le côté du pod rouge (Photo 1)
+                const topScrew = new THREE.Mesh(new THREE.CylinderGeometry(2.2, 2.2, 5, 16), screwMat);
+                topScrew.position.set(6, 39, 0);
+                podGroup.add(topScrew);
+
+                const sideScrew = new THREE.Mesh(new THREE.CylinderGeometry(2.2, 2.2, 5, 16), screwMat);
+                sideScrew.rotateZ(Math.PI / 2);
+                sideScrew.position.set(18, 26, (side > 0 ? 13.5 : -13.5));
+                podGroup.add(sideScrew);
+
+                subGroups['pods'].add(podGroup);
+            });
+
+            // 7. FOURCHES HARPONS EN HARDOX 450 (SCALÉES POUR COMBAT 4 KG - CONFORMES PHOTO 3 !)
+            // Émergent des fentes des pods rouges, s'avancent à X=205 mm (56 mm devant le batteur)
+            // Évidement triangulaire interne squeletté + ergot harpon anti-recul + biseau rasoir au sol (0 mm)
+            const forkSteelMat = new THREE.MeshStandardMaterial({ color: 0x545f72, roughness: 0.26, metalness: 0.86 });
+
+            [-1, 1].forEach(side => {
+                const zFork = side * 92;
+                const forkGroup = new THREE.Group();
+                forkGroup.position.set(80, 0, zFork);
+
+                // Silhouette exacte des fourches Hotline (Photo 3)
+                const forkShape = new THREE.Shape();
+                forkShape.moveTo(10, 26);     // Ancrage dans la fente du pod rouge
+                forkShape.lineTo(24, 32);     // Sortie du pod, sous le coussinet silicone
+                forkShape.lineTo(36, 30);     // Épaulement supérieur
+                forkShape.lineTo(60, 24);     // Pente descendante
+                forkShape.lineTo(82, 17);     // Approche de la dent harpon
+                forkShape.lineTo(95, 24);     // CRÊTE DU HARPON (Dent de retenue anti-recul) !
+                forkShape.lineTo(98, 12);     // Décrochement vertical / encoche de harpon
+                forkShape.lineTo(125, 0.4);   // POINTE RASOIR AU SOL (Assiette parfaite à 0 mm)
+                forkShape.lineTo(80, 0.0);    // Semelle plate raclant le sol de l'arène
+                forkShape.lineTo(40, 0.0);    // Semelle plate d'appui au sol
+                forkShape.lineTo(10, 10);     // Retour vers talon inférieur dans le pod
+                forkShape.closePath();
+
+                // ÉVIDEMENT TRIANGULAIRE INTERNE SQUELETTÉ (PHOTO 3 !)
+                // Allège la fourche de 40% tout en conservant une rigidité maximale à la flexion verticale
+                const forkHole = new THREE.Path();
+                forkHole.moveTo(28, 14);
+                forkHole.lineTo(76, 7);
+                forkHole.lineTo(36, 24);
+                forkHole.closePath();
+                forkShape.holes.push(forkHole);
+
+                // Épaisseur 6 mm pour robot de combat 4,00 kg (Solidité contre les chocs frontaux violents)
+                const forkExtrude = new THREE.ExtrudeGeometry(forkShape, {
+                    depth: 6,
+                    bevelEnabled: true,
+                    bevelSegments: 2,
+                    bevelSize: 0.6,
+                    bevelThickness: 0.6
+                });
+
+                const forkMesh = new THREE.Mesh(forkExtrude, forkSteelMat);
+                forkMesh.position.set(0, 0, -3); // Centré dans la fente de 8 mm du pod
+                forkMesh.castShadow = true;
+                forkGroup.add(forkMesh);
+
+                // Biseau meulé brillant miroir sur la pointe rasoir au sol (Photo 3)
+                const tipBevelGeo = new THREE.BoxGeometry(28, 2.2, 6.4);
+                const tipBevel = new THREE.Mesh(tipBevelGeo, brightSteelMat);
+                tipBevel.rotation.z = -0.11;
+                tipBevel.position.set(112, 1.1, 0);
+                forkGroup.add(tipBevel);
+
+                // Biseau affûté brillant sur l'ergot de harpon (Photo 3)
+                const barbBevelGeo = new THREE.BoxGeometry(16, 2.5, 6.4);
+                const barbBevel = new THREE.Mesh(barbBevelGeo, brightSteelMat);
+                barbBevel.rotation.z = 0.48;
+                barbBevel.position.set(90, 21, 0);
+                forkGroup.add(barbBevel);
+
+                subGroups['forks'].add(forkGroup);
+            });
+
+            // 8. 4 ROUES URÉTHANE (LOGÉES DIRECTEMENT DERRIÈRE LES PODS ET PROTÉGÉES PAR LES RAILS)
+            const wheelCoords = [
+                { x: 35, z: 92, name: 'AV-G' },   // Juste derrière le pod gauche
+                { x: -85, z: 92, name: 'AR-G' },
+                { x: 35, z: -92, name: 'AV-D' },  // Juste derrière le pod droit
+                { x: -85, z: -92, name: 'AR-D' }
+            ];
+
+            wheelCoords.forEach(pos => {
+                const wGroup = new THREE.Group();
+                wGroup.position.set(pos.x, 27.5, pos.z);
+
+                // Pneu uréthane rose/rouge translucide Ø55 mm (conforme Photo 1 !)
+                const tireGeo = new THREE.CylinderGeometry(27.5, 27.5, 20, 32);
+                tireGeo.rotateX(Math.PI / 2);
+                const tire = new THREE.Mesh(tireGeo, urethaneWheelMat);
+                tire.castShadow = true;
+                wGroup.add(tire);
+
+                // Jante blanche centrale à 5 branches
+                const rimGeo = new THREE.CylinderGeometry(15, 15, 21, 24);
+                rimGeo.rotateX(Math.PI / 2);
+                const rim = new THREE.Mesh(rimGeo, whiteRimMat);
+                wGroup.add(rim);
+
+                // Écrou axial de roue
+                const axNut = new THREE.Mesh(new THREE.CylinderGeometry(3.5, 3.5, 23, 16), screwMat);
+                axNut.rotateX(Math.PI / 2);
+                wGroup.add(axNut);
+
+                subGroups['wheels'].add(wGroup);
+            });
+
+            // 8. PROPULSION 4WD AUTHENTIQUE HOTLINE (2 MOTORÉDUCTEURS PLANÉTAIRES + COURROIES 198-2GT - PHOTO 2)
+            // Deux motoréducteurs planétaires métalliques montés face à face transversalement au centre (X=-25, Y=25)
+            [-1, 1].forEach(side => {
+                const zSign = side;
+                const mGroup = new THREE.Group();
+                mGroup.position.set(-25, 25, 0);
+
+                // 1) Corps de motoréducteur planétaire cylindrique noir avec vis de carter
+                const motorCylinderGeo = new THREE.CylinderGeometry(11, 11, 30, 24);
+                motorCylinderGeo.rotateX(Math.PI / 2);
+                const motorBody = new THREE.Mesh(motorCylinderGeo, planetaryMotorMat);
+                motorBody.position.set(0, 0, zSign * 24);
+                mGroup.add(motorBody);
+
+                // Tête de réduction planétaire en acier usiné brillant (Photo 2)
+                const gearHeadGeo = new THREE.CylinderGeometry(11, 11, 16, 24);
+                gearHeadGeo.rotateX(Math.PI / 2);
+                const gearHead = new THREE.Mesh(gearHeadGeo, brightSteelMat);
+                gearHead.position.set(0, 0, zSign * 47);
+                mGroup.add(gearHead);
+
+                // Vis BTR radiales sur le carter réducteur planétaire (Photo 2)
+                for (let v = 0; v < 3; v++) {
+                    const ang = v * (Math.PI * 2 / 3);
+                    const pScrew = new THREE.Mesh(new THREE.CylinderGeometry(1.2, 1.2, 23, 10), screwMat);
+                    pScrew.position.set(Math.cos(ang) * 9.5, Math.sin(ang) * 9.5, zSign * 47);
+                    mGroup.add(pScrew);
+                }
+
+                // Arbre de sortie D-shaft Ø4 mm traversant le longeron intérieur vers le couloir de roues
+                const shaftGeo = new THREE.CylinderGeometry(2, 2, 34, 16);
+                shaftGeo.rotateX(Math.PI / 2);
+                const dShaft = new THREE.Mesh(shaftGeo, brightSteelMat);
+                dShaft.position.set(0, 0, zSign * 72);
+                mGroup.add(dShaft);
+
+                // Poulie centrale d'entraînement en aluminium cranté dans le couloir de roue (Z=±85 mm)
+                const centerPulleyGeo = new THREE.CylinderGeometry(9, 9, 8, 24);
+                centerPulleyGeo.rotateX(Math.PI / 2);
+                const centerPulley = new THREE.Mesh(centerPulleyGeo, brightSteelMat);
+                centerPulley.position.set(0, 0, zSign * 85);
+                mGroup.add(centerPulley);
+
+                // Flasques de retenue de courroie sur la poulie centrale
+                [-4, 4].forEach(dFl => {
+                    const flange = new THREE.Mesh(new THREE.CylinderGeometry(11, 11, 1, 24), brightSteelMat);
+                    flange.rotateX(Math.PI / 2);
+                    flange.position.set(0, 0, zSign * 85 + dFl);
+                    mGroup.add(flange);
+                });
+
+                subGroups['motors'].add(mGroup);
+
+                // 2) POULIES CRANTÉES SUR LES ESSIEUX AVANT ET ARRIÈRE (Z=±85 mm)
+                [35, -85].forEach(xWh => {
+                    const whPulleyGeo = new THREE.CylinderGeometry(9, 9, 8, 24);
+                    whPulleyGeo.rotateX(Math.PI / 2);
+                    const whPulley = new THREE.Mesh(whPulleyGeo, brightSteelMat);
+                    whPulley.position.set(xWh, 27.5, zSign * 85);
+                    subGroups['motors'].add(whPulley);
+                });
+
+                // 3) COURROIE CRANTÉE 198-2GT RELIANT LES ROUES AVANT ET ARRIÈRE (PHOTO 2 !)
+                // Brin supérieur de la courroie (X=-85 à +35, Y=36, Z=±85)
+                const beltTopGeo = new THREE.BoxGeometry(120, 2.2, 6.5);
+                const beltTop = new THREE.Mesh(beltTopGeo, neopreneBeltMat);
+                beltTop.position.set(-25, 36.5, zSign * 85);
+                subGroups['motors'].add(beltTop);
+
+                // Marquage blanc signature "198-2GT" sur le dos de la courroie (Photo 2)
+                const labelGeo = new THREE.PlaneGeometry(28, 5.5);
+                const labelMesh = new THREE.Mesh(labelGeo, beltMarkedMat);
+                labelMesh.rotation.x = -Math.PI / 2;
+                labelMesh.position.set(-25, 37.7, zSign * 85);
+                subGroups['motors'].add(labelMesh);
+
+                // Brin inférieur de la courroie (X=-85 à +35, Y=18.5, Z=±85)
+                const beltBotGeo = new THREE.BoxGeometry(120, 2.2, 6.5);
+                const beltBot = new THREE.Mesh(beltBotGeo, neopreneBeltMat);
+                beltBot.position.set(-25, 18.5, zSign * 85);
+                subGroups['motors'].add(beltBot);
+            });
+
+            // ÉTRIER / PONT CENTRAL D'ANCRAGE DES MOTEURS (PHOTO 2 !)
+            // Pièce noire bridant les deux motoréducteurs face à face au plancher carbone
+            const bridgeGeo = new THREE.BoxGeometry(22, 16, 24);
+            const bridgeMesh = new THREE.Mesh(bridgeGeo, blackPlateMat);
+            bridgeMesh.position.set(-25, 22, 0);
+            bridgeMesh.castShadow = true;
+            subGroups['motors'].add(bridgeMesh);
+
+            // 4 Vis de serrage argentées sur le pont central
+            [-7, 7].forEach(xB => {
+                [-7, 7].forEach(zB => {
+                    const bSc = new THREE.Mesh(new THREE.CylinderGeometry(1.2, 1.2, 4, 12), screwMat);
+                    bSc.position.set(-25 + xB, 30.5, zB);
+                    subGroups['motors'].add(bSc);
+                });
+            });
+
+            // 4) MOTEUR D'ARME BRUSHLESS OUTRUNNER EMAX (PHOTO 2 !)
+            // Moteur FPV à cloche tournante ajourée avec logo EMAX et bobinages cuivre visibles
+            const emaxGroup = new THREE.Group();
+            emaxGroup.position.set(18, 28, -35);
+
+            // Cloche tournante noire ajourée Ø35 mm
+            const emaxBell = new THREE.Mesh(new THREE.CylinderGeometry(17, 17, 24, 28), new THREE.MeshStandardMaterial({ color: 0x1f1f22, roughness: 0.25, metalness: 0.85 }));
+            emaxBell.rotateX(Math.PI / 2);
+            emaxGroup.add(emaxBell);
+
+            // Bague argentée usinée avec découpes de ventilation sur la cloche (Photo 2)
+            const silverRing = new THREE.Mesh(new THREE.CylinderGeometry(17.2, 17.2, 4, 28), brightSteelMat);
+            silverRing.rotateX(Math.PI / 2);
+            silverRing.position.set(0, 0, 5);
+            emaxGroup.add(silverRing);
+
+            // Bobinages cuivre stator intérieur visibles
+            const copperStator = new THREE.Mesh(new THREE.CylinderGeometry(14, 14, 20, 16), copperWireMat);
+            copperStator.rotateX(Math.PI / 2);
+            emaxGroup.add(copperStator);
+
+            // 3 Câbles silicone de phase (Rouge, Noir, Jaune) vers le variateur BLHeli
+            [wireRedMat, wireBlackMat, new THREE.MeshStandardMaterial({ color: 0xfbc02d, roughness: 0.5 })].forEach((wMat, i) => {
+                const wire = new THREE.Mesh(new THREE.BoxGeometry(22, 2.2, 2.2), wMat);
+                wire.position.set(-11, -6 + i * 3.5, 12 + i * 3);
+                wire.rotation.y = 0.4;
+                emaxGroup.add(wire);
+            });
+
+            subGroups['motors'].add(emaxGroup);
+
+            // 9. ÉLECTRONIQUE EMBARQUÉE AUTHENTIQUE HOTLINE (PHOTO 2 !)
+            // Pack LiPo 4S 2200mAh 75C haute puissance
+            const lipoMesh = new THREE.Mesh(new THREE.BoxGeometry(85, 28, 54), new THREE.MeshStandardMaterial({ color: 0xfbc02d, roughness: 0.35 }));
+            lipoMesh.position.set(-65, 24, 0);
+            subGroups['electronics'].add(lipoMesh);
+
+            // Embouts thermorétractables noirs de la batterie
+            [-42, 42].forEach(xL => {
+                const lCap = new THREE.Mesh(new THREE.BoxGeometry(5, 29, 55), new THREE.MeshBasicMaterial({ color: 0x111111 }));
+                lCap.position.set(-65 + xL, 24, 0);
+                subGroups['electronics'].add(lCap);
+            });
+
+            // VARIATEUR ESC D'ARME BLHeli_S 45A AVEC VERNIS SILICONE VERT (PHOTO 2 !)
+            const escWeaponGroup = new THREE.Group();
+            escWeaponGroup.position.set(10, 17, 16);
+
+            // Carte nue PCB verte avec vernis silicone transparent tropicalisé (Photo 2)
+            const escPcb = new THREE.Mesh(new THREE.BoxGeometry(42, 6, 28), escMarkedMat);
+            escWeaponGroup.add(escPcb);
+
+            // Puces MOSFET de puissance noires sur la carte
+            for (let m = -1; m <= 1; m++) {
+                const mosfet = new THREE.Mesh(new THREE.BoxGeometry(7, 2, 7), new THREE.MeshStandardMaterial({ color: 0x111111, roughness: 0.2 }));
+                mosfet.position.set(m * 11, 4, 0);
+                escWeaponGroup.add(mosfet);
+            }
+
+            // Goutte de vernis silicone vert de tropicalisation protectrice (Photo 2)
+            const siliconeDrop = new THREE.Mesh(new THREE.SphereGeometry(4, 12, 12), new THREE.MeshStandardMaterial({ color: 0x00e676, transparent: true, opacity: 0.85, roughness: 0.1 }));
+            siliconeDrop.scale.set(1.5, 0.6, 1.2);
+            siliconeDrop.position.set(-8, 4.5, 6);
+            escWeaponGroup.add(siliconeDrop);
+
+            subGroups['electronics'].add(escWeaponGroup);
+
+            // CONNECTEUR D'ALIMENTATION XT60 JAUNE AVEC CÂBLAGE SILICONE (PHOTO 2 !)
+            // Prise XT60 jaune vif au centre du faisceau
+            const xt60Group = new THREE.Group();
+            xt60Group.position.set(-25, 34, 0);
+
+            const xt60InternalHousing = new THREE.Mesh(new THREE.BoxGeometry(16, 9, 14), xt60YellowMat);
+            xt60Group.add(xt60InternalHousing);
+
+            // Câbles silicone 12AWG épais rouge (+) et noir (-)
+            const wireRed = new THREE.Mesh(new THREE.BoxGeometry(32, 3.5, 3.5), wireRedMat);
+            wireRed.position.set(-16, 0, 3.5);
+            xt60Group.add(wireRed);
+
+            const wireBlack = new THREE.Mesh(new THREE.BoxGeometry(32, 3.5, 3.5), wireBlackMat);
+            wireBlack.position.set(-16, 0, -3.5);
+            xt60Group.add(wireBlack);
+
+            subGroups['electronics'].add(xt60Group);
+
+            // Variateur ESC de propulsion 4WD à l'arrière
+            const escDrive = new THREE.Mesh(new THREE.BoxGeometry(36, 10, 28), new THREE.MeshStandardMaterial({ color: 0x4a148c, roughness: 0.4 }));
+            escDrive.position.set(-85, 20, -18);
+            subGroups['electronics'].add(escDrive);
+
+            // Récepteur radio 2.4 GHz Failsafe avec ses 2 antennes dipôles
+            const rxGroup = new THREE.Group();
+            rxGroup.position.set(-85, 20, 20);
+
+            const rxMesh = new THREE.Mesh(new THREE.BoxGeometry(24, 8, 18), new THREE.MeshStandardMaterial({ color: 0x2e7d32, roughness: 0.5 }));
+            rxGroup.add(rxMesh);
+
+            // Deux fils d'antennes 2.4 GHz
+            const ant1 = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.5, 30, 8), new THREE.MeshBasicMaterial({ color: 0xcccccc }));
+            ant1.rotation.z = Math.PI / 4;
+            ant1.position.set(8, 8, 5);
+            rxGroup.add(ant1);
+
+            const ant2 = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.5, 30, 8), new THREE.MeshBasicMaterial({ color: 0xcccccc }));
+            ant2.rotation.z = -Math.PI / 4;
+            ant2.position.set(-8, 8, -5);
+            rxGroup.add(ant2);
+
+            subGroups['electronics'].add(rxGroup);
+        }
+
+        // ANIMATION ET RENDU
+        function animate() {
+            requestAnimationFrame(animate);
+
+            if (isSpinning && weaponRotorMesh) {
+                // Rotation dans le sens ascendant (Upward Strike ⬆️) :
+                // Les dents montent à l'avant pour catapulter l'adversaire vers le haut
+                // et plaquer nos 4 roues au sol par réaction (3e loi de Newton)
+                weaponRotorMesh.rotation.z += 0.35 * spinSpeedFactor;
+            }
+
+            controls.update();
+            renderer.render(scene, camera);
+        }
+
+        function onWindowResize() {
+            if (!camera || !renderer) return;
+            const w = canvas.clientWidth;
+            const h = canvas.clientHeight;
+            camera.aspect = w / h;
+            camera.updateProjectionMatrix();
+            renderer.setSize(w, h);
+        }
+
+        function toggleMesh(key, state) {
+            if (subGroups[key]) {
+                subGroups[key].visible = state;
+            }
+        }
+
+        function toggleSpin() {
+            isSpinning = !isSpinning;
+            const btn = document.getElementById('btn-spin-toggle');
+            if (btn) {
+                btn.innerHTML = isSpinning
+                    ? '<svg class="lucide-icon" viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg> <span>Pause Rotation</span>'
+                    : '<svg class="lucide-icon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg> <span>Démarrer Rotation</span>';
+            }
+        }
+
+        function updateSpeed(val) {
+            spinSpeedFactor = val / 100.0;
+            const rpm = Math.round(12000 * spinSpeedFactor);
+            const disp = document.getElementById('rpm-display');
+            if (disp) {
+                disp.innerHTML = `${rpm.toLocaleString()} tr/min <span style="font-size:11px; opacity:0.85; margin-left:4px;">(Ascendant <svg class="lucide-icon lucide-icon-sm" viewBox="0 0 24 24" style="vertical-align:-2px;"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>)</span>`;
+            }
+        }
+
+        function updateExplode(val) {
+            explodeFactor = val / 100.0;
+            const disp = document.getElementById('explode-val');
+            if (disp) disp.innerText = `${val}%`;
+
+            if (subGroups['topcover']) subGroups['topcover'].position.y = explodeFactor * 90;
+            if (subGroups['uprights']) subGroups['uprights'].position.y = explodeFactor * 70;
+            if (subGroups['weapon']) subGroups['weapon'].position.y = explodeFactor * 100;
+            if (subGroups['pods']) subGroups['pods'].position.x = explodeFactor * 60;
+            if (subGroups['forks']) subGroups['forks'].position.x = explodeFactor * 100;
+
+            if (subGroups['wheelguards'] && subGroups['wheelguards'].children[0]) {
+                subGroups['wheelguards'].children[0].children.forEach((sideG, idx) => {
+                    const dirZ = idx === 0 ? -1 : 1;
+                    sideG.position.z = dirZ * explodeFactor * 65;
+                });
+            }
+
+            if (subGroups['wheels']) {
+                subGroups['wheels'].children.forEach((w, idx) => {
+                    const dirZ = idx < 2 ? 1 : -1;
+                    w.position.z = (idx < 2 ? 124 : -124) + explodeFactor * 50 * dirZ;
+                });
+            }
+
+            if (subGroups['electronics']) subGroups['electronics'].position.y = explodeFactor * 40;
+        }
+
+        // PRÉRÉGLAGES DE CAMÉRA
+        function setCameraPreset(preset) {
+            switch (preset) {
+                case 'iso':
+                    camera.position.set(380, 260, 420);
+                    controls.target.set(30, 45, 0);
+                    break;
+                case 'top':
+                    camera.position.set(0, 550, 0);
+                    controls.target.set(0, 30, 0);
+                    break;
+                case 'side':
+                    camera.position.set(0, 45, 520);
+                    controls.target.set(0, 45, 0);
+                    break;
+                case 'front':
+                    camera.position.set(520, 45, 0);
+                    controls.target.set(0, 45, 0);
+                    break;
+            }
+            controls.update();
+        }
+
+        function resetCamera() {
+            setCameraPreset('iso');
+        }
+
+        // RAYCASTING INSPECTION
+        function onMouseMove(event) {
+            const rect = canvas.getBoundingClientRect();
+            mouse.x = ((event.clientX - rect.left) / canvas.clientWidth) * 2 - 1;
+            mouse.y = -((event.clientY - rect.top) / canvas.clientHeight) * 2 + 1;
+
+            raycaster.setFromCamera(mouse, camera);
+            const intersects = raycaster.intersectObjects(robotRootGroup.children, true);
+
+            if (intersects.length > 0) {
+                let hit = intersects[0].object;
+                while (hit && !hit.userData.id && hit.parent) {
+                    if (hit.parent.userData && hit.parent.userData.id) {
+                        hit = hit.parent;
+                        break;
+                    }
+                    hit = hit.parent;
+                }
+
+                const id = hit && hit.userData ? hit.userData.id : null;
+                if (id && COMPONENT_SPECS[id]) {
+                    const data = COMPONENT_SPECS[id];
+                    document.getElementById('tt-title').innerText = data.title;
+                    document.getElementById('tt-dims').innerText = `Dimensions : ${data.dims}`;
+                    document.getElementById('tt-weight').innerText = `Masse estimée : ${data.weight}`;
+                    document.getElementById('tt-desc').innerText = data.desc;
+                    document.getElementById('tt-badge').innerText = data.badge;
+                    tooltip3D.style.opacity = '1';
+                    return;
+                }
+            }
+            tooltip3D.style.opacity = '0';
+        }
+
+        // GESTION DES ONGLETS
+        function switchMainTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+
+            const target = document.getElementById(tabId);
+            if (target) target.classList.add('active');
+
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => {
+                if (btn.getAttribute('onclick').includes(tabId)) {
+                    btn.classList.add('active');
+                }
+            });
+
+            if (tabId === 'tab-3d' && renderer && camera) {
+                setTimeout(onWindowResize, 50);
+            }
+        }
+
+        function switchDrawing(drawingId) {
+            document.querySelectorAll('.drawing-container').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.sub-tab-btn').forEach(el => el.classList.remove('active'));
+
+            const target = document.getElementById(drawingId);
+            if (target) target.classList.add('active');
+
+            const buttons = document.querySelectorAll('.sub-tab-btn');
+            buttons.forEach(btn => {
+                if (btn.getAttribute('onclick').includes(drawingId)) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        window.onload = () => {
+            initThree();
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+        };
+    </script>
+</body>
+
+</html>

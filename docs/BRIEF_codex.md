@@ -1,0 +1,32 @@
+# Brief codex — Calculs, rapport interne, dossier jury, fiche orale — révision R2
+
+Dossier : `/home/ibrahim-tomota/Projects/WARABA_SahelBridge`. Langue : français. **Présentation au jury demain matin (17 octobre 2026).** L'équipe veut des documents **courts**.
+
+## Ce qui a changé depuis ta première passe
+Ta première passe est archivée dans `archive_R1-1/docs/` (réutilise librement scripts et textes). Changements :
+1. **Nouveau nom** : le robot ne s'appelle plus HOTLINE MK-II (c'est le nom d'un robot champion existant). Nom provisoire `meta.nom` = **WARABA** (« lion » en bambara), équipe `meta.equipe` = **SahelBridge**. Lis toujours le nom dans le JSON (il peut changer) ; aucun « Hotline » dans les documents jury. Dans le rapport interne, explique le changement de nom et que l'architecture est inspirée d'un robot de référence existant.
+2. **Nouvelle géométrie** (`config/geometry.json`, à relire entièrement) : celle de la maquette du coéquipier et des photos, corrigée de ses interférences. Châssis noir bas (caisse 44 mm), flancs à 3 stries blanches, 4 rouleaux Ø55 apparents, **2 motoréducteurs + courroies** (et non 4 moteurs), arceaux triangulaires (95 mm), pods rouges, fourches passives, module avant = **enveloppe réservée** Ø96 × 112 (axe à 62 mm), pare-chocs bleu, coupe-circuit amovible à l'arrière sur le capot. L'enveloppe 320 × 280 × 100 de R1/R1.1 est abandonnée.
+3. **Nouvelles sources à lire intégralement** : `sources/coequipier/SESSION_DU_JOUR_ET_OBJECTIFS_PROJET.md` (récapitulatif Antigravity), `sources/coequipier/Rapport_Technique_S0.txt` (rapport initial S0, 8 p.), `sources/coequipier/Photos_Reference_Hotline/INDEX_PHOTOS.md`. Ces documents contiennent de **nombreuses affirmations non démontrées** (« 3 990 g homologués », « masse mesurée ±0,5 g », « poussée mesurée 52 N », énergies et vitesses d'arme, projections, Hardox, 0 g de lest alors que R1 parlait de 1 586 g de lest, 3 990 g vs 3 850 g, 2 moteurs vs 4, 4S 2,2 Ah vs 1,5 Ah, 280 × 220 × 70 vs 320 × 280 × 100…). Fais une **table des contradictions** S0 ↔ récapitulatif ↔ maquette ↔ R1 ↔ R1.1 ↔ R2.
+4. **Pas de jargon au jury** : dans `dossier_jury.html` et `fiche_orale.html`, ne cite ni Three.js, ni JSON, ni Node, ni URDF/ROS, ni moteur physique, ni noms de scripts. Dis « maquette numérique 3D interactive » et « une base de cotes unique qui alimente la 3D, les plans et les tableaux ». Le jargon est permis seulement dans le guide technique du rapport interne.
+5. **Module avant (arme)** : uniquement « module avant — enveloppe réservée ». **Aucun** chiffre ni détail d'arme (vitesse, énergie, matériau, fabrication, réglage, activation) dans aucun document ; dans le rapport interne, dis seulement que ces chiffres du rapport initial ont été retirés car non démontrés et hors périmètre de sécurité. L'option P3 (levage lent non coupant) peut être présentée.
+
+## Tu écris UNIQUEMENT dans `docs/`
+1. `docs/calculs.mjs` → `docs/calculs.json` + `docs/calculs.md` (depuis le JSON) : autonomie (1,5 Ah et 2,2 Ah, idéal et 20 % de réserve, à 18 A), courant max pour 5 min, capacité nécessaire, courant par voie (2 voies, **1 moteur par voie** désormais), énergie nominale, vitesse sans glissement, adhérence requise pour 45 N, budget de masse + marge à 4 000 g, CG estimé (avec / sans module avant) et charge sur essieu avant = (XG − 44)/120, comparaison au CG cible. Chaque ligne : formule, résultat, statut, limite.
+2. `docs/build_docs.mjs` → génère les 3 HTML en injectant tableaux de cotes / masses / calculs depuis `geometry.json` et `calculs.json`.
+3. `docs/rapport_interne.html` — **≤ 7 pages A4**, pédagogique : architecture et rôle des composants ; choix ; contradictions entre documents (table) ; ce qui a été retiré et pourquoi ; calculs et limites ; matériel envisagé + alternatives ; kit inconnu ; budget à compléter **sans prix** ; risques et validations V1–V6 ; tâches des 5 membres ; prochaines décisions (nom, 2 ou 4 moteurs, batterie, matériaux, module avant ou option P3) ; guide court pour utiliser/modifier la 3D et les plans (`config/geometry.json` → `cd app && npm run build` → `node plans/generer_plans.mjs` → `node docs/calculs.mjs && node docs/build_docs.mjs`).
+4. `docs/dossier_jury.html` — **≤ 7 pages A4**, professionnel et valorisant : concept ; architecture mécanique ; architecture électronique fonctionnelle (schéma bloc SVG inline : batterie → coupe-circuit → distribution protégée → contrôleurs G/D → 1 motoréducteur par côté ; récepteur ← émetteur ; régulation ; module avant = bloc grisé « défini avec l'encadrant ») sans brochage ni calibre ; vues 3D ; plans 2D légendés ; faisabilité au Mali ; matériel envisagé ; organisation des 5 membres ; méthode de réalisation et validation jusqu'au 7 nov. Incertitudes expliquées une fois, au bon endroit ; ne présenter aucun prototype, essai, pesée, stock ou homologation comme acquis.
+5. `docs/fiche_orale.html` — ≤ 3 pages : résumé 1 min ; exposé ~3 min réparti sur 5 membres avec les moments de démonstration 3D (perspective → capot retiré → vue éclatée → cotes → option levage) ; 5 questions difficiles + réponses (dont : « votre robot ressemble à un robot existant ? », « où est l'arme ? », « tiendrez-vous 5 min ? », « 4 kg ? », « et si le kit est différent ? »).
+6. `docs/registre_points_a_confirmer.md` — ID, sujet, valeur + statut, source, qui confirme, quand, impact.
+7. `docs/budget_grille.csv` — grille FCFA sans prix.
+
+## Images (chemins depuis `docs/`) — mêmes noms qu'avant
+`../renders/01_perspective.png`, `02_interieur.png`, `03_eclatee.png`, `04_dessus.png`, `05_face.png`, `06_cote.png`, `07_levage.png`, `08_cotes.png` ; plans `../plans/svg/vue_dessus.svg`, `vue_cote.svg`, `vue_face.svg`, `vue_ensemble.svg`, `variante_levage.svg`, `planche_A3.svg`.
+
+## Mise en page
+`@page { size: A4; margin: 15mm }`, `break-inside: avoid` sur tableaux/figures, polices système, aucune ressource distante, palette sobre (bleu nuit #1b2a41, accent rouge #c62828 avec parcimonie). Couverture : nom du robot, équipe SahelBridge, « MaliBots Challenge 2026 · Robots Battle », « Dossier de conception R2 — 16 octobre 2026 ». Ne lance pas Chrome : je fais l'export PDF.
+
+## Règles officielles
+Utilise `regles_publiees` (consultées le 16/10/2026 23:28 GMT) ; ne déduis pas le kit ni des règles absentes. Site officiel : malibotschallenge.com (le domaine sans « s » ne répond pas).
+
+## Validation
+`node docs/calculs.mjs && node docs/build_docs.mjs`. Rapport final court : fichiers, erreurs relevées dans les sources, incohérences du JSON.

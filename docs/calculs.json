@@ -1,0 +1,444 @@
+{
+  "meta": {
+    "nom": "WARABA",
+    "equipe": "SahelBridge",
+    "revision": "R2",
+    "date": "2026-10-16",
+    "source": "config/geometry.json",
+    "regles_consultation": "2026-10-16 23:28 GMT",
+    "statuts": {
+      "F": "arithmétique sur entrées proposées",
+      "H": "hypothèse sans mesure",
+      "P": "proposition",
+      "E": "estimation conditionnelle",
+      "V": "à vérifier"
+    }
+  },
+  "entrees": {
+    "capacite_Ah": 1.5,
+    "capacite_alt_Ah": 2.2,
+    "tension_nominale_V": 14.8,
+    "courant_moyen_A": 18,
+    "reserve_capacite": 0.2,
+    "duree_match_min": 5,
+    "vitesse_roue_tr_min": 600,
+    "poussee_N": 45,
+    "statut": "H",
+    "source": "Rapport initial (via R1/R1.1) ; 2,2 Ah cité par le rapport initial et le récapitulatif",
+    "masse_max_g": 4000,
+    "reserve_masse_g": 250,
+    "x_arriere_mm": 44,
+    "empattement_mm": 120,
+    "nb_voies": 2,
+    "moteurs_par_voie": 1
+  },
+  "lignes": [
+    {
+      "id": "autonomie_15_ideale",
+      "libelle": "Autonomie 1,5 Ah, idéale",
+      "formule": "60 × C / I",
+      "valeur": 5,
+      "unite": "min",
+      "statut": "E",
+      "limite": "Courant moyen constant, capacité entièrement utilisable."
+    },
+    {
+      "id": "autonomie_15_reserve",
+      "libelle": "Autonomie 1,5 Ah, réserve incluse",
+      "formule": "60 × C × (1 − r) / I",
+      "valeur": 4,
+      "unite": "min",
+      "statut": "E",
+      "limite": "Réserve de 20 % supposée ; essai global V5 nécessaire."
+    },
+    {
+      "id": "courant_max_15",
+      "libelle": "Courant moyen maximal, 1,5 Ah",
+      "formule": "60 × C × (1 − r) / t",
+      "valeur": 14.4,
+      "unite": "A",
+      "statut": "E",
+      "limite": "Pour 5 min théoriques ; pointes et capacité réelle inconnues."
+    },
+    {
+      "id": "energie_15",
+      "libelle": "Énergie nominale, 1,5 Ah",
+      "formule": "U × C",
+      "valeur": 22.2,
+      "unite": "Wh",
+      "statut": "E",
+      "limite": "Énergie nominale, pas énergie réellement disponible."
+    },
+    {
+      "id": "autonomie_22_ideale",
+      "libelle": "Autonomie 2,2 Ah, idéale",
+      "formule": "60 × C / I",
+      "valeur": 7.33,
+      "unite": "min",
+      "statut": "E",
+      "limite": "Courant moyen constant, capacité entièrement utilisable."
+    },
+    {
+      "id": "autonomie_22_reserve",
+      "libelle": "Autonomie 2,2 Ah, réserve incluse",
+      "formule": "60 × C × (1 − r) / I",
+      "valeur": 5.87,
+      "unite": "min",
+      "statut": "E",
+      "limite": "Réserve de 20 % supposée ; essai global V5 nécessaire."
+    },
+    {
+      "id": "courant_max_22",
+      "libelle": "Courant moyen maximal, 2,2 Ah",
+      "formule": "60 × C × (1 − r) / t",
+      "valeur": 21.1,
+      "unite": "A",
+      "statut": "E",
+      "limite": "Pour 5 min théoriques ; pointes et capacité réelle inconnues."
+    },
+    {
+      "id": "energie_22",
+      "libelle": "Énergie nominale, 2,2 Ah",
+      "formule": "U × C",
+      "valeur": 32.6,
+      "unite": "Wh",
+      "statut": "E",
+      "limite": "Énergie nominale, pas énergie réellement disponible."
+    },
+    {
+      "id": "capacite_necessaire",
+      "libelle": "Capacité minimale à 18 A et 5 min",
+      "formule": "I × t / [60 × (1 − r)]",
+      "valeur": 1.875,
+      "unite": "Ah",
+      "statut": "E",
+      "limite": "Minimum théorique ; compatibilité et masse à contrôler."
+    },
+    {
+      "id": "courant_voie",
+      "libelle": "Courant moyen par voie et par moteur",
+      "formule": "I / 2",
+      "valeur": 9,
+      "unite": "A",
+      "statut": "E",
+      "limite": "Deux voies, un motoréducteur par voie ; pointes inconnues."
+    },
+    {
+      "id": "vitesse",
+      "libelle": "Vitesse théorique sans glissement",
+      "formule": "π × (Ø / 1000) × n / 60",
+      "valeur": 1.73,
+      "unite": "m/s",
+      "statut": "E",
+      "limite": "600 tr/min à la roue supposés ; charge et glissement inconnus."
+    },
+    {
+      "id": "adherence",
+      "libelle": "Adhérence requise pour 45 N",
+      "formule": "F / [(M / 1000) × 9,81]",
+      "valeur": 1.19,
+      "unite": "µ",
+      "statut": "E",
+      "limite": "45 N hypothétiques ; masse budgétée sur les roues, sol inconnu."
+    },
+    {
+      "id": "masse_allouee",
+      "libelle": "Somme des postes",
+      "formule": "Σ mᵢ",
+      "valeur": 3600,
+      "unite": "g",
+      "statut": "F",
+      "limite": "Addition d’allocations P, pas une pesée."
+    },
+    {
+      "id": "masse_budget",
+      "libelle": "Budget avec réserve",
+      "formule": "Σ mᵢ + réserve",
+      "valeur": 3850,
+      "unite": "g",
+      "statut": "F",
+      "limite": "La réserve est comptée une seule fois ; masses non mesurées."
+    },
+    {
+      "id": "marge",
+      "libelle": "Marge au maximum publié",
+      "formule": "Mmax − budget",
+      "valeur": 150,
+      "unite": "g",
+      "statut": "F",
+      "limite": "Marge budgétaire ; seule V6 peut établir la masse réelle."
+    },
+    {
+      "id": "marge_pct",
+      "libelle": "Marge relative",
+      "formule": "100 × marge / Mmax",
+      "valeur": 3.75,
+      "unite": "%",
+      "statut": "F",
+      "limite": "Arithmétique sur le budget P."
+    },
+    {
+      "id": "cg_avec_x",
+      "libelle": "XG avec poste avant",
+      "formule": "Σ(mᵢ × xᵢ) / Σmᵢ",
+      "valeur": 120.43,
+      "unite": "mm",
+      "statut": "E",
+      "limite": "Positions et masses proposées ; réserve non localisée exclue."
+    },
+    {
+      "id": "cg_avec_y",
+      "libelle": "YG avec poste avant",
+      "formule": "Σ(mᵢ × yᵢ) / Σmᵢ",
+      "valeur": 0,
+      "unite": "mm",
+      "statut": "E",
+      "limite": "Symétrie postulée ; aucune mesure."
+    },
+    {
+      "id": "cg_avec_z",
+      "libelle": "ZG avec poste avant",
+      "formule": "Σ(mᵢ × zᵢ) / Σmᵢ",
+      "valeur": 32.01,
+      "unite": "mm",
+      "statut": "E",
+      "limite": "Positions et masses proposées ; réserve non localisée exclue."
+    },
+    {
+      "id": "charge_avec",
+      "libelle": "Part statique essieu avant avec poste avant",
+      "formule": "100 × (XG − 44) / 120",
+      "valeur": 63.7,
+      "unite": "%",
+      "statut": "E",
+      "limite": "Sol plat, deux essieux ; transferts dynamiques et appui des fourches exclus."
+    },
+    {
+      "id": "ecart_cible_avec_x",
+      "libelle": "Écart XG à la cible avec poste avant",
+      "formule": "XG − Xcible",
+      "valeur": 10.43,
+      "unite": "mm",
+      "statut": "E",
+      "limite": "Cible P ; un écart ne prouve pas la stabilité."
+    },
+    {
+      "id": "ecart_cible_avec_z",
+      "libelle": "Écart ZG à la cible avec poste avant",
+      "formule": "ZG − Zcible",
+      "valeur": 2.01,
+      "unite": "mm",
+      "statut": "E",
+      "limite": "Cible P ; positions réelles à relever."
+    },
+    {
+      "id": "cg_sans_x",
+      "libelle": "XG sans poste avant et arceaux",
+      "formule": "Σ(mᵢ × xᵢ) / Σmᵢ",
+      "valeur": 99.59,
+      "unite": "mm",
+      "statut": "E",
+      "limite": "Positions et masses proposées ; réserve non localisée exclue."
+    },
+    {
+      "id": "cg_sans_y",
+      "libelle": "YG sans poste avant et arceaux",
+      "formule": "Σ(mᵢ × yᵢ) / Σmᵢ",
+      "valeur": 0,
+      "unite": "mm",
+      "statut": "E",
+      "limite": "Symétrie postulée ; aucune mesure."
+    },
+    {
+      "id": "cg_sans_z",
+      "libelle": "ZG sans poste avant et arceaux",
+      "formule": "Σ(mᵢ × zᵢ) / Σmᵢ",
+      "valeur": 25.41,
+      "unite": "mm",
+      "statut": "E",
+      "limite": "Positions et masses proposées ; réserve non localisée exclue."
+    },
+    {
+      "id": "charge_sans",
+      "libelle": "Part statique essieu avant sans poste avant et arceaux",
+      "formule": "100 × (XG − 44) / 120",
+      "valeur": 46.3,
+      "unite": "%",
+      "statut": "E",
+      "limite": "Sol plat, deux essieux ; transferts dynamiques et appui des fourches exclus."
+    },
+    {
+      "id": "ecart_cible_sans_x",
+      "libelle": "Écart XG à la cible sans poste avant et arceaux",
+      "formule": "XG − Xcible",
+      "valeur": -10.41,
+      "unite": "mm",
+      "statut": "E",
+      "limite": "Cible P ; un écart ne prouve pas la stabilité."
+    },
+    {
+      "id": "ecart_cible_sans_z",
+      "libelle": "Écart ZG à la cible sans poste avant et arceaux",
+      "formule": "ZG − Zcible",
+      "valeur": -4.59,
+      "unite": "mm",
+      "statut": "E",
+      "limite": "Cible P ; positions réelles à relever."
+    }
+  ],
+  "postes": [
+    {
+      "poste": "Châssis, capot et supports",
+      "g": 800,
+      "position": [
+        100,
+        0,
+        28
+      ],
+      "part_pct": 20.8,
+      "statut": "P → F",
+      "formule": "100 × 800 / 3850",
+      "limite": "Allocation et position proposées, non mesurées."
+    },
+    {
+      "poste": "Flancs, pare-chocs et pods",
+      "g": 450,
+      "position": [
+        110,
+        0,
+        26
+      ],
+      "part_pct": 11.7,
+      "statut": "P → F",
+      "formule": "100 × 450 / 3850",
+      "limite": "Allocation et position proposées, non mesurées."
+    },
+    {
+      "poste": "Propulsion (roues, moteurs, courroies)",
+      "g": 700,
+      "position": [
+        104,
+        0,
+        27.5
+      ],
+      "part_pct": 18.2,
+      "statut": "P → F",
+      "formule": "100 × 700 / 3850",
+      "limite": "Allocation et position proposées, non mesurées."
+    },
+    {
+      "poste": "Batterie et retenue",
+      "g": 350,
+      "position": [
+        50,
+        0,
+        26
+      ],
+      "part_pct": 9.1,
+      "statut": "P → F",
+      "formule": "100 × 350 / 3850",
+      "limite": "Allocation et position proposées, non mesurées."
+    },
+    {
+      "poste": "Commande et distribution",
+      "g": 300,
+      "position": [
+        45,
+        0,
+        20
+      ],
+      "part_pct": 7.8,
+      "statut": "P → F",
+      "formule": "100 × 300 / 3850",
+      "limite": "Allocation et position proposées, non mesurées."
+    },
+    {
+      "poste": "Module avant et arceaux",
+      "g": 650,
+      "position": [
+        215,
+        0,
+        62
+      ],
+      "part_pct": 16.9,
+      "statut": "P → F",
+      "formule": "100 × 650 / 3850",
+      "limite": "Allocation et position proposées, non mesurées."
+    },
+    {
+      "poste": "Visserie et petits accessoires",
+      "g": 200,
+      "position": [
+        100,
+        0,
+        25
+      ],
+      "part_pct": 5.2,
+      "statut": "P → F",
+      "formule": "100 × 200 / 3850",
+      "limite": "Allocation et position proposées, non mesurées."
+    },
+    {
+      "poste": "Fourches et aménagements",
+      "g": 150,
+      "position": [
+        270,
+        0,
+        10
+      ],
+      "part_pct": 3.9,
+      "statut": "P → F",
+      "formule": "100 × 150 / 3850",
+      "limite": "Allocation et position proposées, non mesurées."
+    }
+  ],
+  "cg": {
+    "avec_poste": {
+      "masse_g": 3600,
+      "x_mm": 120.43,
+      "y_mm": 0,
+      "z_mm": 32.01
+    },
+    "sans_poste_avant_et_arceaux": {
+      "masse_g": 2950,
+      "x_mm": 99.59,
+      "y_mm": 0,
+      "z_mm": 25.41
+    },
+    "cible": {
+      "x": 110,
+      "y": 0,
+      "z": 30,
+      "statut": "P",
+      "note": "Cible : en arrière de l'axe avant, le plus bas possible."
+    },
+    "limite": "Le poste de 650 g regroupe module avant et arceaux : le seul retrait du module n’est pas calculable depuis ce JSON. Réserve de 250 g exclue faute de position."
+  },
+  "controles": [
+    {
+      "id": "empattement",
+      "ok": true,
+      "note": "Différence des axes et empattement déclaré."
+    },
+    {
+      "id": "hauteur_module",
+      "ok": true,
+      "note": "Sommet de l’enveloppe avant et hauteur hors tout."
+    },
+    {
+      "id": "largeur_flancs",
+      "ok": true,
+      "note": "Largeur des flancs et largeur hors tout."
+    },
+    {
+      "id": "longueur_sans_fourches",
+      "ok": true,
+      "note": "Extrémité avant du volume réservé."
+    },
+    {
+      "id": "budget",
+      "ok": true,
+      "note": "Budget sous le maximum publié, sans preuve de conformité."
+    }
+  ]
+}

@@ -1,0 +1,438 @@
+                                        MALIBOTS CHALLENGE 2026 - BAMAKO
+                              Compétition Nationale de Robotique de Combat | Organisé par DoniFab
+                                    Catégorie Officielle Robots Battle : Masse Maximale Stricte < 4,00 kg
+
+
+
+
+            RAPPORT TECHNIQUE DE CONCEPTION
+                 DOSSIER TECHNIQUE OFFICIEL D'HOMOLOGATION & D'INGÉNIERIE
+
+      ROBOT : HOTLINE MK-II (Édition Batteur Creux M6)
+      Architecture : 4WD Intégrale + Batteur Rectangulaire Évidé (Creux Grab) + Axe Affiné M6 + Pods Orange
+      Ingénierie Frugale : Squelette PVC Usiné, Blindage Modulaire Carton Stratifié Résiné & Acier Ressort Forgé
+      Masse homologuée : 3 850 g (Marge de sécurité : 150 g / -3,75 % sous le plafond DoniFab) - Octobre 2026
+
+
+
+
+COMPOSITION DE NOTRE ÉQUIPE D'INGÉNIERIE (5 MEMBRES)
+    Membre 1 :              Chef d'équipe, Architecte Système & Responsable Électronique de Puissance
+    Coordination générale, chaîne de puissance LiPo 4S, bus d'alimentation 18 AWG, distribution 4WD et sécurité coupe-circuit.
+
+
+    Membre 2 :              Ingénieur Mécanique & Conception Châssis (Wheel Guards & Capot Échancré)
+    Structure basse en PVC usiné, blindages de roues Wheel Guards, montants A-frame pour axe affiné M6 et capot échancré.
+
+
+    Membre 3 :              Responsable Armement & Ground Game (Batteur Rectangulaire Évidé & Fourches)
+    Batteur creux en acier trempé avec petits creux de grab, axe traversant affiné M6 sans frottement et pods harpons orange.
+
+
+    Membre 4 :              Responsable Radiocommande, Motorisation 4WD & Pilotage
+    Chaîne de propulsion intégrale 4WD, pneus uréthane orange translucides, étalonnage ESC, mixage radio et pilotage offensif.
+
+
+    Membre 5 :              Responsable Logistique, Budget, Normes (< 4 kg) & Maintenance Stand
+    Sourcing frugal à Bamako, pesée métrologique stricte (< 4 000 g), kit d'intervention stand et protocole express 7 min 40 s.
+
+
+
+
+Document technique officiel rédigé par l'Équipe MaliBots 2026                                       Session Officielle : Octobre 2026 - Bamako, Mali
+Dossier soumis à l'évaluation et au contrôle de conformité du Jury Technique de DoniFab
+MALIBOTS CHALLENGE 2026 | DONIFAB                                   Dossier Technique : HOTLINE MK-II (4WD / Batteur Rectangulaire Évidé)
+
+
+
+
+    I. SOMMAIRE GÉNÉRAL DU DOSSIER TECHNIQUE D'INGÉNIERIE
+
+   1.    Architecture Globale Hotline, Morphologie Bas Profil & Train 4WD                                                            Page 3
+   2.    Le 'Ground Game' Avancé : Pods Sculptés Rouges & Fourches Harpons                                                           Page 3
+   3.    Arme Principale : Batteur Rectangulaire Évidé & Axe Traversant M6                                                           Page 4
+   4.    Matériaux Frugaux & Locaux : Squelette PVC, Acier Trempé & Carton Stratifié                                                 Page 4
+   5.    Tableau Comparatif des Matériaux de Blindage (Carton vs Métaux & Polymères)                                                 Page 5
+   6.    Architecture Électronique 4WD, Chaîne LiPo 4S & Variateurs Haute Puissance                                                  Page 5
+   7.    Schéma de Distribution Électrique, Faisceau 18 AWG & Sécurité DoniFab                                                       Page 6
+   8.    Devis de Masse Détaillé Homologué (< 4 000 g - Configuration Hotline)                                                       Page 6
+   9.    Stratégie Tactique de Combat en Arène & Neutralisation des Archétypes                                                       Page 7
+   10.   Protocole Opérationnel de Maintenance Éclair en Stand (< 10 Minutes)                                                        Page 8
+   11.   Inventaire d'Intervention Rapide Stand & Engagement Solennel d'Équipe                                                       Page 8
+
+
+
+
+    II. ORGANISATION OPÉRATIONNELLE & RESPONSABILITÉS DES 5 MEMBRES
+
+Pour aborder le MaliBots Challenge 2026 avec une ambition victorieuse, notre équipe s'est inspirée de l'architecture iconique du robot
+'Hotline' : un châssis ultra-bas et agressif, un train 4WD semi-caréné, un batteur rectangulaire évidé en acier en porte-à-faux offensif et deux
+pods avant orange avec suspension silicone portant des fourches harpons rasantes. Nous avons traduit cette mécanique d'élite en exploitant
+des matériaux simples, économiques et immédiatement disponibles à Bamako, avec une répartition stricte des rôles :
+
+   Direction Système, Architecture & Électronique de Puissance (Membre 1)
+Membre 1 supervise l'intégration globale. Il a calculé la chaîne de puissance LiPo 4S, dimensionné le faisceau 18 AWG alimentant les 4 moteurs
+de traction et l'ESC de l'arme, intégré le coupe-circuit amovible externe et validé le Failsafe radio.
+
+   Pôle Mécanique, Caisson Bas Profil & Montants Avancés (Membre 2)
+Membre 2 a modélisé l'ensemble sous CAO. Il a conçu le caisson en PVC usiné, les montants A-frame étirés vers l'avant qui positionnent l'axe de
+rotation en surplomb des fourches, le capot texturé Hotline et le blindage sacrificiel en carton résiné.
+
+   Pôle Armement Actif, Batteur Rectangulaire Évidé & Pods Harpons (Membre 3)
+Membre 3 a conçu le batteur rectangulaire creux en acier haute ténacité avec creux de grab et biseaux d'impact, calculé sa cinétique (411 J
+nominal / 925 J crête sous 12 000 tr/min), et usiné les pods avant orange logeant les coussinets de suspension silicone des fourches harpons.
+
+   Pôle Propulsion 4WD, Radiocommande & Pilotage en Arène (Membre 4)
+Membre 4 a configuré la transmission 4WD avec 4 roues en uréthane/silicone orange translucide montées sur jantes blanches, calibré les ESC
+réversibles, ajusté les courbes exponentielles sur la radio FlySky et assure le pilotage offensif en arène.
+
+   Pôle Métrologie Masse (< 4 kg), Logistique Frugale & Stand (Membre 5)
+Membre 5 assure le respect intransigeant du plafond officiel (< 4 000 g avec marge de 150 g). Il approvisionne les matériaux locaux de
+récupération et orchestre le protocole d'intervention express au stand garantissant un reconditionnement en 7 min 40 s.
+
+
+
+
+Équipe MaliBots 2026 - Rapport Technique de Conception & Homologation                                                             Page 2 / 8
+MALIBOTS CHALLENGE 2026 | DONIFAB                                      Dossier Technique : HOTLINE MK-II (4WD / Batteur Rectangulaire Évidé)
+
+
+
+
+     1. MORPHOLOGIE HOTLINE, ARCHITECTURE 4WD & GROUND GAME
+
+   1.1 L'Architecture Inspirée de Hotline : Silhouette Bas Profil & Montants Avancés
+Notre équipe a délibérément rejeté les architectures hautes et instables qui
+basculent dès le premier choc. Nous avons adopté la géométrie racée du
+robot Hotline : un profil aplati à ras du sol, flanqué de plaques latérales
+noires ajourées avec passages de roues échancrés, et un centre de gravité
+situé à seulement 21 mm de la piste.
+
+Pour corriger le défaut classique des armes placées trop en retrait, nous
+avons étiré nos montants triangulaires noirs ('A-Frames') vers l'avant.
+L'arbre d'arme traverse les montants en porte-à-faux direct au-dessus du
+sol, verrouillé par de massifs écrous hexagonaux dorés garantissant une
+rigidité totale lors des impacts pleine puissance.
+
+
+
+                                                                                      Figure 1.1 : Morphologie globale Hotline (4WD, Flancs & Harpons)
+
+   1.2 Transmission 4WD Intégrale & Blindages de Roues (Wheel Guards)
+L'abandon du 2WD au profit d'un train 4 Roues Motrices (4WD) caréné constitue une rupture tactique décisive. Les 4 roues motrices de 55 mm
+de diamètre en uréthane haute adhérence sont désormais intégralement protégées par des Wheel Guards latéraux en composite sandwich
+(PVC rigide 6 mm + carton stratifié résiné) et des arches supérieures. Des déflecteurs biseautés à 45° à l'avant et à l'arrière dévient les attaques
+des spinners horizontaux adverses, tandis que les arches supérieures protègent les pneus contre les frappes verticales. Seuls les 10 mm
+inférieurs de contact affleurent au sol, assurant une motricité ininterrompue de 45 N tout en rendant nos roues invulnérables aux déchirures.
+
+   1.3 Le Ground Game d'Élite : Pods Orange Sculptés & Fourches Harpons
+La domination de l'arène se joue dans le millimètre séparant le châssis du parquet. Notre ensemble avant intègre :
+
+     MÉCANIQUE DES PODS ORANGE & DES FOURCHES HARPONS AVEC SUSPENSION SILICONE
+     1. Pods sculptés orange avec coussinets de suspension en silicone : Logements avant intégrant un coussinet en silicone rose
+       agissant comme suspension dynamique pour éliminer tout rebond ou vibration des fourches lors des accélérations franches.
+     2. Fourches harpons ajourées en acier traité (garde au sol < 1 mm) : Deux pointes biseautées avec évidement triangulaire interne,
+       alliant légèreté et rigidité extrême, avec un angle rasoir d'attaque de 11° glissant sous le moindre châssis adverse.
+     3. Ergots supérieurs anti-dégagement ('Barbed Teeth') : Chaque fourche comporte des crans supérieurs usinés qui agrippent
+       la jupe de l'opposant dès qu'il s'élève, empêchant tout glissement latéral ou fuite hors de la trajectoire de l'arme.
+     4. Guidage forcé vers le batteur : L'adversaire est hissé le long des fourches et propulsé directement dans la trajectoire du batteur.
+
+
+
+
+Équipe MaliBots 2026 - Rapport Technique de Conception & Homologation                                                                    Page 3 / 8
+MALIBOTS CHALLENGE 2026 | DONIFAB                                    Dossier Technique : HOTLINE MK-II (4WD / Batteur Rectangulaire Évidé)
+
+
+
+
+    2. ARME PRINCIPALE : BATTEUR RECTANGULAIRE ÉVIDÉ & AXE M6
+
+   2.1 Conception du Batteur Rectangulaire Creux avec Creux de Morsure / Grab
+Pour éliminer tout risque de collision ou de frottement parasite, notre équipe a adopté l'architecture
+authentique de notre référence Hotline : un batteur rectangulaire évidé (Hollow Beater Bar) monobloc en
+Hardox 450 de 1,320 kg, traversé par un axe rectifié Ø8 mm et un manchon central en laiton, couplé à un
+capot supérieur échancré laissant un jeu d'air libre de 11 mm.
+
+- Dégagement du Capot Supérieur (Jeu 11 mm sans contact) : Le capot s'arrête à X=46 mm dans la travée
+centrale, offrant 11 mm de garde libre avec l'enveloppe de giration du batteur (X=57 à 153 mm) pour une
+rotation 100 % libre.
+- Axe Traversant Rectifié Ø8 mm & Manchon Laiton : L'axe en acier trempé traverse le batteur évidé sans
+toucher les parois, tournant sur des roulements à billes flasqués haute vitesse intégrés aux A-Frames.
+- Structure Monobloc Évidée (96 × 26 × 74 mm) : L'évidement central concentre plus de 80 % de la masse
+(1 320 g, soit 33,1 % du robot) sur les barres d'impact transversales (I = 0,00195 kg·m²).
+- Creux de Morsure ('Grab') & Biseaux Argentés Meulés : Les chanfreins rectifiés agrippent et catapultent le
+châssis adverse.
+
+                                                                                                       Figure 2.1 : Batteur creux Hardox 450 (1.32 kg) & axe Ø8 mm
+
+    DIMENSIONNEMENT CINÉTIQUE DU BATTEUR HARDOX 450 (1,320 kg) & SENS ASCENDANT (10 000 tr/min)
+    Formule de l'énergie rotationnelle : E = 1/2 . I . w² | Vitesse circonférentielle : v = w . r
+    Batteur rectangulaire évidé Hardox 450 (L=96 mm, H=26 mm, l=74 mm, rayon de frappe r = 48 mm, masse m = 1,320 kg) :
+     * Moment d'inertie optimisé par évidement central : I = 0,00195 kg·m² (masse concentrée sur les deux têtes de frappe)
+     * Vitesse nominale sous LiPo 4S (14,8 V) : N = 8 500 à 10 000 tr/min -> Vitesse angulaire : w = 890 à 1 047 rad/s
+     * Vitesse circonférentielle de frappe : v = w x r = 1 047 x 0,048 = 50,3 m/s = 181,0 km/h
+     * Énergie cinétique emmagasinée : E = 684 Joules (Nominale sous 8 500 tr/min) / 1 070 Joules (Pointe sous 10 500 tr/min)
+     * SENS DE ROTATION ASCENDANT (Upward Strike ??) & DÉGAGEMENT SANS CONTACT DU CAPOT :
+       - Dégagement capot & garde au sol : 11 mm de jeu sans contact avec le capot et 24 mm au-dessus du sol.
+       - Creux de grab & biseaux argentés : S'engagent sous le plancher adverse et le catapultent à la verticale (> 2,5 m).
+
+
+
+
+   2.2 Transposition Frugale : Usinage Local du Batteur Creux à Bamako
+La fabrication du batteur rectangulaire évidé repose sur des moyens d'usinage conventionnels disponibles à Bamako :
+
+    MÉTHODE D'USINAGE LOCAL DU BATTEUR RECTANGULAIRE ÉVIDÉ
+    - Découpe du bloc rectangulaire : Profilé acier étiré 96 × 74 × 26 mm découpé à la scie mécanique d'atelier.
+    - Fraisage de l'évidement central : Évidement 52 × 14 mm dégagé à la fraiseuse pour former la cage creuse et alléger le centre.
+    - Alésages d'axe M6 & Roulements : Deux perçages coaxiaux avec logements pour roulements à billes flasqués de 10 mm.
+    - Usinage des creux de grab & biseaux : Meulage d'un biseau d'impact à 45° et rainurage concave pour verrouiller la morsure.
+
+
+
+
+Équipe MaliBots 2026 - Rapport Technique de Conception & Homologation                                                                   Page 4 / 8
+MALIBOTS CHALLENGE 2026 | DONIFAB                                   Dossier Technique : HOTLINE MK-II (4WD / Batteur Rectangulaire Évidé)
+
+
+
+
+      3. MATÉRIAUX DE BLINDAGE COMPARÉS & CHAÎNE LIPO 4S
+
+   3.1 Étude Comparative des Matériaux pour le Blindage Sacrificiel
+Notre choix d'un blindage modulaire en carton haute densité multicouche stratifié résiné a été validé par des tests d'impacts balistiques
+comparatifs menés au sein de notre atelier :
+Matériau Testé                  Masse Set         Coût Estimé           Disponibilité       Absorption Choc             Remplaçabilité
+Carton Stratifié Résiné                                                                     Excellente                  < 2 min (Clips
+                                  120 g           < 500 FCFA         Immédiate (Locale)
+(Notre Choix)                                                                               (Écrasement)                standard)
+Aluminium 6061-T6 (2                                                                                                    > 15 min
+                                  380 g           8 500 FCFA          Moyenne (Import)      Faible (Transmet le choc)
+mm)                                                                                                                     (Redressage)
+Polyéthylène Haute
+                                  260 g           6 000 FCFA           Rare à Bamako        Bonne (Élastique)           8 à 10 min (Usinage)
+Densité (HDPE)
+Polycarbonate (Lexan 3                                                                      Moyenne (Fragile au
+                                  310 g           12 000 FCFA             Très rare                                     > 12 min (Fissuration)
+mm)                                                                                         froid)
+
+
+   3.2 Chaîne de Puissance 4WD & Motorisation sous Pack LiPo 4S
+L'alimentation de HOTLINE MK-II repose sur un circuit haute tension LiPo 4S (14,8 V nominal, 16,8 V crête) assurant une réactivité
+explosive de la traction 4WD et une vitesse de rotation surpuissante de l'arme :
+
+      SPÉCIFICATIONS TECHNIQUES DU CIRCUIT ÉLECTRIQUE & TRACTION 4WD LIPO 4S
+      - Batterie LiPo 4S (14,8 V / 2 200 mAh / 75C continu, pointes 150C) : Masse 260 g. Positionnée au centre arrière,
+        elle garantit une réserve énergétique supérieure et alimente les appels de courant violents sans chute de tension.
+      - Moteur Brushless Arme : Outrunner 3548 (1100 KV), développant plus de 650 W en pointe sous 16,8 V.
+        Il entraîne le batteur Hardox par une courroie crantée synchrone fermée HTD-3M renforcée Kevlar (zéro glissement).
+      - Variateur Arme (ESC) : ESC Brushless BLHeli_32 80A télémétrique avec dissipateur aluminium et protection thermique.
+      - Motorisation Traction 4WD : 2 moteurs centraux haute puissance entraînant les 4 roues par courroies crantées (Photo 2).
+        Poussée totale cumulée mesurée à 52 N (> 5,2 kgf de poussée directe en arène, adhérence uréthane maximale).
+      - Contrôleur de Traction 4WD : Double variateur réversible 2x 25A avec mixage différentiel et freinage dynamique.
+      - Autonomie Énergétique : Consommation moyenne en combat = 24 A -> Autonomie calculée de 5 min 30 s (> 3 min officielles).
+
+
+
+Ventilation dynamique et protection thermique : Les ouïes d'aération arrières du capot noir créent une dépression qui aspire l'air chaud généré
+par les variateurs et la batterie. La température de fonctionnement reste inférieure à 48 °C.
+
+
+
+
+Équipe MaliBots 2026 - Rapport Technique de Conception & Homologation                                                              Page 5 / 8
+MALIBOTS CHALLENGE 2026 | DONIFAB                                 Dossier Technique : HOTLINE MK-II (4WD / Batteur Rectangulaire Évidé)
+
+
+
+
+    4. SÉCURITÉ RÉGLEMENTAIRE & DEVIS DE MASSE HOMOLOGUÉ
+
+   4.1 Faisceau Électrique 18 AWG & Sécurité Réglementaire DoniFab
+La conformité aux exigences de sécurité du MaliBots Challenge est garantie par des dispositifs redondants :
+
+    ORGANES DE SÉCURITÉ & COUPE-CIRCUIT HOMOLOGUÉS
+    1. Coupe-circuit de sécurité amovible ('Safety Link') : Shunt amovible haute visibilité monté sur le pôle positif,
+      accessible sur le capot supérieur pour une coupure mécanique instantanée par les commissaires de DoniFab.
+    2. Faisceau silicone haute température 18 AWG / 16 AWG : Résistance thermique à 200 °C, chutes de tension négligeables sous 65 A crête.
+    3. Port de recharge externe XT60 étanche : Permet la charge d'équilibrage de la LiPo 4S au stand sans démonter le châssis.
+    4. Sécurité Failsafe Radio : Récepteur FlySky FS-iA6B programmé pour couper 100 % de l'arme et de la traction en < 0,1 s sans signal.
+
+
+
+   4.2 Devis de Masse Détaillé Homologué DoniFab (< 4 000 g - Configuration Hotline)
+Mesure effectuée sous contrôle de Membre 5 sur balance électronique étalonnée (précision +/- 0,5 g). La masse totale homologuée s'établit à
+3 990 g (0 g de lest mort, 100% de masse utile de combat), préservant une marge stricte sous le plafond de 4 000 g :
+Sous-système                  Composant & Désignation Technique                           Qté        Masse Unit. (g)      Masse Totale (g)
+                              Châssis caisson Hardox 450 / PVC 8 mm + montants
+Structure & Châssis                                                                        1                   680 g                 680 g
+                              A-Frames hauts
+                              Blindages latéraux & carénages de roues (Wheel
+Structure & Châssis                                                                      2 sets                110 g                 220 g
+                              Guards biseautés)
+                              Capot supérieur incliné en coin (Wedge) + fentes de
+Structure & Châssis                                                                        1                   240 g                 240 g
+                              ventilation
+                              Visserie M4/M6 trempée, entretoises & écrous
+Structure & Châssis                                                                      1 lot                 110 g                 110 g
+                              hexagonaux dorés
+                              Pods avant orange usinés avec poches de suspension
+Structure & Châssis                                                                        2                    35 g                   70 g
+                              intégrées
+                              Batteur rectangulaire creux monobloc Hardox 450
+Armement Actif                                                                             1                  1 320 g               1 320 g
+                              (biseaux argentés)
+                              Fourches harpons acier Hardox 450 découpées laser
+Armement Actif                                                                             2                    80 g                 160 g
+                              (squelettées)
+                              Coussinets amortisseurs en élastomère silicone rose
+Armement Actif                                                                             2                    20 g                   40 g
+                              (Shore 45A)
+                              Axe traversant rectifié Ø8 mm acier + manchon central
+Armement Actif                                                                           1 lot                  90 g                   90 g
+                              laiton
+                              Poulie crantée d'arme orange HTD-3M & courroie
+Armement Actif                                                                           1 lot                  70 g                   70 g
+                              fermée Kevlar
+                              Moteur brushless outrunner arme 3548 (1100 KV, 650
+Motorisation                                                                               1                   160 g                 160 g
+                              W crête)
+                              Moteurs de propulsion centraux haute puissance (Train
+Motorisation                                                                               2                   120 g                 240 g
+                              4WD)
+Motorisation                  Courroies crantées de transmission latérale vers 4 roues   2 sets                 30 g                   60 g
+                              Roues motrices uréthane orange Ø55 mm + jantes
+Motorisation                                                                               4                    30 g                 120 g
+                              blanches 5 branches
+                              Batterie LiPo 4S 2200 mAh 75C haute capacité & fort
+Électronique & Élec.                                                                       1                   260 g                 260 g
+                              C-rate
+                              ESC d'arme BLHeli_32 80A télémétrique avec
+Électronique & Élec.                                                                       1                    45 g                   45 g
+                              dissipateur alu
+Électronique & Élec.          Double variateur ESC propulsion réversible 2x 25A            1                    40 g                   40 g
+                              Récepteur radio FlySky 6CH 2.4 GHz avec double
+Électronique & Élec.                                                                       1                    15 g                   15 g
+                              antenne Failsafe
+                              Faisceau puissance 14 AWG silicone + XT60 Flush
+Électronique & Élec.                                                                     1 lot                  50 g                   50 g
+                              Safety Link
+                              Lest passif en plomb : ÉLIMINÉ (Masse utile 100%
+Lest & Centrage CG                                                                         0                      0g                    0g
+                              active)
+
+    SYNTHÈSE DE CONFORMITÉ RÉGLEMENTAIRE DONIFAB 2026 (HOTLINE 4WD)
+    - MASSE TOTALE MESURÉE DU ROBOT : 3 990 g
+    - MARGE DE SÉCURITÉ CONSERVÉE : 10 g (-0,25 % sous le plafond balance officielle)
+    - POIDS DU LESTAGE PASSIF : 0 g (100 % de la masse allouée aux composants actifs de combat)
+    - LIMITE RÉGLEMENTAIRE DU DÉFI : 4 000 g --> STATUT OFFICIEL : [CONFORME ET HOMOLOGUÉ]
+
+
+
+
+Équipe MaliBots 2026 - Rapport Technique de Conception & Homologation                                                         Page 6 / 8
+MALIBOTS CHALLENGE 2026 | DONIFAB                                      Dossier Technique : HOTLINE MK-II (4WD / Batteur Rectangulaire Évidé)
+
+
+
+
+     5. STRATÉGIE TACTIQUE DE COMBAT EN ARÈNE & DOCTRINE HOTLINE
+
+   5.1 Protocoles d'Engagement Tactique par Typologie Adverse
+La silhouette surbaissée, la poussée intégrale 4WD et le surplomb offensif du batteur rectangulaire confèrent à HOTLINE MK-II une
+supériorité totale :
+
+   Face aux Spinners Horizontaux (Barres & Disques rasants)
+Ces robots ciblent les flancs pour arracher les roues. Grâce à nos flancs noirs en PVC et à nos 4 roues semi-carénées, notre pilote engage sous
+un angle de biseau de 30°. Les fourches harpons et les pods orange dévient la trajectoire d'impact. Le couple 4WD enfonce l'adversaire contre la
+bordure avant que notre batteur évidé ne pulvérise ses liaisons d'axe.
+
+   Face aux Biseaux, Pousseurs & Wedges Passifs
+La bataille du Ground Game est notre domaine d'excellence. Nos fourches harpons à biseau de 11° glissent sous leur lèvre d'attaque. Dès que
+leurs roues décollent, les ergots supérieurs empêchent tout décrochage latéral ; nos 4 moteurs fournissent 45 N de poussée pour catapulter
+l'adversaire directement dans les dents de notre batteur rectangulaire creux.
+
+   Face aux Spinners Verticaux Concurrents (Disques & Tambours)
+Dans ce duel frontal symétrique, le robot ayant la garde au sol la plus basse et l'arme la plus avancée l'emporte. Nos montants étirés vers l'avant
+permettent à notre batteur évidé de frapper l'axe adverse en premier, tandis que nos amortisseurs silicone absorbent les micro-rebonds. Notre
+rotor frappe son train de roulement à 411-925 Joules, le catapultant en l'air.
+
+   Face aux Robots Marteaux & Haches Percutantes
+Ces machines exigent du temps pour armer leur coup. Notre motricité 4WD permet une accélération instantanée : nous venons au contact en
+moins d'une seconde, neutralisant la trajectoire d'abattement du marteau et les poussant dans les fosses.
+
+   5.2 Exploitation de l'Arène & Synergie du Poste de Pilotage
+L'arène de DoniFab comporte des bordures rigides et des zones de pièges. Notre duo de pilotage applique une répartition stricte :
+
+     BINÔME OPÉRATIONNEL AU POSTE DE COMMANDE DONIFAB
+     - Pilote Titulaire (Membre 4) : Concentré sur la trajectoire, l'adhérence des 4 roues et l'alignement millimétrique des pointes de fourches.
+       Il exploite le surplomb du batteur évidé pour déclencher l'impact destructeur dès que l'ennemi effleure nos harpons.
+     - Copilote & Télémétrie Tactique (Membre 1) : Analyse globale de l'arène, contrôle chronométrique, surveillance de la tension LiPo 4S
+       via télémétrie radio, signalement des zones de fosse et détection immédiate des avaries de l'adversaire.
+
+
+
+
+Équipe MaliBots 2026 - Rapport Technique de Conception & Homologation                                                                   Page 7 / 8
+MALIBOTS CHALLENGE 2026 | DONIFAB                                      Dossier Technique : HOTLINE MK-II (4WD / Batteur Rectangulaire Évidé)
+
+
+
+
+    6. MAINTENANCE ÉCLAIR EN STAND (< 10 MIN) & ENGAGEMENT OFFICIEL
+
+   6.1 Procédure Chronométrée d'Intervention Stand entre Deux Combats
+Le règlement du MaliBots Challenge accorde 10 minutes maximum entre deux matches éliminatoires. Sous la supervision de Membre 5,
+notre équipe déroule un protocole répété et validé en 7 minutes et 40 secondes :
+   Étape            Durée         Opération Technique                                       Opérateur           Critère de Validation
+                                                                                                                Alimentation 4S coupée / Voyant
+  Étape 1            30 s         Désarmement sécurité & extraction Safety Link             Membre 1
+                                                                                                                LED éteint
+                                  Dépose des panneaux de blindage carton                                        Dégagement complet du châssis
+  Étape 2            60 s                                                                   Membre 5
+                                  endommagés                                                                    interne PVC
+                                  Montage d'un kit de blindage modulaire neuf                                   Clipsage parfait & centrage sur
+  Étape 3            120 s                                                                 Membre 2 & 5
+                                  pré-ajusté                                                                    châssis
+                                  Contrôle serrage batteur creux, arbre M6 & écrous                             Écrous vérifiés à la clé
+  Étape 4            60 s                                                                   Membre 3
+                                  or                                                                            dynamométrique
+                                                                                                                Pack 4S frais connecté / Tension >
+  Étape 5            60 s         Mesure tension LiPo (Swap immédiat si < 14,2 V)           Membre 1
+                                                                                                                16,0 V
+                                  Contrôle motricité 4WD & état des bandages                                    4 roues opérationnelles /
+  Étape 6            60 s                                                                  Membre 1 & 4
+                                  uréthane                                                                      Température < 60°C
+                                                                                                                Coupure moteur immédiate en cas
+  Étape 7            30 s         Contrôle radio FlySky 2,4 GHz & coupure Failsafe          Membre 4
+                                                                                                                de perte signal
+                                  Test dynamique d'allumage sur banc d'essai                                    Spin-up batteur évidé & poussée
+  Étape 8            60 s                                                                 Équipe complète
+                                  sécurisé                                                                      4WD validés
+
+    BILAN CHRONOMÉTRIQUE : DURÉE TOTALE VALIDÉE = 7 MINUTES 40 SECONDES
+    Ce protocole rigoureux nous garantit 2 minutes et 20 secondes de marge avant l'appel officiel sur le ring par DoniFab.
+    Notre caisse de stand comprend : 3 kits complets de blindage carton stratifié résiné, 2 packs LiPo 4S équilibrés,
+    2 roues uréthane de rechange, 1 batteur creux de rechange, et l'outillage complet de serrage.
+
+
+
+   6.2 Conclusion & Engagement Solennel de l'Équipe MaliBots 2026
+En concevant HOTLINE MK-II, notre équipe a démontré qu'il est possible de transposer l'ingénierie d'un robot de combat d'élite mondial en
+exploitant l'ingéniosité frugale malienne : des matériaux simples (PVC rigide, acier meulé, carton haute densité), une motricité 4WD
+semi-carénée, un batteur rectangulaire évidé délivrant 411 à 925 Joules en porte-à-faux offensif, et un Ground Game millimétrique animé par
+des pods orange à suspension silicone et des fourches harpons ajourées.
+Nous nous engageons solennellement devant le jury de DoniFab et le public du MaliBots Challenge 2026 à concourir dans le respect le plus
+strict des règles de sécurité, avec combativité technique et fierté d'ingénieurs maliens.
+
+                               POUR L'ÉQUIPE MALIBOTS 2026 - HOMOLOGATION OFFICIELLE DES RESPONSABLES
+   Membre 1 (Chef Équipe)             Membre 2 (Châssis)        Membre 3 (Armement)          Membre 4 (Pilotage)        Membre 5 (Normes & Stand)
+     Architecture & Élec. 4S          Conception Mécanique      Batteur Creux & Harpons       Traction 4WD & Radio           Homologation Masse
+    [APPROUVÉ & SIGNÉ]               [APPROUVÉ & SIGNÉ]          [APPROUVÉ & SIGNÉ]          [APPROUVÉ & SIGNÉ]           [APPROUVÉ & SIGNÉ]
+
+
+
+
+Équipe MaliBots 2026 - Rapport Technique de Conception & Homologation                                                                  Page 8 / 8
+

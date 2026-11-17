@@ -1,0 +1,195 @@
+{
+  "meta": {
+    "nom": "WARABA",
+    "nom_note": "Nom provisoire (« lion » en bambara) à confirmer par l'équipe. Remplace « HOTLINE MK-II », nom d'un robot existant.",
+    "equipe": "SahelBridge",
+    "competition": "MaliBots Challenge 2026 · Robots Battle",
+    "revision": "R2",
+    "date": "2026-10-16",
+    "base": "Maquette du coéquipier (Maquette_Detaillee_Bot.html) et photos de référence, corrigées de leurs interférences ; R1/R1.1 pour les budgets et hypothèses.",
+    "unite": "mm",
+    "repere": "Origine O au sol, dans le plan de symétrie, à l'arrière du pare-chocs. X vers l'avant, Y vers la gauche, Z vers le haut.",
+    "avertissement": "Modèle visuel conceptuel d'encombrement. Ce n'est pas une CAO de fabrication : aucun perçage, ajustement ni matériau définitif.",
+    "statuts": {
+      "M": "Repris de la maquette du coéquipier (non mesuré)",
+      "H": "Hypothèse reprise des rapports, sans mesure",
+      "P": "Proposition R2 (correction ou complément)",
+      "E": "Estimation calculée à partir d'hypothèses ou d'allocations",
+      "V": "À vérifier sur le matériel réel"
+    }
+  },
+
+  "enveloppe": {
+    "L": 334, "L_sans_fourches": 273, "l": 217, "h": 110,
+    "statut": "M",
+    "note": "L = jusqu'à la pointe des fourches ; 273 jusqu'à l'avant de l'enveloppe 08. h = sommet de l'enveloppe 08 ; caisse à 44, arceaux à 95."
+  },
+
+  "chassis": {
+    "rep": "01", "nom": "Châssis (plancher, rails, cloison)",
+    "plancher": { "x": [6, 164], "y": [-67, 67], "z": [7.5, 12.5] },
+    "rails_int": { "x": [6, 194], "y_abs": [67, 73], "z": [7.5, 44] },
+    "cloison_av": { "x": [158, 164], "y": [-67, 67], "z": [12.5, 41] },
+    "statut": "M",
+    "materiau": "PVC rigide / plaque technique à identifier",
+    "note": "Planchers latéraux de la maquette supprimés : ils traversaient les roues (P)."
+  },
+
+  "capot": {
+    "rep": "10", "nom": "Capot plat (dessus de caisse)",
+    "x": [6, 164], "y": [-67, 67], "z": [41, 44],
+    "ouies": { "x0": 16, "pas": 7, "n": 7, "largeur": 2, "y_abs": 28, "longueur": 16 },
+    "statut": "P", "source": "Maquette : capot incliné 48→38 ; rendu plat en R2 pour loger la batterie (P)",
+    "materiau": "Plaque noire (aspect carbone) avec nom de l'équipe"
+  },
+
+  "flancs": {
+    "rep": "03", "nom": "Flancs extérieurs (protections latérales)",
+    "x": [6, 189], "y_abs": [103.5, 108.5],
+    "profil_xz": [[6, 12], [189, 12], [189, 32], [6, 46]],
+    "stries": { "n": 3, "x0": 116, "pas": 8, "z0": 18 },
+    "platines": { "x": [76, 132], "y_abs": [73, 103], "z": [40.5, 42.5], "ajour_xy": [[92, 80], [116, 80], [104, 96]], "statut": "P", "note": "Platines ajourées au-dessus des courroies, entre les roues (photos)." },
+    "axes_roues": { "diametre": 6, "statut": "P", "note": "Les axes de roues relient rail intérieur et flanc (maquette : entretoises non définies)." },
+    "statut": "M", "materiau": "Plaque noire à identifier (PVC, PEHD ou alu)"
+  },
+
+  "pare_chocs": {
+    "rep": "03", "nom": "Pare-chocs arrière",
+    "x": [0, 6], "y": [-67, 67], "z": [10, 42], "z_bleu": [10, 24],
+    "statut": "M", "materiau": "Bandeau bleu en élastomère imprimable (TPU) envisagé, partie haute noire"
+  },
+
+  "roues": {
+    "rep": "02", "nom": "Roues",
+    "diametre": 55, "largeur": 20, "jante_diametre": 30,
+    "axes_x": [44, 164], "axe_z": 27.5, "voie_y": 91,
+    "empattement": 120, "voie": 182,
+    "statut": "M", "statut_diametre": "H",
+    "note": "Maquette : voie 184 ; recentrée à 182 (P) pour dégager poulies et rails."
+  },
+
+  "transmission": {
+    "rep": "02", "nom": "Motoréducteurs et courroies",
+    "moteurs": { "x": 104, "z": 25, "diametre": 22, "y_abs": [22, 67], "nombre": 2 },
+    "support": { "x": [93, 115], "y": [-22, 22], "z": [12.5, 37] },
+    "poulies": { "x": [44, 104, 164], "y_abs": [74.5, 79.5], "diametre": 18 },
+    "statut": "M",
+    "note": "1 motoréducteur par côté, entraînant 2 roues par courroie (photos + maquette). R1/R1.1 prévoyaient 4 moteurs « type 370 » : à trancher (V)."
+  },
+
+  "batterie": {
+    "rep": "04", "nom": "Batterie (volume réservé)",
+    "x": [12, 88], "y": [-27, 27], "z": [12.5, 40],
+    "statut": "P", "hypothese_pack": "4S ; 1,5 Ah (R1) ou 2,2 Ah (rapport initial) — à confirmer (V)",
+    "note": "Maquette : pack 85 × 54 × 28 en interférence avec les moteurs ; volume réduit à 76 × 54 × 27,5 (P)."
+  },
+
+  "commande": {
+    "rep": "05", "nom": "Récepteur et régulation",
+    "x": [12, 44], "y": [31, 63], "z": [12.5, 28],
+    "statut": "P"
+  },
+
+  "controleurs": {
+    "rep": "06", "nom": "Contrôleurs de traction G / D",
+    "x": [48, 88], "y_abs": [31, 63], "z": [12.5, 25],
+    "statut": "P"
+  },
+
+  "distribution": {
+    "rep": "05", "nom": "Distribution protégée",
+    "x": [12, 44], "y": [-63, -31], "z": [12.5, 24],
+    "statut": "P"
+  },
+
+  "arceaux": {
+    "rep": "11", "nom": "Arceaux triangulaires (supports du module avant)",
+    "y_abs": [67, 73],
+    "profil_xz": [[144, 44], [194, 44], [231, 58], [233, 66], [213, 95], [197, 88], [154, 52]],
+    "evidement_xz": [[188, 57], [208, 61], [207, 85]],
+    "statut": "M", "materiau": "Plaque noire à identifier",
+    "note": "Posés dans le plan des rails intérieurs (maquette : décalés de 3 mm, en interférence avec les rails)."
+  },
+
+  "pods": {
+    "rep": "07", "nom": "Pods avant",
+    "x": [193, 235], "y_abs": [79, 105], "z": [8, 38], "chanfrein": 10,
+    "statut": "P", "source": "Maquette : X 189–235, en interférence de 2,5 mm avec la roue avant ; raccourcis (P)",
+    "materiau": "Rouge, impression ou élastomère à identifier"
+  },
+
+  "fourches": {
+    "rep": "12", "nom": "Fourches passives",
+    "y_abs": [89, 95],
+    "profil_xz": [[219, 10], [219, 26], [235, 30], [334, 2], [334, 0], [255, 0]],
+    "statut": "P",
+    "note": "Forme simplifiée, sans harpon ni pointe : plan incliné passif au ras du sol. Matériau et tenue à qualifier."
+  },
+
+  "module_avant": {
+    "rep": "08", "nom": "Module avant (enveloppe réservée)",
+    "axe_x": 225, "axe_z": 62, "rayon": 48, "y_abs": 56,
+    "statut": "M",
+    "note": "Enveloppe de giration conceptuelle uniquement : aucun détail de fabrication, de réglage ni d'activation n'est fourni."
+  },
+
+  "sectionnement": {
+    "rep": "09", "nom": "Coupe-circuit amovible",
+    "x": [14, 34], "y": [-12, 12], "z": [44, 52],
+    "statut": "V", "source": "Maquette et récapitulatif : accessible à l'arrière sans ouvrir le capot"
+  },
+
+  "option_levage": {
+    "nom": "Option levage lent non coupante (P3)",
+    "pivot": { "x": 196, "z": 36 },
+    "palette": { "longueur": 70, "y": [-50, 50], "epaisseur": 6, "rayon_bord": 3, "angle_repos_deg": 0, "angle_haut_deg": 25 },
+    "statut": "P",
+    "note": "Remplace le module 08 dans cette variante. Palette arrondie lente, représentation de principe ; actionneur et limites à définir avec l'encadrant."
+  },
+
+  "garde_sol": { "plancher": 7.5, "pods": 8, "flancs": 12, "fourches": 0, "statut": "M" },
+
+  "cg": {
+    "cible": { "x": 110, "y": 0, "z": 30, "statut": "P", "note": "Cible : en arrière de l'axe avant, le plus bas possible." }
+  },
+
+  "masse": {
+    "maximum_publie_g": 4000,
+    "postes": [
+      { "poste": "Châssis, capot et supports",     "g": 800, "position": [100, 0, 28] },
+      { "poste": "Flancs, pare-chocs et pods",     "g": 450, "position": [110, 0, 26] },
+      { "poste": "Propulsion (roues, moteurs, courroies)", "g": 700, "position": [104, 0, 27.5] },
+      { "poste": "Batterie et retenue",            "g": 350, "position": [50, 0, 26] },
+      { "poste": "Commande et distribution",       "g": 300, "position": [45, 0, 20] },
+      { "poste": "Module avant et arceaux",        "g": 650, "position": [215, 0, 62] },
+      { "poste": "Visserie et petits accessoires", "g": 200, "position": [100, 0, 25] },
+      { "poste": "Fourches et aménagements",       "g": 150, "position": [270, 0, 10] }
+    ],
+    "reserve_g": 250,
+    "statut": "P",
+    "note": "Allocations R1/R1.1 réparties sur la géométrie R2. Positions = hypothèses de placement pour un calcul E reproductible. Les « 3 990 g homologués » du rapport initial ne reposent sur aucune pesée."
+  },
+
+  "hypotheses_calcul": {
+    "capacite_Ah": 1.5, "capacite_alt_Ah": 2.2, "tension_nominale_V": 14.8, "courant_moyen_A": 18,
+    "reserve_capacite": 0.20, "duree_match_min": 5,
+    "vitesse_roue_tr_min": 600, "poussee_N": 45,
+    "statut": "H", "source": "Rapport initial (via R1/R1.1) ; 2,2 Ah cité par le rapport initial et le récapitulatif"
+  },
+
+  "regles_publiees": {
+    "consultation": "2026-10-16 23:28 GMT",
+    "url_categorie": "https://www.malibotschallenge.com/categories/robots-battle",
+    "url_reglement": "https://www.malibotschallenge.com/reglement",
+    "url_calendrier": "https://www.malibotschallenge.com/calendrier",
+    "masse_max": "1 robot par équipe, poids maximal de 4 kg",
+    "match": "Combat en duel en arène hexagonale de 5 minutes",
+    "securite": "Sécurité obligatoire ; aucun robot activé hors arène",
+    "equipe": "Jusqu'à 5 membres ; rôles : électroniciens, mécaniciens et stratège",
+    "criteres_categorie": ["Victoire par mise hors service du robot adverse", "Commande, précision et maîtrise du robot", "Attaque et dégâts infligés", "Sécurité et respect du règlement"],
+    "criteres_jury": "Performance technique, créativité, qualité de la présentation, respect des consignes (Art. 5)",
+    "calendrier": "Formation 12 oct.–25 nov. ; phase éliminatoire (Drone, Astronomie, Robots Battle) 7 nov. 2026 ; finale et remise des prix 26 nov. 2026",
+    "non_publie": ["Contenu du kit", "Dimensions maximales du robot", "Batteries admises", "Mécanismes autorisés/interdits", "Procédure d'arrêt et d'inspection", "Délai entre matchs"],
+    "note_url": "Le domaine malibotchallenge.com (sans s) ne répond pas ; le site officiel est malibotschallenge.com."
+  }
+}

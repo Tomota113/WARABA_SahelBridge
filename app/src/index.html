@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Robot 3D</title>
+<style>/*CSS*/</style>
+</head>
+<body class="panel-open">
+<div id="app">
+  <header class="brand">
+    <div>
+      <h1 data-name>ROBOT</h1>
+      <p>Équipe <span data-team></span> · MaliBots Challenge 2026 · Robots Battle · maquette 3D R2</p>
+    </div>
+    <span class="chip" title="Cotes proposées (P) ou reprises sans mesure (H) — voir config/geometry.json">Cotes provisoires</span>
+  </header>
+
+  <main id="viewport" aria-label="Scène 3D du robot"></main>
+
+  <div id="animBadge" class="badge" hidden>Animation de présentation — pas une simulation, vitesse non représentative</div>
+
+  <div class="hint">Glisser : tourner · Molette : zoom · Clic droit : déplacer · Clic : identifier</div>
+
+  <section id="infoCard" class="card" hidden>
+    <button id="infoClose" class="x" aria-label="Fermer">×</button>
+    <div class="cardhead"><h3 id="infoTitle"></h3><span id="infoStatus" class="status"></span></div>
+    <dl id="infoRows"></dl>
+    <p id="infoNote"></p>
+  </section>
+
+  <button id="btnPanel" class="panelbtn" aria-label="Afficher le panneau">☰</button>
+
+  <aside id="panel">
+    <div class="group">
+      <h2>Vues</h2>
+      <div class="seg">
+        <button data-view="perspective" class="on">Perspective</button>
+        <button data-view="dessus">Dessus</button>
+        <button data-view="face">Face</button>
+        <button data-view="cote">Côté</button>
+      </div>
+      <div class="row2">
+        <button data-view="arriere" class="ghost">Arrière ¾</button>
+        <button id="btnReset" class="ghost">Réinitialiser</button>
+      </div>
+    </div>
+
+    <div class="group">
+      <h2>Affichage</h2>
+      <label class="sw"><input type="checkbox" data-toggle="capot" checked><span>Capot</span><kbd>C</kbd></label>
+      <label class="sw"><input type="checkbox" data-toggle="explode"><span>Vue éclatée</span><kbd>E</kbd></label>
+      <label class="sw"><input type="checkbox" data-toggle="labels"><span>Repères 01–12</span><kbd>A</kbd></label>
+      <label class="sw"><input type="checkbox" data-toggle="dims"><span>Dimensions générales</span><kbd>D</kbd></label>
+      <label class="sw"><input type="checkbox" data-toggle="xray"><span>Flancs transparents</span><kbd>X</kbd></label>
+      <label class="sw"><input type="checkbox" data-toggle="cg"><span>Centre de gravité (cible / estimé)</span></label>
+            <label class="sw"><input type="checkbox" data-toggle="grid" checked><span>Grille au sol (10 cm)</span></label>
+      <div class="seg two">
+        <button data-colors="real" class="on">Couleurs réalistes</button>
+        <button data-colors="sub">Par sous-ensemble</button>
+      </div>
+    </div>
+
+    <div class="group">
+      <h2>Configuration avant</h2>
+      <div class="seg two">
+        <button data-config="ref" class="on">Module avant</button>
+        <button data-config="levage">Option levage P3</button>
+      </div>
+      <div id="rotorRow">
+        <label class="sw"><input type="checkbox" data-toggle="rotor" checked><span>Rotor simplifié</span></label>
+        <label class="sw"><input type="checkbox" data-toggle="envelope" checked><span>Enveloppe hachurée</span></label>
+        <div class="lift">
+          <span>Rotation</span><input id="spinSpeed" type="range" min="0" max="100" value="0"><output id="spinVal">0 %</output>
+          <p>Animation de présentation (touche T). Le pourcentage n'est pas une vitesse réelle : celle-ci n'est pas définie à ce stade.</p>
+        </div>
+      </div>
+      <div id="liftRow" class="lift" hidden>
+        <span>Palette</span><input id="liftAngle" type="range" min="0" max="25" value="0"><output id="liftVal">0°</output>
+        <p>Levage lent à palette arrondie, non coupant. Principe seulement : actionneur et limites à définir avec l'encadrant.</p>
+      </div>
+    </div>
+
+    <div class="group">
+      <h2>Sous-ensembles</h2>
+      <ul class="parts">
+        <li><label><input type="checkbox" data-part="01" checked><i data-swatch="01"></i>01 Châssis</label></li>
+        <li><label><input type="checkbox" data-part="02" checked><i data-swatch="02"></i>02 Roues et transmission</label></li>
+        <li><label><input type="checkbox" data-part="03" checked><i data-swatch="03"></i>03 Flancs et pare-chocs</label></li>
+        <li><label><input type="checkbox" data-part="04" checked><i data-swatch="04"></i>04 Batterie</label></li>
+        <li><label><input type="checkbox" data-part="05" checked><i data-swatch="05"></i>05 Commande et distribution</label></li>
+        <li><label><input type="checkbox" data-part="06" checked><i data-swatch="06"></i>06 Contrôleurs G / D</label></li>
+        <li><label><input type="checkbox" data-part="07" checked><i data-swatch="07"></i>07 Pods avant</label></li>
+        <li><label><input type="checkbox" data-part="08" checked><i data-swatch="08"></i>08 Module avant (enveloppe)</label></li>
+        <li><label><input type="checkbox" data-part="09" checked><i data-swatch="09"></i>09 Coupe-circuit</label></li>
+        <li><label><input type="checkbox" data-part="10" checked><i data-swatch="10"></i>10 Capot</label></li>
+        <li><label><input type="checkbox" data-part="11" checked><i data-swatch="11"></i>11 Arceaux</label></li>
+        <li><label><input type="checkbox" data-part="12" checked><i data-swatch="12"></i>12 Fourches passives</label></li>
+        <li><label><input type="checkbox" data-part="W" checked><i data-swatch="W"></i>Câblage (illustration)</label></li>
+      </ul>
+    </div>
+
+    <div class="group">
+      <h2>Présentation</h2>
+      <label class="sw"><input type="checkbox" data-toggle="anim"><span>Animation roulage</span><kbd>W</kbd></label>
+      <div class="row2">
+        <button id="btnPresent" class="primary">Mode jury <kbd>P</kbd></button>
+        <button id="btnPng" class="ghost">Exporter PNG</button>
+      </div>
+      <button id="btnTheme" class="ghost wide">Fond clair / sombre</button>
+    </div>
+
+    <footer class="foot">
+      Modèle visuel conceptuel généré depuis <code>config/geometry.json</code>. Ce n'est pas une CAO de fabrication.
+      Règles publiées consultées le <span id="rulesDate"></span>.
+    </footer>
+  </aside>
+
+  <div class="presentbar">
+    <div class="ptitle"><b data-name>ROBOT</b><span>Équipe <span data-team></span> · robot 4 roues motrices à profil bas · conception préliminaire</span></div>
+    <div class="pbtns">
+      <button data-view="perspective">Perspective</button>
+      <button data-view="dessus">Dessus</button>
+      <button data-view="face">Face</button>
+      <button data-view="cote">Côté</button>
+      <button data-quick="capot">Capot</button>
+      <button data-quick="explode">Éclatée</button>
+      <button data-quick="dims">Cotes</button>
+      <button id="btnSpin">Rotation</button>
+      <button id="btnExitPresent" class="ghost">Quitter</button>
+    </div>
+  </div>
+</div>
+<script>/*JS*/</script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "name": "hotline-mk2-3d",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Visualisation 3D interactive HOTLINE MK-II (modèle conceptuel)",
+  "scripts": {
+    "build": "node build.mjs",
+    "dev": "node build.mjs --serve"
+  },
+  "dependencies": {
+    "esbuild": "0.24.0",
+    "three": "0.170.0"
+  }
+}

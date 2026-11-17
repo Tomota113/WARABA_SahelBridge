@@ -1,0 +1,881 @@
+M A L I B OT S C H A L L E N G E 2 0 2 6 • CAT É G O R I E R O B OT S B AT T L E • B A M A KO, M A L I
+
+
+
+
+HOTLINE MK-II
+Dossier de conception préliminaire
+Équipe de cinq étudiants • Entretien de sélection du 17 octobre 2026 (selon convocation) • Révision R1.1 du 16 octobre 2026
+
+
+
+
+   Statut du document. Projet en phase de présélection. Aucun prototype construit, essayé, pesé ou agréé n'est démontré par les
+   pièces disponibles. Ce dossier ne constitue pas une homologation. Les cotes et masses sont des propositions ou des hypothèses,
+   identifiées comme telles.
+
+La proposition de l'équipe
+HOTLINE MK-II conserve sa silhouette basse, son train à quatre roues motrices, ses protections remplaçables et ses pods
+avant. Notre priorité est un robot pilotable, réparable et compatible avec le matériel réellement accessible au Mali et dans le
+kit DoniFab. L'interface avant reste réservée au concept initial ; aucune fabrication ni activation de mécanisme rotatif
+dangereux n'est définie dans ce dossier.
+
+  320 × 280 × 100                      3 850 g                               4 kg • 5 min                           7 nov. 2026
+  mm hors tout, proposition P          budget de travail, réserve            limites publiées par                   phase éliminatoire publiée [S6]
+                                       incluse ; non pesé                    l'organisateur [S1]
+
+
+ Élément                                      Base de travail R1.1
+ Identité conservée                           Profil bas, 4 roues motrices, protections latérales, pods avant, architecture modulaire.
+ Implantation                                 Enveloppe 320 × 280 × 100 mm ; roues Ø55 mm (H) ; empattement 165 mm, voie 230 mm (P).
+ Masse de travail                             3 600 g alloués + 250 g de réserve = 3 850 g ; aucune masse mesurée.
+ Point dimensionnant                          Autonomie : le pack 4S 1,5 Ah envisagé n'offre aucune marge à 18 A sur un match de 5 min.
+ Délai                                        Environ trois semaines entre l'entretien et la phase éliminatoire publiée du 7 novembre.
+ Décision après sélection                     Inventorier le kit, obtenir les règles détaillées, figer les composants avant toute fabrication.
+
+Ce que contient le dossier
+Les exigences publiées et nos hypothèses (§1), l'architecture et les matériaux (§2–3), une planche technique cohérente
+générée depuis une géométrie unique (§4), l'architecture électronique fonctionnelle (§5), les calculs de vérification (§6), le
+devis de masse (§7), le matériel et son approvisionnement (§8), les risques et le programme de validation (§9), l'organisation
+de l'équipe et le rétroplanning (§10), l'exploitation (§11), la préparation de l'entretien (§12–13) et la traçabilité des corrections
+(§14).
+
+
+
+
+16 octobre 2026 • Aucun agrément ni résultat d'essai revendiqué                                                                                   1 / 15
+MALIBOTS CHALLENGE 2026 / HOTLINE MK-II                                                                           R1.1 • CONCEPTION PRÉLIMINAIRE
+
+1 Exigences et niveau de preuve
+Le rapport initial de huit pages a été analysé lors de la révision R1. Il décrivait des intentions et affichait des validations sans
+procès-verbal d'essai, relevé de pesée ni référence d'homologation. Les termes « officiel », « homologué », « mesuré » et «
+validé » ont été retirés lorsqu'ils n'étaient pas étayés. La révision R1.1 reprend R1, vérifie à nouveau les pages publiques de
+l'organisateur le 16 octobre 2026 et corrige les incohérences géométriques restantes.
+ Sujet                            Source ou statut                           Conséquence pour HOTLINE MK-II
+ Masse du robot                    F Maximum 4 kg [S1]                       Viser 3 600 g alloués + réserve. Pesée complète à faire. La stricte
+                                                                             inégalité « < 4 kg » du rapport initial n'est pas confirmée.
+ Durée et arène                    F Duel de 5 min, arène hexagonale         L'autonomie est dimensionnée sur 5 min. Dimensions de l'arène,
+                                  [S1]                                       sol et obstacles inconnus.
+ Victoire                          F Mise hors service de l'adversaire       La fiabilité de la propulsion et de l'arrêt prime sur toute fonction
+                                  [S1]                                       offensive.
+ Activation                        F Aucun robot activé hors arène [S1]      Toute mise sous tension et tout essai motorisé suivent les
+                                                                             consignes de DoniFab.
+ Équipe et rôles                   F 5 membres au plus ; électroniciens,     Cinq pôles (§10). Le capitaine est désigné par l'équipe
+                                  mécaniciens et stratège attendus [S1] ;    conformément au règlement.
+                                  un capitaine [S2]
+ Critères du jury                  F Performance technique, créativité,      L'oral (§12) est construit sur ces quatre critères.
+                                  qualité de la présentation, respect des
+                                  consignes [S2]
+ Calendrier                        F Formation 12 oct.–25 nov. ; phase       Rétroplanning de trois semaines (§10). Le calendrier public ne
+                                  éliminatoire incluant Robots Battle le 7   mentionne pas l'entretien du 17 octobre : la convocation fait foi.
+                                  nov. ; finale le 26 nov. [S6]
+ Kit, dimensions                   V Non publiés dans les pages              Questions à poser pendant l'entretien (§14). Aucun achat engagé
+ maximales, batteries,            consultées                                 avant réponse.
+ mécanismes autorisés,
+ arrêt, inspection
+ Quatre équipes retenues           V Information de l'équipe                 Non confirmée par les pages consultées.
+ Délai entre matchs                V Non publié                              Les 10 min du rapport initial restent une hypothèse ; aucune durée
+                                                                             de maintenance n'est garantie.
+
+Une notation commune dans tout le dossier
+   Code       Signification                                                   Exemple
+     F        Information publiée ou calcul arithmétique vérifié              Match de 5 min [S1] ; 60 × 1,5 / 18 = 5,0 min.
+     H        Hypothèse reprise du rapport initial, sans mesure               Batterie 4S 1,5 Ah ; roues Ø55 ; moteurs « type 370 ».
+     P        Proposition préliminaire de l'équipe (R1 ou R1.1)               Enveloppe 320 × 280 × 100 ; empattement 165 ; garde 6.
+     E        Estimation calculée à partir d'hypothèses ou d'allocations      Centre de gravité indicatif (172 ; 0 ; 37) mm.
+     V        À vérifier sur le matériel réel avant utilisation               Courants, masse réelle, retenue batterie, arrêt radio.
+
+   La fiche de catégorie [S1] complète le règlement général [S2] mais ne constitue pas un règlement technique daté et versionné. En cas
+   de divergence, la version applicable sera demandée à DoniFab avant tout engagement matériel.
+
+
+
+2 Architecture du robot
+HOTLINE MK-II est une plateforme à quatre roues motrices et direction différentielle : les deux roues d'un même côté
+reçoivent une consigne commune. Un caisson bas reçoit la batterie au centre, l'électronique de commande à l'arrière et les
+deux contrôleurs de traction sur les flancs. Une protection en U (deux flancs et un panneau arrière) entoure les roues ; deux
+pods à bords arrondis et un volume réservé occupent l'avant. Le capot se dépose sans toucher aux fixations de propulsion.
+
+
+
+
+16 octobre 2026 • Aucun agrément ni résultat d'essai revendiqué                                                                                     2 / 15
+MALIBOTS CHALLENGE 2026 / HOTLINE MK-II                                                                              R1.1 • CONCEPTION PRÉLIMINAIRE
+
+ Paramètre d'implantation                      Valeur (mm)                                        Statut et limite
+ Hors tout L × l × h                           320 × 280 × 100                                     P Hauteur fixée par le volume réservé 08 ;
+                                                                                                  capot à 65.
+ Caisson 01                                    230 × 200 ; X = 25 à 255 ; parois 3                 H plancher 8 • P le reste.
+ Roues 02                                      Ø55 × 25 ; axes X = 70 et 235 ; Z = 27,5            H Ø55 • P largeur et position ; empattement
+                                                                                                  165.
+ Voie / roues hors tout                        230 ; Y = ±115 / 255                                P Jeu roue / caisson 2,5 : faible, à contrôler en
+                                                                                                  V2.
+ Motoréducteurs 02                             Enveloppe Ø25 × 58, axe selon Y                     P « Type 370 » non confirmé ; 4,5 mm de jeu à
+                                                                                                  la paroi avant.
+ Protections 03                                Flancs X = 0 à 280, Y = ±134 à ±140, Z = 10 à       P 6,5 mm de jeu extérieur aux pneus ; aucune
+                                               65 ; arrière X = 0 à 6                             invulnérabilité revendiquée.
+ Garde au sol                                  Plancher 6 ; pods 8 ; protections 10                P À confirmer selon le sol de l'arène.
+ Batterie 04                                   90 × 70 × 35 ; X = 120 à 210                        P Volume réservé à comparer au pack réel.
+
+ Commande 05 / contrôleurs 06                  70 × 70 × 30 (X = 35 à 105) / 2 × 70 × 40 ×         P Dimensions réelles à relever.
+                                               20 latéraux
+ Pods 07 / module 08                           X = 255 à 320, R10 / 60 × 90 × 70, Z = 30 à         P 08 : enveloppe sans organe actif.
+                                               100
+ Accès au sectionnement 09                     Sur capot, X = 35 à 60                              V Organe et position validés avec l'encadrant.
+
+ Centre de gravité                             Cible (160 ; 0 ; 35) • estimation (172 ; 0 ; 37)    P cible • E estimation, voir §6.
+
+
+Origine et cohérence géométrique
+L'origine O est au sol, dans le plan de symétrie, à l'extrémité arrière de l'enveloppe. X pointe vers l'avant, Y vers la gauche, Z
+vers le haut. Toutes les vues, le DXF et la maquette 3D sont générés par un même script à partir du fichier geometrie.json :
+une cote modifiée une fois se propage partout. Les roues touchent le plan Z = 0 et culminent à 55 mm, sous le capot (65
+mm).
+
+Configurations à décider après réception du kit
+ Configuration                            Contenu                                                                      Statut
+ Référence                                Plateforme 4WD, protections, pods ; volume 08 neutralisé.                    Base de conception
+ Option de démonstration                  Levage lent à palette arrondie, non coupant ; actionneur et limites          P3, différable
+                                          définis avec l'encadrant.
+ Concept de combat initial                Emplacement visible (08) ; réalisation hors du périmètre de ce dossier.      Non détaillé
+
+   Le rapport initial ne donnait pas de dimensions générales. L'implantation est donc une proposition d'intégration, pas la restitution
+   d'une CAO existante. Aucun perçage, ajustement, matériau définitif ni plan de pièce n'est défini.
+
+
+
+3 Structure et choix des matériaux
+Nous conservons l'approche frugale du rapport initial : utiliser des matériaux transformables avec des moyens accessibles à
+Bamako, en vérifiant leurs limites. La résistance du robot dépend du chemin des efforts entre roues, supports, plancher et
+assemblages ; elle ne se déduit pas du seul nom d'un matériau.
+ Matériau                 Intérêt économique et pratique                   Limite mécanique et validation nécessaire
+ PVC rigide               Se coupe et se perce avec un outillage           Nuance pleine ou expansée à identifier. Sensible aux entailles et au
+                          simple ; coût potentiellement accessible ;       fluage sous serrage ; tenue des assemblages vissés à vérifier. Aucune
+                          adapté à la maquette d'intégration.              protection de combat démontrée.
+ Carton stratifié         Panneaux sacrificiels peu coûteux,               Résine, plis, épaisseur et humidité inconnus. Décollement, perforation,
+ résiné                   remplaçables entre deux matchs ;                 chaleur et inflammabilité à examiner. Pas un blindage.
+                          prototypage rapide.
+ Aluminium                Renfort local des supports moteurs ou            Alliage et état réels à identifier ; une nuance 6061-T6 n'est pas prouvée
+                          structure alternative si disponible.             par l'aspect. Déformation possible.
+
+16 octobre 2026 • Aucun agrément ni résultat d'essai revendiqué                                                                                 3 / 15
+MALIBOTS CHALLENGE 2026 / HOTLINE MK-II                                                                    R1.1 • CONCEPTION PRÉLIMINAIRE
+
+ Matériau              Intérêt économique et pratique              Limite mécanique et validation nécessaire
+ PEHD                  Protection déformable, bonne résilience,    Approvisionnement, épaisseur et maintien mécanique à confirmer.
+                       usinable.                                   Masse surfacique à comparer à épaisseur égale.
+ Polycarbonate         Capot transparent permettant l'inspection   Ne pas confondre avec l'acrylique. La mention « fragile au froid » du
+                       visuelle.                                   rapport initial n'est pas justifiée pour la nuance visée.
+ Élastomère des        Bords amortissants et remplaçables.         Ni silicone ni moyen local confirmés. Dureté, arrachement et fixation à
+ pods                                                              qualifier ; aucun gain d'absorption chiffré.
+
+Protection des roues et accès de maintenance
+La protection en U masque les roues sur les flancs et à l'arrière sans les rendre invulnérables ; l'avant des roues reste
+dégagé derrière les pods. Les flancs se fixent au caisson par des entretoises entre les roues, à concevoir après choix du
+matériau. Le jeu latéral, le dégagement des câbles et la dépose d'une roue sont contrôlés sur une maquette non alimentée
+(V2).
+
+Points mécaniques à fermer
+   Les supports de propulsion reprennent les efforts sans compter uniquement sur le serrage dans le PVC (inserts, contre-
+   plaques ou supports du kit).
+   La batterie est retenue mécaniquement, protégée des frottements et visible à l'inspection.
+   Les pièces avant de la variante de levage ont des bords arrondis ; les harpons et pointes du rapport initial ne sont pas
+   repris.
+   Le jeu roue / caisson de 2,5 mm est le point géométrique le plus serré : s'il ne suffit pas, élargir la voie ou réduire le
+   caisson avant fabrication.
+
+   La documentation fabricant PALCLEAR [S4] montre que le « PVC » recouvre des formulations distinctes ; elle ne qualifie ni le PVC
+   disponible à Bamako ni une structure soumise à des chocs. Les classements de résistance, coûts et temps de remplacement du
+   rapport initial ont été retirés faute de protocole comparable.
+
+
+
+
+16 octobre 2026 • Aucun agrément ni résultat d'essai revendiqué                                                                        4 / 15
+MALIBOTS CHALLENGE 2026 / HOTLINE MK-II                                                                                                                                             R1.1 • CONCEPTION PRÉLIMINAIRE
+
+4 Plan technique et implantation
+                                                           01                             03                                                                         02        02
+
+
+                                                                                                       caisson 230 P
+
+
+
+
+                                                                                                                                     06
+                                                                                                                                                                                                             07
+
+
+
+
+                             03
+
+
+                                                                                                                                                                                                          08
+
+
+                                                                            05                                            04
+
+
+
+                                                                                                                                                                                           P 032 eiov        P 082
+
+                                                                                                                                   CG E
+
+
+
+
+                                                                09
+
+
+
+
+                                                                                                                                                                                                             07
+                                                                                                                        06
+
+
+                         Y
+
+
+                                    X                                                                    165 P (empattement)
+
+                                                                                                                       320 P
+
+
+
+
+Figure 1. Vue de dessus, capot retiré. Repères des sous-ensembles, axes des roues et position du CG estimé (E). Cotes provisoires (P) ; Ø55 repris
+du rapport initial (H). Planche A3 séparée à l'échelle 1:2,5.
+
+
+
+
+                                                      09                                         10
+                                                                     cible P 160 ; 35                                                CG E 172,2 ; 37 indicatif                                  08
+                                        03
+
+
+
+
+                                                                                                                                                                                                        P 001
+
+
+                             P 56
+
+                                                                                                                                                                                                        07
+
+
+
+                                             roues Ø55 H                                                      garde : plancher 6 P  pods 8 P  protections 10 P
+
+                                                       70 P                                                                                                               02
+                                                                                               235 P
+
+
+
+
+Figure 2. Vue de côté droit. La protection latérale est au premier plan ; roues et motoréducteurs cachés en pointillés. Croix : CG cible (P) ; disque :
+CG estimé à partir du devis d'allocation (E).
+
+
+
+
+16 octobre 2026 • Aucun agrément ni résultat d'essai revendiqué                                                                                                                                                      5 / 15
+MALIBOTS CHALLENGE 2026 / HOTLINE MK-II                                                                                   R1.1 • CONCEPTION PRÉLIMINAIRE
+
+
+                                                             08                                                 10
+
+
+
+                            03                     07                                                    07                   03
+
+
+
+
+                                                                                                                              02
+
+
+
+
+                                                                       200 P (caisson)
+                                                                    255 P (roues hors tout)
+                                                                     280 P (protections)
+
+
+
+
+Figure 3. Vue de face : protections latérales, roues, pods avant et volume réservé 08 (hachuré). Cotes provisoires.
+
+
+
+
+                                                        Z
+
+
+                                                             Y
+
+
+
+
+                                                             X
+
+
+
+
+Figure 4. Isométrie d'encombrement vue de l'avant droit, capot retiré, protections en transparence. Représentation des volumes réservés, sans
+échelle.
+
+    Rep.      Sous-ensemble                                       Intention d'intégration
+     01       Caisson et plancher                                 Profil bas ; plancher et capot accessibles.
+     02       4 roues et motoréducteurs                           Répartition symétrique ; un moteur par roue.
+     03       Protections en U                                    Panneaux remplaçables ; aucune invulnérabilité revendiquée.
+     04       Batterie                                            Zone centrale basse ; retenue et protection à concevoir.
+  05 / 06     Commande / contrôleurs G et D                       Séparation commande–puissance ; ventilation à vérifier.
+  07 / 08     Pods avant / volume réservé                         Bords arrondis ; module actif non détaillé.
+   09 / 10    Accès au sectionnement / capot                      Arrêt matériel accessible sans ouvrir le robot.
+
+Contrôles de cohérence exécutés sur la géométrie
+ Contrôle automatique (script generer_plans.py)                                               Résultat        Commentaire
+ Les volumes atteignent exactement l'enveloppe 320 × 280 × 100                                Conforme        Pods à l'avant, U à l'arrière et sur les
+                                                                                                              flancs, 08 en hauteur.
+ Interférences entre volumes englobants                                                       Aucune          Après correction de l'axe avant (voir ci-
+                                                                                                              dessous).
+
+
+
+16 octobre 2026 • Aucun agrément ni résultat d'essai revendiqué                                                                                          6 / 15
+MALIBOTS CHALLENGE 2026 / HOTLINE MK-II                                                                                                                                                                                           R1.1 • CONCEPTION PRÉLIMINAIRE
+
+ Contrôle automatique (script generer_plans.py)                                                                                                                       Résultat                              Commentaire
+ Jeu roue / caisson • roue / protection                                                                                                                          2,5 • 6,5 mm                               Le premier est faible : contrôle V2
+                                                                                                                                                                                                            obligatoire.
+ Motoréducteur avant / paroi avant                                                                                                                                     4,5 mm                               Était −1,5 mm (interférence) avec l'axe à X
+                                                                                                                                                                                                            = 240.
+ Garde minimale hors roues                                                                                                                                                 6 mm                             Plancher ; pods 8, protections 10.
+
+   Corrections géométriques R1 → R1.1. (1) L'enveloppe R1 de 320 mm comportait 25 mm vides à l'arrière : une protection arrière ferme
+   désormais le U. (2) Avec l'axe avant à X = 240, un motoréducteur Ø25 empiétait de 1,5 mm sur la paroi avant : l'axe passe à X = 235
+   (empattement 170 → 165). (3) Les roues avant dépassaient l'extrémité des protections : les flancs vont jusqu'à X = 280. (4) La vue de
+   côté R1 omettait la protection latérale qui masque les roues. (5) Les contrôleurs, décrits « latéraux » dans le texte, étaient dessinés au
+   centre : ils sont désormais latéraux sur tous les supports.
+
+
+
+5 Architecture électronique fonctionnelle
+
+      HOTLINE MKII  ARCHITECTURE ÉLECTRONIQUE FONCTIONNELLE                                                                                                                                                            R1.1  schéma fonctionnel, pas un schéma de câblage
+
+
+
+           B1      Batterie embarquée                                                    A1      Alimentation régulée                                           R1        Récepteur / commande                                           E1      Émetteur radio
+                                                                                                                                                                                                                               radio
+          4S 1,5 Ah = hypothèse H                                                       Adaptée au récepteur :                                                 Mixage différentiel (radio                                               Pilote  Membre 4
+          Choix final selon kit et                                                      4,0 à 8,4 V publiés S3                                               ou carte de commande)                                                    Modèle compatible
+          autonomie mesurée V5                                                        BEC intégré si documenté                                               Perte liaison : consigne nulle F2                                        à confirmer (kit / local)
+                                                                                                                                                               Retour liaison : neutre exigé F3
+
+
+
+           S1      Sectionnement matériel
+          Accessible sur capot (rep. 09                                                                                                                        C1        Contrôleur traction G                                          M1      2 moteurs gauches
+          Indépendant du logiciel
+          Fonction F1                                                                                                                                          Voie réversible                                                          Avant + arrière
+                                                                                                                                                               pour 2 moteurs                                                           Roues Ø55 H
+                                                                                                                                                               Courant cumulé à vérifier                                                Tension, couple  V
+
+
+           P1      Distribution protégée                                                                                                 consignes
+
+          Protection choisie par
+          l'encadrant F4                                                                                                                                      C2        Contrôleur traction D                                          M2      2 moteurs droits
+          Courants à relever V3                                                                                                                              Voie réversible                                                          Avant + arrière
+                                                                                                                                                               pour 2 moteurs                                                           Roues Ø55 H
+                                                                                                                                                               Courant cumulé à vérifier                                                Tension, couple  V
+
+
+
+
+                                                                                                                                                                O1        Option levage P3                                             O2      Actionneur lent
+                                                                                                                                                               Contrôleur + actionneur                                                  Palette arrondie
+                                                                                                                                                               choisis après le kit                                                     Course limitée
+                                                                                                                                                               Aucune arme rotative                                                     Revue sécurité
+
+
+
+
+        FONCTIONS DE SÉCURITÉ À DÉMONTRER (aucune n'est validée à ce stade)
+          F1 Arrêt matériel                                                       essai V3, V4        F2 Perte radio                                                              essai V4         F3 Retour radio                                                          essai V4
+          coupe l'énergie de puissance ; accessible sans ouvrir le robot.                             consigne nulle sur les deux voies de traction.                                               aucun départ sans commandes au neutre.
+
+
+          F4 Protection électrique                                                    essai V3        F5 Tension du pack                                                          essai V5         F6 Règle publiée S1                                                     essai —
+          surintensité / court-circuit, définie par l'encadrant.                                      contrôle avant et après match, moyen à définir.                                              aucune activation hors arène ; essais en zone autorisée.
+
+
+                      flux d'énergie (fonctionnel)                                    consigne de commande                                      fonction optionnelle P3                               liaison radio                           H hypothèse  P proposition  V à vérifier
+
+        Aucun brochage, calibre de protection, section de conducteur ni procédure de charge n'est défini ici. L'installation, la batterie, le chargeur et les protections sont validés par un encadrant compétent.
+
+
+
+
+Figure 5. Flux d'énergie et de commande, fonctions de sécurité F1 à F6 et essais associés. Document A4 paysage séparé. Schéma fonctionnel,
+sans câblage de puissance.
+
+Une chaîne de commande explicite
+L'émetteur transmet les consignes au récepteur. Le mixage différentiel est réalisé par la radio ou par une carte de
+commande ; il n'est pas supposé présent dans tout contrôleur. Deux voies réversibles commandent respectivement les deux
+moteurs gauches et les deux moteurs droits. Un contrôleur double peut remplir ces fonctions si sa fiche technique l'autorise
+pour le courant cumulé de deux moteurs.
+
+Compatibilité et fonctions manquantes dans la source
+Le récepteur FS-iA6B reste un candidat, pas une fourniture confirmée. Sa fiche fabricant indique une alimentation de 4,0 à
+8,4 V [S3] : avec un pack 4S, une alimentation régulée compatible est donc nécessaire (A1). La carte de commande, le
+
+16 octobre 2026 • Aucun agrément ni résultat d'essai revendiqué                                                                                                                                                                                                                            7 / 15
+MALIBOTS CHALLENGE 2026 / HOTLINE MK-II                                                                          R1.1 • CONCEPTION PRÉLIMINAIRE
+régulateur, les protections et la surveillance de tension, absents du rapport initial, sont comptés dans le budget de masse
+(poste « commande et distribution »).
+
+Sécurité et retour au repos
+Le sectionnement matériel (F1) et l'arrêt commandé ont des rôles complémentaires : le premier ne dépend d'aucun logiciel.
+La perte radio doit produire une consigne nulle (F2) et le retour de liaison ne doit pas provoquer de départ (F3). Le délai de
+réaction, le comportement des contrôleurs et l'immobilisation réelle seront mesurés ensemble lors de l'essai V4 ; une
+consigne nulle ne garantit pas un arrêt mécanique instantané.
+
+   Aucun brochage, calibre de protection, section de conducteur ni procédure de charge n'est imposé ici. Un encadrant compétent
+   valide l'ensemble électrique, les protections et le chargeur. Aucun robot n'est activé hors arène [S1].
+
+
+
+6 Vérifications de dimensionnement
+Ces calculs vérifient la cohérence des hypothèses ; ils ne démontrent pas la performance d'un prototype. Le courant moyen
+de 18 A et la vitesse de 600 tr/min sont repris du rapport initial comme cas d'étude et seront remplacés par les données du
+kit ou par des mesures autorisées.
+ Grandeur                                    Relation appliquée                          Résultat et portée
+ Autonomie idéale                            t = 60 × 1,5 / 18                           5,00 min ; toute la capacité supposée utilisable.
+ Autonomie avec 20 % de réserve              t = 60 × 1,5 × 0,80 / 18                    4,00 min ; hypothèse d'étude, pas une mesure.
+ Courant moyen admissible pour 5 min         I ≤ 60 × 1,5 × 0,80 / 5                     14,4 A au plus avec le pack envisagé.
+ Capacité nécessaire à 18 A                  C = 18 × (5/60) / 0,80                      1,875 Ah minimum théorique ; choix non figé.
+ Courant moyen par voie                      18 / 2                                      ≈ 9 A par contrôleur si répartition égale ; pointes de
+                                                                                         démarrage et de blocage inconnues.
+ Énergie nominale du pack                    14,8 × 1,5                                  22,2 Wh ; ni puissance garantie ni énergie utile
+                                                                                         mesurée.
+ Vitesse sans glissement                     π × 0,055 × 600 / 60                        1,73 m/s à 600 tr/min réels ; vitesse en charge
+                                                                                         inconnue.
+ Adhérence requise pour 45 N                 µ = 45 / (3,85 × 9,81)                      µ ≈ 1,19 si toute la masse porte sur les roues : valeur
+                                                                                         élevée, la poussée de 45 N n'est pas démontrée.
+ Part du lest dans la masse source           1 586 / 3 850                               41,2 % ; ajout non justifié par une étude de stabilité.
+
+Conséquence pour un match de cinq minutes
+Le pack 1,5 Ah n'offre aucune marge à 18 A, même dans le calcul idéal. Les 4 min 30 s du rapport initial correspondraient à
+90 % de capacité utile, hypothèse non annoncée. La décision se prend après le kit : réduire la consommation moyenne,
+augmenter la capacité ou adapter la propulsion, puis vérifier les effets sur la masse, l'encombrement (volume 04) et
+l'échauffement. Aucun achat de batterie n'est figé ici.
+
+Centre de gravité : estimation indicative
+Le rapport R1 jugeait le centre de gravité incalculable. Une estimation est possible à partir des allocations du §7, en plaçant
+chaque masse au centre du volume qui lui est réservé. Elle ne remplace pas une mesure, mais elle montre quelle décision
+pèse le plus.
+ Cas (allocations du §7, sans réserve)                       XG (mm)            ZG (mm)                       Charge sur essieu avant
+ Configuration complète, 3 600 g                             172 E                37 E                                ≈ 62 %
+ Sans le module avant 08, 2 950 g                            147 E                31 E                                ≈ 47 %
+
+Relations : XG = Σ mixi / Σ mi ; part avant = (XG − 70) / 165. Le module avant (650 g placé à Z ≈ 65 mm) avance le CG de 25 mm et le remonte de
+6 mm : sa masse réelle est la première donnée à obtenir. La cible P (160 ; 35) n'est atteinte qu'avec un module plus léger ou une batterie reculée.
+
+Ce que quatre moteurs ne prouvent pas
+Quatre roues répartissent les appuis mais ne multiplient pas la limite d'adhérence. La tension admissible, le couple et le
+courant de blocage des moteurs « type 370 » restent inconnus. Chaque voie de commande est évaluée pour ses deux
+
+16 octobre 2026 • Aucun agrément ni résultat d'essai revendiqué                                                                               8 / 15
+MALIBOTS CHALLENGE 2026 / HOTLINE MK-II                                                                           R1.1 • CONCEPTION PRÉLIMINAIRE
+moteurs simultanés, pas pour un seul.
+
+   Valeurs retirées du domaine des performances. Les énergies du module actif variaient selon les pages du rapport initial ; elles ne
+   servent pas à dimensionner un organe. Les projections de plus de deux mètres, le CG à 21 mm et la température inférieure à 48 °C ont
+   également été retirés faute de preuve.
+
+
+
+7 Devis de masse et marges
+Vérification du document source (R1). La somme des 22 lignes du tableau de masse du rapport initial vaut 3 850 g, soit 150
+g (3,75 %) sous 4 000 g : il n'y avait pas d'erreur d'addition. En revanche, aucune pesée, précision de balance ou
+homologation n'accompagnait ces valeurs. Le lest ventral de 1 586 g (41,2 % du total) aurait épuisé la marge avant même de
+connaître les masses réelles ; R1 l'a remplacé par une allocation et une réserve.
+ Poste                                                Budget (g)           Part      Base et limite
+ Structure et supports                                       800        20,8 %       Plancher, parois, capot ; matériaux à confirmer.
+ Protections remplaçables                                    450         11,7 %      U latéral et arrière, pods, attaches incluses.
+ Propulsion 4WD complète                                     700         18,2 %      Moteurs, roues, supports, interfaces.
+ Batterie et retenue                                         350          9,1 %      Allocation adaptable au pack réel.
+ Commande et distribution                                    300          7,8 %      Contrôleurs, régulation, radio, arrêt, faisceau.
+ Module avant réservé                                        650         16,9 %      Allocation sans conception d'organe dangereux.
+ Visserie et petits accessoires                              200          5,2 %      Évite omissions et doubles comptes.
+ Aménagements et identification                               150         3,9 %      Calage, marquages, accès.
+ Sous-total alloué                                         3 600        93,5 %       Objectif de conception ; pas une pesée.
+ Réserve projet non affectée                                 250          6,5 %      Marge pour inconnues ; pas un lest.
+ Total budgété                                             3 850         100 %       150 g sous 4 000 g si les allocations sont tenues.
+
+Comment ce budget sera vérifié
+   Chaque pièce reçue est pesée avec sa référence, la date et les accessoires inclus ; la balance utilisée est identifiée.
+   Une nomenclature unique (fichier Devis_masse_R1-1.csv) évite de compter deux fois supports et visserie.
+   La pesée finale comprend batterie, protections, câbles et tout élément exigé en configuration de match.
+   Règle de décision : si la masse pesée dépasse l'allocation d'un poste, l'écart est pris sur la réserve ; si la réserve tombe
+   sous 100 g, les options P3 sont différées.
+
+   Ces chiffres sont des plafonds d'allocation, sans nomenclature finale pour les garantir. Les 250 g de réserve font partie des 3 850 g ;
+   ils ne s'y ajoutent pas. Aucune précision de ±0,5 g n'est revendiquée.
+
+
+
+8 Matériel envisagé et approvisionnement
+Aucune ligne ne constitue un stock constaté ni une promesse de fourniture. Le contenu du kit DoniFab n'est pas connu. P1 =
+indispensable avant intégration ; P2 = amélioration après validation ; P3 = option différable. Les rechanges ne sont pas
+embarquées.
+
+8.1 Propulsion, énergie et commande
+ Composant               Fonction       Qté              Disponibilité supposée au         Kit          Alternative                       Prio.
+                                                         Mali
+ Caisson PVC             Structure      1 ensemble       Probable en négoce ;              Inconnue     Structure du kit ou renfort        P1
+ rigide                                                  nuance inconnue                                identifié
+ Protections             Carénage       1 jeu +          Carton courant ; résine à         Inconnue     PEHD ou métal qualifié             P1
+ remplaçables                           rechanges        vérifier
+ Motoréducteurs          Traction       4                « Type 370 » non confirmé ;       Inconnue     Références du kit compatibles      P1
+ DC                                                      fournisseur à consulter
+
+16 octobre 2026 • Aucun agrément ni résultat d'essai revendiqué                                                                            9 / 15
+MALIBOTS CHALLENGE 2026 / HOTLINE MK-II                                                                            R1.1 • CONCEPTION PRÉLIMINAIRE
+
+ Composant             Fonction           Qté             Disponibilité supposée au        Kit           Alternative                        Prio.
+                                                          Mali
+ Roues Ø55             Adhérence          4 + 2 rech.     Diamètre et bandage non          Inconnue      Roues du kit ; adapter la           P1
+ envisagées                                               confirmés                                      géométrie
+ Supports moteurs      Fixation           4               Fabrication locale plausible ;   Inconnue      Supports du kit                     P1
+                                                          devis requis
+ Contrôleur de         2 voies            1 double ou     « 2 × 20 A » non confirmé        Inconnue      Modèle adapté au courant réel       P1
+ traction              réversibles        2 simples                                                      de 2 moteurs
+ Batterie              Énergie            1 + 1 rech.     4S 1,5 Ah non confirmée ;        Inconnue      Pack du kit selon autonomie         P1
+                                                          état à contrôler
+ Chargeur              Charge             1               Modèle et accès non              Inconnue      Moyen validé par DoniFab            P1
+ compatible            encadrée                           confirmés
+ Radio + récepteur     Commande           1 ensemble      FlySky non confirmé              Inconnue      Système compatible du kit           P1
+                                                          localement
+ Alimentation          Logique            1 si            Modèle compatible à              Inconnue      BEC intégré documenté               P1
+ régulée                                  nécessaire      identifier
+ Carte de              Mixage             0 ou 1          Stock local à consulter          Inconnue      Mixage par la radio                 P2
+ commande
+
+
+8.2 Sécurité, montage et options
+                                                          Disponibilité supposée au
+ Composant             Fonction           Qté             Mali                             Kit           Alternative                        Prio.
+
+ Sectionnement +       Sécurité           1 ensemble      Pièces adaptées non              Inconnue      Solution validée par l'encadrant    P1
+ protections           électrique                         confirmées
+ Faisceau et           Distribution       1 lot           Courants et références à         Inconnue      Fournitures du kit qualifiées       P1
+ connecteurs                                              déterminer
+ Visserie et           Montage            1 lot           Courant en quincaillerie ;       Inconnue      Réemploi identifié                  P1
+ entretoises                                              qualité à contrôler
+ Balance et            Contrôles          Accès à 1 de    Accès probable ; instrument      Inconnue      Prêt atelier / encadrant            P1
+ multimètre                               chaque          à identifier
+ Outillage et EPI      Montage et         1 lot partagé   Accès local plausible ;          Inconnue      Moyens d'atelier autorisés          P1
+                       contrôle                           inventaire requis
+ Pods à bords          Interface          2               Élastomère exact non             Inconnue      Pare-chocs du kit ou matière        P2
+ arrondis              avant                              confirmé                                       identifiée
+ Pièces de             Maintenance        1 lot ciblé     À choisir selon les              Inconnue      Stock autorisé                      P2
+ rechange                                                 défaillances observées
+ Module avant          Interface          1 volume        Aucune pièce active              Inconnue      Option levage non coupante          P3
+ réservé                                                  sélectionnée
+ Actionneur de         Levage lent        0 ou 1          Modèle non sélectionné           Inconnue      Module passif pour étude            P3
+ levage
+
+Ordre d'approvisionnement
+La première source est l'inventaire réel du kit remis après sélection. Le Membre 5 consulte ensuite les ateliers et commerces
+accessibles à Bamako, puis compare, pour chaque poste critique, une solution locale et une solution livrable dans le délai du
+7 novembre. Aucun atelier, matériau traité ni fournisseur n'a été vérifié à ce jour. La mention « type 370 » ne suffit pas à
+commander un moteur : tension, réduction, dimensions, courant et fixation doivent être identifiés.
+
+Budget et conditions d'achat
+Les prix de 500 à 12 000 FCFA du rapport initial n'avaient ni surface, ni devis, ni date : ils ne sont pas reconduits. Aucun coût
+global fiable ne peut être annoncé avant l'inventaire du kit.
+ Calcul                               Règle proposée
+ Coût net équipe                      Σ quantités × prix unitaires confirmés, hors éléments fournis par le kit.
+
+
+16 octobre 2026 • Aucun agrément ni résultat d'essai revendiqué                                                                             10 / 15
+MALIBOTS CHALLENGE 2026 / HOTLINE MK-II                                                                          R1.1 • CONCEPTION PRÉLIMINAIRE
+
+ Calcul                             Règle proposée
+ Coût complet                       Coût net + fabrication + transport + consommables + rechanges + frais documentés.
+ Réserve financière                 15 % du coût de base confirmé, à approuver par l'équipe ; ce n'est pas un prix fournisseur.
+ Condition d'achat                  Fiche technique, délai compatible avec le 7 novembre, coût accepté, validation sécurité si nécessaire.
+
+Le fichier Inventaire_budget_R1-1.csv fournit la grille de consultation en FCFA, sans prix inventés. Une case vide signifie « donnée non obtenue
+», jamais « gratuit ».
+
+
+9 Risques et programme de validation
+ Risque                  Conséquence                     Responsable        Réduction et preuve attendue
+ Électrique et           Court-circuit,                  M1 + encadrant     Compatibilités et protections revues ; aucun branchement avant
+ batterie                échauffement, défaut du                            accord technique.
+                         pack
+ Perte radio ou          Mouvement inattendu             M4 + M1            F2 et F3 vérifiés sous autorisation, en arène ou zone désignée.
+ redémarrage
+ Rupture d'une           Perte de roue,                  M2 + M3            Inspection, retenue et essais mécaniques non alimentés
+ fixation                déplacement batterie                               documentés.
+ Autonomie               Arrêt avant 5 min               M4 + M1            Mesure courant / durée de l'ensemble ; marge et température
+ insuffisante                                                               documentées.
+ Matériaux légers        Perforation, délaminage,        M2 + M3            Éprouvettes identifiées ; aucune revendication de tenue sans
+                         fragments                                          qualification.
+ Dépendance au kit       Références incompatibles        M5 + M1            Inventaire photographié et matrice d'interfaces avant fabrication.
+                         ou manquantes
+ Masse excessive         Dépassement de 4 kg             M5                 Pesées par lot puis complète ; réserve suivie ; options différées.
+ Délai de trois          Robot incomplet le 7            M1 + M5            Gel de configuration au jalon 2 ; options P3 abandonnées en
+ semaines                novembre                                           premier.
+
+Passer des hypothèses aux résultats
+   ID     Vérification                       Trace à conserver                         Critère de passage
+   V1     Revue du kit et des règles         Liste de références + fiche d'exigences   Aucun conflit non résolu avant gel de conception.
+                                             approuvée
+  V2      Maquette non alimentée             Contrôle des cotes, jeux (dont 2,5 mm     Roues libres ; batterie et cartes sans contact ; capot
+                                             roue / caisson) et accès                  déposable.
+  V3      Revue électrique encadrée          Fiches, tensions, courants, protections   Composants compatibles ; montage autorisé par
+                                                                                       l'encadrant.
+  V4      Commande et arrêt                  F1, F2, F3 en zone autorisée              Aucun mouvement non commandé ; délai mesuré et jugé
+                                                                                       acceptable.
+  V5      Autonomie et température           Durée, courant, relevés thermiques        5 min avec la réserve définie ; limites fabricants
+                                                                                       respectées.
+  V6      Pesée et inspection                Configuration complète, balance           Masse conforme aux règles ; aucun agrément présumé.
+                                             identifiée
+
+   Tous les essais restent à réaliser. Aucune mise sous tension hors arène [S1] : les contrôles de table sont des inspections non
+   alimentées ; les essais motorisés exigent une zone autorisée par DoniFab, un encadrant et les protections qu'ils prescrivent. Aucun
+   essai d'impact ou de rotation dangereuse n'est proposé.
+
+
+
+10 Organisation des cinq membres
+Les noms ne figurent pas dans le dossier source ; les identifiants Membre 1 à Membre 5 sont repris. Chaque livrable a un
+responsable et est relu par un autre pôle. Les décisions d'interface sont prises ensemble ; la sécurité électrique dépend
+aussi de l'encadrant. Le capitaine prévu par le règlement [S2] est désigné par l'équipe.
+16 octobre 2026 • Aucun agrément ni résultat d'essai revendiqué                                                                                  11 / 15
+MALIBOTS CHALLENGE 2026 / HOTLINE MK-II                                                                               R1.1 • CONCEPTION PRÉLIMINAIRE
+
+ Membre             Pôle                         Tâches principales                                             Livrables attendus
+ Membre 1           Coordination et              Consolider exigences et interfaces, tenir le bilan             Fiche d'exigences ; schéma
+                    architecture système         électrique, dialoguer avec l'encadrant et l'organisation.      fonctionnel ; registre des décisions.
+ Membre 2           Conception mécanique         Maintenir geometrie.json et les plans, vérifier                Plans R2 ; nomenclature mécanique ;
+                                                 encombrements, fixations et accès, choisir la matière          fiche de contrôle des jeux.
+                                                 disponible.
+ Membre 3           Intégration des              Gérer le volume avant, étudier l'option de levage non          Analyse de risques ; revue
+                    mécanismes et sécurité       coupante, suivre risques et inspections.                       d'intégration ; critères de sécurité.
+ Membre 4           Propulsion, commande         Comparer moteurs et contrôleurs, régler le mixage,             Matrice de compatibilité ; journal
+                    et pilotage                  piloter, préparer les essais autorisés.                        autonomie / commande ; fiche
+                                                                                                                pilote.
+ Membre 5           Logistique, budget et        Inventorier le kit, obtenir les devis, suivre masses et        Budget FCFA ; devis de masse réel ;
+                    documentation                versions, préparer le stand.                                   dossier et liste de rechanges.
+
+Rétroplanning proposé jusqu'au 7 novembre
+La seule date de compétition publiée est la phase éliminatoire du 7 novembre [S6]. Le découpage ci-dessous est une
+proposition P : il dépend de la remise du kit, des moyens d'atelier et des créneaux de formation DoniFab (12 octobre – 25
+novembre).
+ Période                       Travail attendu                                                               Condition pour continuer
+ 16 – 17 oct.                  Répéter l'oral ; entretien ; noter les réponses sur kit, règles et            Chaque membre distingue hypothèse
+                               calendrier.                                                                   et résultat.
+ Semaine 1                     Inventaire du kit (M5, M1) ; mise à jour de la géométrie R2 (M2) ;            V1 et V2 satisfaits ; jalon 1 : liste
+ 19 – 25 oct.                  maquette non alimentée ; consultations locales.                               d'achats figée.
+ Semaine 2                     Fabrication du caisson et des protections ; montage de la propulsion ;        V3 satisfait ; jalon 2 : gel de
+ 26 oct. – 1er nov.            revue électrique encadrée.                                                    configuration, options P3 tranchées.
+
+ Semaine 3                     Essais autorisés de commande et d'arrêt, autonomie, pesée ;                   V4 à V6 documentés avant la
+ 2 – 6 nov.                    répétition de la maintenance.                                                 compétition.
+ 7 nov.                        Phase éliminatoire [S6] ; format détaillé à confirmer.                        Accord des officiels.
+
+En cas de retard, l'équipe diffère d'abord l'option de levage, puis les améliorations P2, et conserve la traçabilité de chaque changement.
+
+
+11 Exploitation et maintenance
+La maîtrise du déplacement, la protection des interfaces et la répétabilité des opérations sont nos arguments opérationnels.
+La stratégie détaillée dépend du règlement d'arène et d'un robot réellement validé. Nous ne revendiquons ni victoire
+automatique ni neutralisation garantie d'un adversaire.
+
+Une maintenance conditionnée par la sécurité
+  Étape     Objet                           Pôle              Action et critère
+    1       Mise en sécurité                M1 / M3           Suivre les consignes de l'arbitre ; vérifier l'immobilisation et le sectionnement (F1)
+                                                              avant intervention.
+    2       Inspection                      M2 / M3           Fissures, pièces desserrées, frottements, déplacement de la batterie.
+    3       Énergie et électronique         M1 / M4           Tout défaut de pack ou de puissance est confié à l'encadrant ; pas de seuil
+                                                              improvisé.
+    4       Remplacement modulaire          M2 / M5           Panneaux et roues identifiés, compatibles et disponibles ; contrôle des attaches.
+    5       Recontrôle                      M4 / M5           Pesée si la configuration change ; essais alimentés seulement en zone autorisée.
+    6       Retour en arène                 M1 / M4           Accord des officiels, commandes au neutre, aucun défaut bloquant.
+
+Correction du chronométrage initial
+Les huit durées du rapport initial totalisent 480 s, soit 8 min 00 s, et non 7 min 40 s (vérification R1). Ce total est un cumul de
+durées annoncées, sans répétition chronométrée. Le délai de 10 minutes entre matchs n'est pas publié. L'équipe
+
+
+16 octobre 2026 • Aucun agrément ni résultat d'essai revendiqué                                                                                      12 / 15
+MALIBOTS CHALLENGE 2026 / HOTLINE MK-II                                                                R1.1 • CONCEPTION PRÉLIMINAIRE
+chronométrera une procédure autorisée pendant la semaine 3 ; les étapes de sécurité ne seront jamais écourtées pour tenir
+un temps arbitraire.
+
+Contenu du stand à confirmer
+Protections remplaçables, roues et fixations compatibles, outils adaptés, registre des inspections, accès à la balance. La
+batterie de rechange et les moyens de charge ne sont retenus qu'après validation de leur compatibilité et des règles de
+stand.
+
+Rôle du pilote et de l'observateur
+Le Membre 4 pilote ; le Membre 1 suit le temps et les consignes des arbitres. Aucune télémétrie de batterie n'est présumée
+incluse avec le récepteur ; une mesure à distance exigerait un matériel identifié et une validation séparée.
+
+   Questions pratiques pour DoniFab : dimensions et revêtement de l'arène, essais permis, procédure d'activation, stockage et charge,
+   accès au stand, délai entre matchs, méthode de pesée, procédure d'inspection.
+
+
+
+12 Présentation devant le jury
+Résumé en une minute
+   Nous sommes cinq étudiants et nous présentons HOTLINE MK-II, un robot bas à quatre roues motrices pour la catégorie Robots
+   Battle. Il conserve notre concept d'origine : une silhouette compacte, des roues protégées par une coque en U, des panneaux
+   remplaçables et des pods avant arrondis. Notre dossier est une conception préliminaire honnête : nous ne présentons aucun essai ni
+   aucune pesée comme déjà réalisés. En relisant notre premier rapport face aux règles publiées, nous avons corrigé des points
+   importants : les matchs durent cinq minutes, ce qui remet en cause l'autonomie de la batterie envisagée, et nos plans comportaient
+   des interférences que nous avons supprimées. Toute la géométrie vient d'un seul fichier, ce qui garantit la cohérence des vues. Le
+   module avant reste un volume réservé ; une option de levage non coupante pourra être étudiée avec l'encadrant. Nous avons un plan
+   de trois semaines jusqu'au 7 novembre et une équipe organisée pour construire avec les moyens réellement disponibles au Mali.
+
+Exposé d'environ trois minutes
+   0:00 – 0:35 • MEMBRE 1 — COORDINATION
+   Bonjour. Notre équipe de cinq étudiants présente HOTLINE MK-II. Notre objectif : un robot compact, pilotable et
+   réparable, adapté aux moyens auxquels nous aurons réellement accès. Notre dossier sépare trois choses : ce que publie
+   l'organisation, nos hypothèses, et ce que nous devrons vérifier sur le matériel. Chaque membre a un pôle et des livrables
+   précis.
+
+   0:35 – 1:10 • MEMBRE 2 — MÉCANIQUE
+   Nous gardons le profil bas, les quatre roues motrices, les protections et les pods avant. L'enveloppe proposée est de 320
+   par 280 par 100 millimètres. Toutes nos vues sont générées depuis un fichier de géométrie unique ; ce contrôle nous a
+   permis de trouver et de corriger une interférence entre un moteur et le châssis. Le PVC et les protections légères sont
+   des choix économiques dont nous ne surestimons pas la résistance.
+
+   1:10 – 1:40 • MEMBRE 3 — INTÉGRATION ET SÉCURITÉ
+   La sécurité structure notre intégration. Le module avant est représenté par un volume réservé, sans détail de fabrication
+   dangereuse ; une option de levage lent non coupante peut être étudiée avec un encadrant. Nous prévoyons un arrêt
+   matériel accessible sur le capot, indépendant du logiciel. Aucun robot ne sera activé hors des espaces autorisés par
+   DoniFab.
+
+   1:40 – 2:20 • MEMBRE 4 — PROPULSION ET PILOTAGE
+   La commande est différentielle : un contrôleur pour les deux moteurs gauches, un pour les deux moteurs droits. Nous les
+   choisirons après avoir identifié la tension et le courant réels des moteurs. Le calcul nous a obligés à corriger le rapport : à
+   dix-huit ampères moyens, la batterie de 1,5 ampère-heure tient cinq minutes sans aucune réserve. Il faut au moins 1,9
+   ampère-heure, ou consommer moins. Nous mesurerons avant de promettre.
+
+
+
+
+16 octobre 2026 • Aucun agrément ni résultat d'essai revendiqué                                                                  13 / 15
+MALIBOTS CHALLENGE 2026 / HOTLINE MK-II                                                                    R1.1 • CONCEPTION PRÉLIMINAIRE
+
+   2:20 – 3:00 • MEMBRE 5 — LOGISTIQUE ET BUDGET
+   Notre budget de masse vise 3 850 grammes réserve comprise, sous les quatre kilogrammes publiés ; c'est une
+   allocation, pas une pesée. Après la sélection, nous inventorierons le kit, consulterons les fournisseurs de Bamako et
+   suivrons un plan de trois semaines jusqu'au 7 novembre, avec un gel de configuration à mi-parcours. Notre force, c'est la
+   méthode : un concept clair, des chiffres vérifiés et des incertitudes assumées. Merci.
+
+Le minutage est un repère de répétition, pas un chronométrage réalisé. Montrer la planche A3 au passage du Membre 2 et le schéma
+électronique au passage du Membre 4.
+
+
+13 Questions difficiles et réponses
+Q1 Pourquoi du PVC et du carton dans un robot de combat ?
+Pour leur coût et leur facilité de remplacement, pas parce qu'ils seraient invulnérables. Nous les utilisons pour la maquette et
+pour des panneaux sacrificiels. Les zones critiques — supports moteurs, retenue de batterie — seront renforcées ou
+réalisées dans un matériau qualifié après l'inventaire du kit et l'avis de l'encadrant.
+Q2 Votre robot peut-il vraiment tenir cinq minutes ?
+Ce n'est pas démontré, et nous le disons. Avec 1,5 Ah et 18 A, le calcul idéal donne cinq minutes sans réserve, quatre
+minutes avec 20 % de réserve. Il faut soit 1,9 Ah au minimum, soit un courant moyen de 14,4 A au plus. Nous mesurerons la
+consommation réelle en essai autorisé, puis ajusterons la batterie ou la propulsion en vérifiant masse et température.
+Q3 Pourquoi annoncer 3 850 g si vous n'avez rien pesé ?
+C'est un budget, pas une mesure. Le total du rapport initial était bien additionné, mais sans justificatif, et il incluait 1,6 kg de
+lest. Nous avons remplacé ce lest par 3 600 g d'allocations et 250 g de réserve. Chaque pièce reçue sera pesée ; seule la
+pesée finale établira la masse réelle.
+Q4 Où est votre arme et pourquoi ne la détaillez-vous pas ?
+Son volume d'intégration est conservé sur les plans (repère 08). Sa définition dépend des règles détaillées, qui ne sont pas
+encore publiées, et d'une revue de sécurité. Nous ne présentons pas un mécanisme dangereux comme validé. Notre priorité
+est un robot qui roule et s'arrête de façon fiable ; une option de levage lent non coupante peut être étudiée avec l'encadrant.
+Q5 Et si le kit est différent, ou si le temps manque avant le 7 novembre ?
+Nous commençons par relever les dimensions et caractéristiques du kit, puis nous mettons à jour un seul fichier de
+géométrie, ce qui régénère tous les plans. Nous gardons si possible le profil bas et les quatre roues motrices. Le planning a
+deux jalons : liste d'achats figée en fin de semaine 1, gel de configuration en fin de semaine 2. En cas de retard, l'option de
+levage est abandonnée en premier.
+
+Nos arguments techniques les plus solides
+   Une géométrie unique qui génère plans, DXF et maquette 3D, avec des contrôles d'interférence automatiques.
+   Une correction chiffrée de l'autonomie à partir des cinq minutes publiées.
+   Une estimation du centre de gravité qui montre l'effet du module avant sur la répartition des charges.
+   Des fonctions de sécurité explicites (F1 à F6) reliées à des essais (V1 à V6).
+   Une réserve de masse explicite et un rétroplanning daté jusqu'à la phase éliminatoire.
+   Une démarche adaptée au Mali : inventaire du kit d'abord, solutions locales comparées, aucun prix inventé.
+
+Présenter les limites avec professionnalisme
+Formule à employer : « voici notre hypothèse, son effet sur le projet et la vérification prévue ». Ne pas dire « tout est validé »
+ni promettre une performance en combat. Nos inconnues principales sont le contenu du kit, les caractéristiques des
+moteurs, les propriétés des matériaux locaux, l'autonomie réelle et la procédure de sécurité applicable. Les présenter
+clairement est une preuve de rigueur, pas de faiblesse.
+
+
+14 Traçabilité et décisions ouvertes
+Les corrections qui changent une décision
+ Sujet                     Résultat de la revue                                   Décision
+ Règlement                 5 min et 4 kg publiés ; phase éliminatoire le 7 nov.   Revoir l'autonomie ; rétroplanning de trois semaines.
+
+16 octobre 2026 • Aucun agrément ni résultat d'essai revendiqué                                                                           14 / 15
+MALIBOTS CHALLENGE 2026 / HOTLINE MK-II                                                                                  R1.1 • CONCEPTION PRÉLIMINAIRE
+
+ Sujet                         Résultat de la revue                                            Décision
+ Masse                         Addition correcte ; preuves absentes ; lest de 41 %             Budget avec réserve ; suppression du lest et de
+                                                                                               l'homologation.
+ Géométrie                     Interférence moteur / paroi ; zone arrière vide ; roues         Axe avant à 235 ; protection en U ; flancs prolongés.
+                               avant non protégées
+ Centre de gravité             « 21 mm » non justifié                                          Estimation E par allocations ; mesure à prévoir.
+ Maintenance                   Durées cumulées = 8 min                                         Retrait de « 7 min 40 s validées ».
+ Mécanisme avant               Concepts et énergies contradictoires                            Volume réservé ; aucune fabrication dangereuse.
+ Faisabilité                   Stocks, prix et ateliers non vérifiés                           Inventaire du kit, puis devis avant achat.
+
+Le registre complet des corrections et des données à confirmer est fourni séparément (Registre_corrections_R1-1.pdf).
+
+Références
+ Réf.          Source                                                  Utilisation et limite
+ S0            Rapport technique initial de l'équipe, 8 pages          Source principale analysée en R1 ; non joint à la révision R1.1. Affirmations
+                                                                       non assimilées à des preuves.
+ S1            Fiche Robots Battle —                                   4 kg ; duel de 5 min ; arène hexagonale ; victoire par mise hors service ; pas
+               malibotschallenge.com/categories/robots-battle          d'activation hors arène ; 5 membres au plus ; rôles attendus.
+               (consultée le 16 oct. 2026)
+ S2            Règlement général —                                     Capitaine ; critères d'évaluation ; consignes de sécurité générales. Pas de
+               malibotschallenge.com/reglement (consulté le 16         prescription technique détaillée.
+               oct. 2026)
+ S3            FlySky, fiche FS-iA6B — flysky-cn.com/ia6b-             Alimentation publiée 4,0 à 8,4 V. Aucune confirmation de stock au Mali.
+               canshu (consultée en R1)
+ S4            Palram, PALCLEAR PVC — palram.com (consultée            Existence de nuances distinctes ; aucune qualification du PVC local.
+               en R1)
+ S5            FAQ — malibotschallenge.com/faq (consultée le 16        Inscription gratuite ; sélection sur dossier. Rien sur le kit ni les batteries.
+               oct. 2026)
+ S6            Calendrier — malibotschallenge.com/calendrier           Formation 12 oct.–25 nov. ; phase éliminatoire incluant Robots Battle le 7
+               (consulté le 16 oct. 2026)                              nov. ; finale le 26 nov.
+
+Données à obtenir pendant l'entretien
+Fiche technique de catégorie à jour et versionnée ; contenu et caractéristiques du kit ; dimensions maximales du robot ;
+mécanismes autorisés et interdits ; batteries admises et règles de charge ; procédures d'inspection, d'activation et d'arrêt ;
+lieux et horaires d'essai ; format exact de la phase du 7 novembre.
+
+   Livrables associés : planche A3 (PDF/SVG) ; schéma électronique A4 (PDF/SVG) ; implantation DXF ; maquette d'encombrement OBJ
+   ; géométrie JSON et générateurs Python ; source HTML du rapport ; fiche orale ; registre des corrections ; grilles CSV de budget et de
+   masse. Aucun fichier STEP de pièce fabricable n'est fourni : les composants et leurs interfaces ne sont pas définis à ce niveau.
+
+
+
+
+16 octobre 2026 • Aucun agrément ni résultat d'essai revendiqué                                                                                          15 / 15
+

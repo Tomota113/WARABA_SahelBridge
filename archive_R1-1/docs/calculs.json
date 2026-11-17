@@ -1,0 +1,327 @@
+{
+  "meta": {
+    "projet": "HOTLINE MK-II",
+    "date": "2026-10-16",
+    "source": "../config/geometry.json",
+    "statuts": {
+      "F": "Information publiée ou calcul arithmétique vérifié",
+      "H": "Hypothèse reprise du rapport initial, sans mesure",
+      "E": "Estimation calculée à partir d'hypothèses ou d'allocations"
+    }
+  },
+  "entrees": {
+    "capacite_Ah": 1.5,
+    "tension_V": 14.8,
+    "courant_A": 18,
+    "reserve_pct": 20,
+    "match_min": 5,
+    "roue_mm": 55,
+    "roue_tr_min": 600,
+    "poussee_N": 45,
+    "masse_max_g": 4000,
+    "reserve_masse_g": 250,
+    "x_arriere_mm": 70,
+    "empattement_mm": 165
+  },
+  "lignes": [
+    {
+      "id": "autonomie_ideale",
+      "libelle": "Autonomie idéale",
+      "formule": "60 × C / I",
+      "valeur": 5,
+      "unite": "min",
+      "statut": "E",
+      "portee": "Capacité entière et courant constant supposés."
+    },
+    {
+      "id": "autonomie_reserve",
+      "libelle": "Autonomie avec réserve",
+      "formule": "60 × C × (1 − r) / I",
+      "valeur": 4,
+      "unite": "min",
+      "statut": "E",
+      "portee": "Réserve de capacité de travail ; autonomie réelle inconnue."
+    },
+    {
+      "id": "courant_admissible",
+      "libelle": "Courant moyen admissible pour le match",
+      "formule": "60 × C × (1 − r) / t",
+      "valeur": 14.4,
+      "unite": "A",
+      "statut": "E",
+      "portee": "Maximum théorique à vérifier sur le système entier."
+    },
+    {
+      "id": "capacite_necessaire",
+      "libelle": "Capacité nécessaire au courant supposé",
+      "formule": "I × t / [60 × (1 − r)]",
+      "valeur": 1.875,
+      "unite": "Ah",
+      "statut": "E",
+      "portee": "Minimum théorique ; disponibilité, masse et décharge à vérifier."
+    },
+    {
+      "id": "courant_voie",
+      "libelle": "Courant moyen par voie",
+      "formule": "I / 2",
+      "valeur": 9,
+      "unite": "A",
+      "statut": "E",
+      "portee": "Répartition égale supposée ; deux moteurs par voie, pointes inconnues."
+    },
+    {
+      "id": "energie",
+      "libelle": "Énergie nominale du pack",
+      "formule": "U × C",
+      "valeur": 22.2,
+      "unite": "Wh",
+      "statut": "E",
+      "portee": "Énergie nominale ; ni énergie utile ni puissance garantie."
+    },
+    {
+      "id": "vitesse",
+      "libelle": "Vitesse sans glissement",
+      "formule": "π × (Ø / 1000) × n / 60",
+      "valeur": 1.73,
+      "unite": "m/s",
+      "statut": "E",
+      "portee": "À la vitesse de roue supposée ; charge et glissement inconnus."
+    },
+    {
+      "id": "adherence",
+      "libelle": "Adhérence requise pour la poussée supposée",
+      "formule": "F / [(M / 1000) × 9,81]",
+      "valeur": 1.19,
+      "unite": "µ",
+      "statut": "E",
+      "portee": "Toute la masse budgétée sur les roues ; 45 N non démontrés."
+    },
+    {
+      "id": "masse_allouee",
+      "libelle": "Somme des postes",
+      "formule": "Σ mᵢ",
+      "valeur": 3600,
+      "unite": "g",
+      "statut": "F",
+      "portee": "Addition des allocations, pas une pesée."
+    },
+    {
+      "id": "masse_budget",
+      "libelle": "Budget avec réserve",
+      "formule": "Σ mᵢ + réserve",
+      "valeur": 3850,
+      "unite": "g",
+      "statut": "F",
+      "portee": "La réserve est incluse une seule fois."
+    },
+    {
+      "id": "marge",
+      "libelle": "Marge au maximum publié",
+      "formule": "Mmax − budget",
+      "valeur": 150,
+      "unite": "g",
+      "statut": "F",
+      "portee": "Marge budgétaire seulement ; conformité à peser."
+    },
+    {
+      "id": "marge_pct",
+      "libelle": "Marge relative au maximum",
+      "formule": "100 × marge / Mmax",
+      "valeur": 3.75,
+      "unite": "%",
+      "statut": "F",
+      "portee": "Pourcentage du maximum publié."
+    },
+    {
+      "id": "cg_x",
+      "libelle": "XG avec module avant",
+      "formule": "Σ(mᵢ xᵢ) / Σmᵢ",
+      "valeur": 169.71,
+      "unite": "mm",
+      "statut": "E",
+      "portee": "Positions PV ; réserve non localisée exclue."
+    },
+    {
+      "id": "cg_z",
+      "libelle": "ZG avec module avant",
+      "formule": "Σ(mᵢ zᵢ) / Σmᵢ",
+      "valeur": 37.89,
+      "unite": "mm",
+      "statut": "E",
+      "portee": "Positions PV ; symétrie YG = 0 ; aucune mesure."
+    },
+    {
+      "id": "charge_avant",
+      "libelle": "Charge sur essieu avant avec module",
+      "formule": "100 × (XG − x arrière) / empattement",
+      "valeur": 60.4,
+      "unite": "%",
+      "statut": "E",
+      "portee": "Équilibre statique sur sol plat, sans transfert dynamique."
+    },
+    {
+      "id": "cg_sans_x",
+      "libelle": "XG sans module avant",
+      "formule": "Σ hors 08(mᵢ xᵢ) / Σ hors 08mᵢ",
+      "valeur": 144.31,
+      "unite": "mm",
+      "statut": "E",
+      "portee": "Masse restante ; réserve exclue."
+    },
+    {
+      "id": "cg_sans_z",
+      "libelle": "ZG sans module avant",
+      "formule": "Σ hors 08(mᵢ zᵢ) / Σ hors 08mᵢ",
+      "valeur": 31.92,
+      "unite": "mm",
+      "statut": "E",
+      "portee": "Positions PV ; aucune mesure."
+    },
+    {
+      "id": "charge_sans",
+      "libelle": "Charge sur essieu avant sans module",
+      "formule": "100 × (XG − x arrière) / empattement",
+      "valeur": 45,
+      "unite": "%",
+      "statut": "E",
+      "portee": "Équilibre statique sur sol plat."
+    }
+  ],
+  "postes": [
+    {
+      "poste": "Structure et supports",
+      "g": 800,
+      "position": [
+        140,
+        0,
+        34
+      ],
+      "note": "centre caisson + capot",
+      "formule_part": "100 × poste / budget",
+      "part_pct": 20.8,
+      "statut_part": "F",
+      "portee": "Part arithmétique d’une allocation P ; position PV non mesurée."
+    },
+    {
+      "poste": "Protections remplaçables",
+      "g": 450,
+      "position": [
+        146,
+        0,
+        37.5
+      ],
+      "note": "U + pods, centre pondéré à recalculer",
+      "formule_part": "100 × poste / budget",
+      "part_pct": 11.7,
+      "statut_part": "F",
+      "portee": "Part arithmétique d’une allocation P ; position PV non mesurée."
+    },
+    {
+      "poste": "Propulsion 4WD complète",
+      "g": 700,
+      "position": [
+        152.5,
+        0,
+        27.5
+      ],
+      "note": "milieu des axes",
+      "formule_part": "100 × poste / budget",
+      "part_pct": 18.2,
+      "statut_part": "F",
+      "portee": "Part arithmétique d’une allocation P ; position PV non mesurée."
+    },
+    {
+      "poste": "Batterie et retenue",
+      "g": 350,
+      "position": [
+        165,
+        0,
+        31.5
+      ],
+      "note": "centre volume 04",
+      "formule_part": "100 × poste / budget",
+      "part_pct": 9.1,
+      "statut_part": "F",
+      "portee": "Part arithmétique d’une allocation P ; position PV non mesurée."
+    },
+    {
+      "poste": "Commande et distribution",
+      "g": 300,
+      "position": [
+        115,
+        0,
+        26
+      ],
+      "note": "05 et 06 pondérés",
+      "formule_part": "100 × poste / budget",
+      "part_pct": 7.8,
+      "statut_part": "F",
+      "portee": "Part arithmétique d’une allocation P ; position PV non mesurée."
+    },
+    {
+      "poste": "Module avant réservé",
+      "g": 650,
+      "position": [
+        285,
+        0,
+        65
+      ],
+      "note": "centre volume 08",
+      "formule_part": "100 × poste / budget",
+      "part_pct": 16.9,
+      "statut_part": "F",
+      "portee": "Part arithmétique d’une allocation P ; position PV non mesurée."
+    },
+    {
+      "poste": "Visserie et petits accessoires",
+      "g": 200,
+      "position": [
+        140,
+        0,
+        30
+      ],
+      "note": "réparti",
+      "formule_part": "100 × poste / budget",
+      "part_pct": 5.2,
+      "statut_part": "F",
+      "portee": "Part arithmétique d’une allocation P ; position PV non mesurée."
+    },
+    {
+      "poste": "Aménagements et identification",
+      "g": 150,
+      "position": [
+        140,
+        0,
+        40
+      ],
+      "note": "réparti",
+      "formule_part": "100 × poste / budget",
+      "part_pct": 3.9,
+      "statut_part": "F",
+      "portee": "Part arithmétique d’une allocation P ; position PV non mesurée."
+    }
+  ],
+  "cg": {
+    "avec_module": {
+      "masse_g": 3600,
+      "x_mm": 169.71,
+      "y_mm": 0,
+      "z_mm": 37.89,
+      "charge_avant_pct": 60.4
+    },
+    "sans_module": {
+      "masse_g": 2950,
+      "x_mm": 144.31,
+      "y_mm": 0,
+      "z_mm": 31.92,
+      "charge_avant_pct": 45
+    },
+    "publie_R1_1": {
+      "x": 172,
+      "y": 0,
+      "z": 37,
+      "statut": "E",
+      "note": "Valeur publiée en R1.1 ; placement exact des masses non documenté."
+    }
+  }
+}

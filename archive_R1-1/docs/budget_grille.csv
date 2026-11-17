@@ -1,0 +1,20 @@
+poste,désignation,qté,Fourni par kit (inconnu),prix unitaire FCFA,source/devis,date,statut
+Structure,Caisson et capot,1,inconnu,,,,à inventorier
+Structure,Renforts et supports,1 lot,inconnu,,,,à définir
+Protections,Protections en U remplaçables,1 jeu,inconnu,,,,à définir
+Protections,Pods avant arrondis,2,inconnu,,,,à définir
+Propulsion,Motoréducteurs,4,inconnu,,,,à inventorier
+Propulsion,Roues,4,inconnu,,,,à inventorier
+Propulsion,Supports moteurs,4,inconnu,,,,à définir
+Énergie,Batterie compatible,1,inconnu,,,,à définir après V3/V5
+Énergie,Chargeur compatible,1,inconnu,,,,à définir avec encadrant
+Commande,Émetteur et récepteur,1 ensemble,inconnu,,,,à inventorier
+Commande,Contrôleurs réversibles G et D,2 voies,inconnu,,,,à définir après V3
+Commande,Régulation compatible,1 si nécessaire,inconnu,,,,à définir après V3
+Sécurité,Sectionnement et protections,1 ensemble,inconnu,,,,à définir avec encadrant
+Distribution,Faisceau et connecteurs,1 lot,inconnu,,,,à définir après V3
+Assemblage,Visserie et entretoises,1 lot,inconnu,,,,à inventorier
+Contrôle,Balance et multimètre,accès à 1 de chaque,inconnu,,,,à confirmer
+Contrôle,Outillage et EPI,1 lot partagé,inconnu,,,,à confirmer
+Rechange,Roues et panneaux compatibles,1 lot ciblé,inconnu,,,,option P2
+Option P3,Levage lent non coupant,0 ou 1,inconnu,,,,différable après revue
